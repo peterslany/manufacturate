@@ -1,14 +1,19 @@
-import { ChakraProvider } from '@chakra-ui/react'
+import { Box } from "@chakra-ui/react";
+import { AppProps } from "next/app";
+import { Footer, Header } from "../components";
+import { HEADER_HEIGHT } from "../constants";
+import { ChakraWrapper } from "../theme/ChakraWrapper";
 
-import theme from '../theme'
-import { AppProps } from 'next/app'
-
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider resetCSS theme={theme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
-  )
+    <ChakraWrapper cookies={pageProps.cookiesz}>
+      <Header page="1" />
+      <Box pt={HEADER_HEIGHT}>
+        <Component {...pageProps} />
+      </Box>
+      <Footer />
+    </ChakraWrapper>
+  );
 }
 
-export default MyApp
+export default App;

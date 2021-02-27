@@ -1,0 +1,29 @@
+{
+    "root": true,
+    "parser":"@typescript-eslint/parser",
+    "extends": [
+        "airbnb-typescript-prettier",
+        "plugin:react/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:jsx-a11y/recommended",
+        "plugin:react-hooks/recommended"
+    ],
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "plugins": ["@typescript-eslint", "react"],
+    "rules": {
+        "react/react-in-jsx-scope": "off",
+        "react/require-default-props" : "off",
+        "react/jsx-props-no-spreading": ["off"],
+        "@typescript-eslint/no-empty-interface": ["warn"],
+        "no-empty-pattern": ["warn"]
+    },
+    "globals": {
+        "React": "writable"
+    }
+}
