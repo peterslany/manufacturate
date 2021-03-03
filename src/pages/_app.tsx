@@ -7,7 +7,7 @@ import { ChakraWrapper } from "../theme/ChakraWrapper";
 function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraWrapper cookies={pageProps.cookiesz}>
-      <Header page="1" />
+      <Header />
       <Box pt={HEADER_HEIGHT}>
         <Component {...pageProps} />
       </Box>

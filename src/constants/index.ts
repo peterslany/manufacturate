@@ -1,2 +1,3 @@
+export * from "./categories";
 export * from "./header";
-export { default as Path } from "./path";
+export * from "./path";

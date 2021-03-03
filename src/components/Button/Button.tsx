@@ -1,13 +1,13 @@
 import {
   Button as ChakraButton,
-  ButtonProps,
+  ButtonProps as ChakraButtonProps,
   chakra,
   useColorMode,
 } from "@chakra-ui/react";
 import React, { ReactElement, ReactNode } from "react";
 import { addToColor } from "../../utils/color";
 
-interface ButstonProps extends ButtonProps {
+interface ButtonProps extends ChakraButtonProps {
   onClick: () => void;
   backgroundColor?: string;
   children: ReactNode;
@@ -18,7 +18,7 @@ function Button({
   backgroundColor,
   children,
   variant,
-  ...props
+  className,
 }: ButtonProps): ReactElement {
   const { colorMode } = useColorMode();
 
@@ -46,7 +46,7 @@ function Button({
       onClick={onClick}
       background={variant === "outline" ? "inherit" : background}
       _hover={{ background: hoverBackground }}
-      {...{ ...props, variant }}
+      {...{ className, variant }}
     >
       {children}
     </ChakraButton>

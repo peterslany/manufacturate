@@ -1,45 +1,54 @@
-import { CheckCircleIcon, LinkIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Code,
-  Link as ChakraLink,
-  List,
-  ListIcon,
-  ListItem,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import Image from "next/image";
 import { ReactElement } from "react";
+import Searchbar from "../../components/Searchbar";
 
 interface Props {}
 
 function Home({}: Props): ReactElement {
-  return (
-    <Box height="100vh">
-      <Text textStyle="p">
-        Example repository of
-        <Code>Next.js</Code> +<Code>chakra-ui</Code> +<Code>typescript</Code>.
-      </Text>
+  const glassStyle = useColorModeValue("glassLight", "glassDark");
 
-      <List spacing={3} my={0}>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink
-            isExternal
-            href="https://chakra-ui.com"
-            flexGrow={1}
-            mr={2}
-          >
-            Chakra UI <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink isExternal href="https://nextjs.org" flexGrow={1} mr={2}>
-            Next.js <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-      </List>
-    </Box>
+  return (
+    <Flex
+      height="90vh"
+      align="center"
+      justify="space-evenly"
+      direction="column"
+    >
+      <Box
+        zIndex={-1}
+        maxW={["80%", "60%", "50%"]}
+        position="absolute"
+        top={[8, 4, 4, -8]}
+        right={[4, 8, 12, 16, 32, 64]}
+        opacity="0.2"
+      >
+        <Image
+          src="/svg/www.svg"
+          alt="Pozadie, ilustrácia zeme"
+          width={960}
+          height={960}
+        />
+      </Box>
+      <Text
+        w={["90%", "80%", "70%"]}
+        textStyle="serif"
+        fontSize={["2xl", "4xl", "6xl"]}
+        align="center"
+      >
+        Fair about care je neziskový projekt, ktorý poskytuje objektívne
+        hodnotenia výrobcov kozmetiky pre všetkých.
+      </Text>
+      Vyhladaj vyrobcu
+      <Searchbar
+        borderWidth={2}
+        layerStyle={glassStyle}
+        borderStyle="dashed"
+        variant="dashed"
+        totalWidth={["220px", "420px"]}
+        showFullSearchbar
+      />
+    </Flex>
   );
 }
 

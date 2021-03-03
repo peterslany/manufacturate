@@ -8,25 +8,25 @@ import {
   Flex,
   Heading,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
 import { DarkModeSwitch, Link } from "..";
-import { headerItems, HEADER_HEIGHT } from "../../constants";
+import { headerItems, HEADER_HEIGHT, Path } from "../../constants";
 import useSmallScreen from "../../hooks/useSmallScreen";
 import { HeaderItemSubMenuType } from "../../types";
 import Button from "../Button/Button";
+import Searchbar from "../Searchbar";
 import HeaderItem from "./HeaderItem";
 import HeaderItemSubMenu from "./HeaderItemSubMenu";
-import HeaderSearchbar from "./HeaderSearchbar";
 
-interface Props {
-  page: string;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function Header({ page }: Props): ReactElement {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+function Header(): ReactElement {
+  const {
+    isOpen: isDrawerOpen,
+    onOpen: openDrawer,
+    onClose: closeDrawer,
+  } = useDisclosure();
 
   const [showSearchbar, setShowSearchbar] = useState(false);
 
@@ -34,7 +34,7 @@ function Header({ page }: Props): ReactElement {
 
   const isSmallScreen = useSmallScreen();
 
-  const headerBackground = useColorModeValue("gray.900A05", "gray.50A05");
+  const headerStyle = useColorModeValue("glassLight", "glassDark");
   const drawerBackground = useColorModeValue("white", "gray.800");
 
   const items = headerItems
@@ -45,7 +45,7 @@ function Header({ page }: Props): ReactElement {
         <Component
           key={path}
           selected={route === path}
-          onItemClick={() => setIsDrawerOpen(false)}
+          onItemClick={closeDrawer}
           {...{
             ...props,
             path,
@@ -58,6 +58,30 @@ function Header({ page }: Props): ReactElement {
       );
     });
 
+  const drawer = (
+    <Drawer isOpen={isDrawerOpen} onClose={closeDrawer} placement="left">
+      <DrawerOverlay>
+        <DrawerContent background={drawerBackground}>
+          <DrawerHeader
+            onClick={closeDrawer}
+            borderBottomWidth="1px"
+            cursor="pointer"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            Menu
+            <ArrowBackIcon />
+          </DrawerHeader>
+          <DrawerBody>
+            {items}
+            <DarkModeSwitch />
+          </DrawerBody>
+        </DrawerContent>
+      </DrawerOverlay>
+    </Drawer>
+  );
+
   return (
     <Flex
       h={HEADER_HEIGHT}
@@ -66,8 +90,8 @@ function Header({ page }: Props): ReactElement {
       position="fixed"
       width="full"
       px={[2, 4, 6]}
-      background={headerBackground}
-      sx={{ backdropFilter: "blur(5px)" }}
+      layerStyle={headerStyle}
+      zIndex="1"
     >
       {isSmallScreen ? (
         <>
@@ -75,54 +99,35 @@ function Header({ page }: Props): ReactElement {
             layerStyle="outline"
             p={0}
             borderRadius={16}
-            onClick={() => setIsDrawerOpen(true)}
+            onClick={openDrawer}
             {...(showSearchbar ? { mr: 4 } : {})}
           >
             <HamburgerIcon />
-          </Button>{" "}
+          </Button>
           <Heading size="md" {...(showSearchbar ? { lineHeight: 0.8 } : {})}>
             FAIR ABOUT CARE
           </Heading>
         </>
       ) : (
         <>
-          <Link href="/">
+          <Link
+            href={Path.ROOT}
+            _hover={{ textDecor: "none", color: "green.600" }}
+          >
             <Heading textAlign="end" lineHeight={0.8} fontSize="1.6rem">
               FAIR
               <br /> ABOUT
               <br /> .CARE
-            </Heading>{" "}
+            </Heading>
           </Link>
           {items}
           <DarkModeSwitch />
         </>
       )}
-      <Drawer
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        placement="left"
-      >
-        <DrawerOverlay>
-          <DrawerContent background={drawerBackground}>
-            <DrawerHeader
-              onClick={() => setIsDrawerOpen(false)}
-              borderBottomWidth="1px"
-              cursor="pointer"
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              Menu
-              <ArrowBackIcon />
-            </DrawerHeader>
-            <DrawerBody>
-              {items}
-              <DarkModeSwitch />
-            </DrawerBody>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
-      <HeaderSearchbar {...{ showSearchbar, setShowSearchbar }} />
+      {drawer}
+      <Searchbar
+        onShowTextFieldCallback={() => setShowSearchbar((prev) => !prev)}
+      />
     </Flex>
   );
 }

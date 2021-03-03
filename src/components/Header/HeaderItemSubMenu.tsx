@@ -8,6 +8,7 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { ReactElement, useState } from "react";
 import { Link } from "..";
@@ -33,85 +34,105 @@ function HeaderItemSubMenu({
 }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
 
+  const dividerBorderColor = useColorModeValue("gray.300", "gray.600");
+
+  const content = (
+    <Flex justify="space-between" direction={isSmallScreen ? "column" : "row"}>
+      {subMenu.body.items.map(({ label: bodyItemLabel, items }) => (
+        <Box
+          {...(isSmallScreen
+            ? {
+                mb: 4,
+                pt: 4,
+                pl: 4,
+                w: "full",
+                borderTop: "1px solid gray",
+                borderColor: dividerBorderColor,
+              }
+            : {
+                _notFirst: {
+                  borderLeft: "1px solid gray",
+                  borderColor: dividerBorderColor,
+                  pl: 6,
+                },
+              })}
+          key={bodyItemLabel}
+        >
+          <Heading
+            whiteSpace="nowrap"
+            size="sm"
+            pr={6}
+            pb={1}
+            textTransform="uppercase"
+          >
+            {bodyItemLabel}
+          </Heading>
+
+          <Flex direction="column" pr={6}>
+            {items?.map(({ label: bodySubItemLabel, value }) => (
+              <Link
+                whiteSpace="nowrap"
+                key={value}
+                onClick={onItemClick}
+                href={`${path}?${subMenu.body.parameter}=${value}`}
+              >
+                - {bodySubItemLabel}
+              </Link>
+            ))}
+          </Flex>
+        </Box>
+      ))}
+    </Flex>
+  );
+
   return !isSmallScreen ? (
-    <>
-      <Popover
-        trigger="hover"
-        onClose={() => setIsOpen(false)}
-        onOpen={() => setIsOpen(true)}
-      >
-        <PopoverTrigger>
-          <Box role="button">
-            <HeaderItem
-              path={path}
-              label={label}
-              selected={selected}
-              isOpen={isOpen}
-              isSmallScreen={isSmallScreen}
-              onItemClick={() => null}
-              withChevron
-            />
-          </Box>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverHeader fontWeight="semibold">
-            <Link href={subMenu.header.path}>{subMenu.header.label}</Link>
-          </PopoverHeader>
-          <PopoverBody>
-            <Heading size="md" mb={4}>
-              {subMenu.body.label}
-            </Heading>
-            <Flex justify="space-between">
-              {subMenu.body.items.map(({ label: bodyItemLabel, items }) => (
-                <div key={bodyItemLabel}>
-                  <Heading size="sm">{bodyItemLabel}</Heading>{" "}
-                  {items?.map(({ label: bodySubItemLabel, value }) => (
-                    <Link
-                      key={value}
-                      href={`${path}?${subMenu.body.parameter}=${value}`}
-                    >
-                      {bodySubItemLabel}
-                    </Link>
-                  ))}
-                </div>
-              ))}
-            </Flex>
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
-    </>
+    <Popover
+      trigger="hover"
+      onClose={() => setIsOpen(false)}
+      onOpen={() => setIsOpen(true)}
+    >
+      <PopoverTrigger>
+        <Box role="button">
+          <HeaderItem
+            path={path}
+            label={label}
+            selected={selected}
+            isOpen={isOpen}
+            isSmallScreen={isSmallScreen}
+            onItemClick={() => null}
+            withChevron
+          />
+        </Box>
+      </PopoverTrigger>
+      <PopoverContent width="fit-content">
+        <PopoverHeader>
+          <Link href={subMenu.header.path}>{subMenu.header.label}</Link>
+        </PopoverHeader>
+        <PopoverBody>{content}</PopoverBody>
+      </PopoverContent>
+    </Popover>
   ) : (
     <>
-      <Box role="button" onClick={() => setIsOpen((prev) => !prev)}>
-        <HeaderItem
-          path={path}
-          label={label}
-          selected={selected}
-          isOpen={isOpen}
-          isSmallScreen={isSmallScreen}
-          withChevron
-        />
-      </Box>
+      <HeaderItem
+        path={path}
+        label={label}
+        selected={selected}
+        isOpen={isOpen}
+        isSmallScreen={isSmallScreen}
+        onItemClick={() => setIsOpen((prev) => !prev)}
+        withChevron
+      />
       <Collapse in={isOpen} animateOpacity>
-        <Heading size="md" mb={4}>
-          {subMenu.body.label}
-        </Heading>
-        <Flex justify="space-between">
-          {subMenu.body.items.map(({ label: bodyItemLabel, items }) => (
-            <div key={bodyItemLabel}>
-              <Heading size="sm">{bodyItemLabel}</Heading>{" "}
-              {items?.map(({ label: bodySubItemLabel, value }) => (
-                <Link
-                  onClick={onItemClick}
-                  key={value}
-                  href={`${path}?${subMenu.body.parameter}=${value}`}
-                >
-                  {bodySubItemLabel}
-                </Link>
-              ))}
-            </div>
-          ))}
-        </Flex>
+        <Link
+          onClick={onItemClick}
+          href={subMenu.header.path}
+          p={4}
+          display="inline-block"
+          w="full"
+        >
+          - {subMenu.header.label}
+        </Link>
+        {content}
       </Collapse>
     </>
   );

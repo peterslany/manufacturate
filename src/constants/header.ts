@@ -1,5 +1,6 @@
 import { HeaderItemType } from "../types";
-import Path from "./path";
+import { allProductCategories } from "./categories";
+import { Path } from "./path";
 
 export const headerItems: HeaderItemType[] = [
   {
@@ -18,30 +19,10 @@ export const headerItems: HeaderItemType[] = [
       body: {
         label: "Kategórie",
         parameter: "category",
-        items: [
-          {
-            label: "Vlasy",
-            items: [
-              {
-                label: "Vyziva",
-                value: "hair_nourishment",
-              },
-              {
-                label: "Cistiace",
-                value: "hair_cleaning",
-              },
-            ],
-          },
-          {
-            label: "Koza",
-            items: [
-              {
-                label: "Cistiace",
-                value: "skin_cleaning",
-              },
-            ],
-          },
-        ],
+        items: allProductCategories.map(({ label, categories }) => ({
+          label,
+          items: categories,
+        })),
       },
     },
   },
@@ -54,6 +35,5 @@ export const headerItems: HeaderItemType[] = [
     path: Path.METHODOLOGY,
   },
 ];
-export default headerItems;
 
 export const HEADER_HEIGHT = [16, 16, 24];

@@ -37,7 +37,9 @@ const theme = extendTheme({
     },
     gray: {
       "50A05": "#f7fcfc05",
+      "50A10": "#f7fcfc10",
       "900A05": "#17192305",
+      "900A10": "#17192310",
     },
     red: {
       50: "#ffe5e9",
@@ -81,8 +83,8 @@ const theme = extendTheme({
     paragraph: "Cardo, serif",
   },
   textStyles: {
-    p: {
-      fontFamily: "Cardo",
+    serif: {
+      fontFamily: "Cardo, serif",
     },
     600: {
       fontWeight: 600,
@@ -102,6 +104,14 @@ const theme = extendTheme({
       borderColor: "initial",
       background: "transparent",
       boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
+    },
+    glassLight: {
+      backdropFilter: "blur(5px)",
+      backgroundColor: "gray.900A05",
+    },
+    glassDark: {
+      backdropFilter: "blur(5px)",
+      backgroundColor: "gray.50A05",
     },
   },
   styles: {

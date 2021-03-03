@@ -1,4 +1,4 @@
-import { Path } from "../constants";
+import { Path } from "../constants/path";
 
 export type HeaderItemSubMenuBodyItem = {
   label: string;
