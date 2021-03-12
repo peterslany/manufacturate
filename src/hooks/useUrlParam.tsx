@@ -1,26 +1,30 @@
 import { useRouter } from "next/router";
 import { Path } from "../constants";
-
-type paramType = string | string[] | undefined;
+import { URLParamValue } from "../types/url";
 
 const useUrlParam = (
   paramName: string,
-  redirectPath?: Path
-): [paramType, (newValue: paramType) => void] => {
+  redirectPath?: Path,
+  scroll = false
+): [URLParamValue, (newValue: URLParamValue) => void] => {
   const {
     query: { [paramName]: parameter, ...otherParams },
     push,
     pathname,
   } = useRouter();
 
-  const setValue = (newValue: paramType) =>
-    push({
-      pathname: redirectPath || pathname,
-      query: {
-        ...otherParams,
-        ...(newValue && { [paramName]: newValue }),
+  const setValue = (newValue: URLParamValue) =>
+    push(
+      {
+        pathname: redirectPath || pathname,
+        query: {
+          ...otherParams,
+          ...(newValue && { [paramName]: newValue }),
+        },
       },
-    });
+      undefined,
+      { scroll }
+    );
 
   return [parameter, setValue];
 };

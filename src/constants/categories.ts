@@ -99,3 +99,18 @@ export const allProductCategories: {
     ],
   },
 ];
+
+export enum RatingCategory {
+  HEALTH = "HEALTH",
+  ECO = "ECO",
+  ANIMALS = "ANIMALS",
+  ETHICS = "ETHICS",
+  TOTAL = "TOTAL",
+}
+
+export const ratingSubcategories = [
+  { subcategory: RatingCategory.HEALTH, label: "Zdravie" },
+  { subcategory: RatingCategory.ECO, label: "Ekológia" },
+  { subcategory: RatingCategory.ANIMALS, label: "Zvieratá" },
+  { subcategory: RatingCategory.ETHICS, label: "Etika" },
+];

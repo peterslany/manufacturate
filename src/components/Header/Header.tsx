@@ -1,10 +1,5 @@
-import { ArrowBackIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import {
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
   Heading,
   useColorModeValue,
@@ -18,6 +13,7 @@ import useSmallScreen from "../../hooks/useSmallScreen";
 import { HeaderItemSubMenuType } from "../../types";
 import Button from "../Button/Button";
 import Searchbar from "../Searchbar";
+import HeaderDrawer from "./HeaderDrawer";
 import HeaderItem from "./HeaderItem";
 import HeaderItemSubMenu from "./HeaderItemSubMenu";
 
@@ -35,7 +31,6 @@ function Header(): ReactElement {
   const isSmallScreen = useSmallScreen();
 
   const headerStyle = useColorModeValue("glassLight", "glassDark");
-  const drawerBackground = useColorModeValue("white", "gray.800");
 
   const items = headerItems
     .filter(({ onlyInDrawer }) => !onlyInDrawer || isSmallScreen)
@@ -57,30 +52,6 @@ function Header(): ReactElement {
         />
       );
     });
-
-  const drawer = (
-    <Drawer isOpen={isDrawerOpen} onClose={closeDrawer} placement="left">
-      <DrawerOverlay>
-        <DrawerContent background={drawerBackground}>
-          <DrawerHeader
-            onClick={closeDrawer}
-            borderBottomWidth="1px"
-            cursor="pointer"
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            Menu
-            <ArrowBackIcon />
-          </DrawerHeader>
-          <DrawerBody>
-            {items}
-            <DarkModeSwitch />
-          </DrawerBody>
-        </DrawerContent>
-      </DrawerOverlay>
-    </Drawer>
-  );
 
   return (
     <Flex
@@ -124,9 +95,11 @@ function Header(): ReactElement {
           <DarkModeSwitch />
         </>
       )}
-      {drawer}
       <Searchbar
         onShowTextFieldCallback={() => setShowSearchbar((prev) => !prev)}
+      />
+      <HeaderDrawer
+        {...{ items, isOpen: isDrawerOpen, onClose: closeDrawer }}
       />
     </Flex>
   );

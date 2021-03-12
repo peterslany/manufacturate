@@ -114,7 +114,7 @@ function HeaderItemSubMenu({
   ) : (
     <>
       <HeaderItem
-        path={path}
+        path=""
         label={label}
         selected={selected}
         isOpen={isOpen}

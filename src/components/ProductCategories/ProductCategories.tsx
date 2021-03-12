@@ -7,17 +7,19 @@ import {
 } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
 import { allProductCategories } from "../../constants";
-import useUrlParam from "../../hooks/useUrlParam";
+import { URLParamValue } from "../../types/url";
 
-interface Props {}
+interface Props {
+  categories: URLParamValue;
+  setCategories: (newValue: URLParamValue) => void;
+}
 
-function Filters({}: Props): ReactElement {
-  const [selected, setCategories] = useUrlParam("category");
-
+function ProductCategories({ categories, setCategories }: Props): ReactElement {
   const handleChange = (categoryName: string) => {
     const currentCategories =
-      typeof selected === "string" ? [selected] : selected || [];
-    if (selected?.includes(categoryName)) {
+      typeof categories === "string" ? [categories] : categories || [];
+
+    if (categories?.includes(categoryName)) {
       setCategories(
         currentCategories.filter(
           (category: string) => category !== categoryName
@@ -31,17 +33,27 @@ function Filters({}: Props): ReactElement {
   const checkboxBorder = useColorModeValue("gray.700", "gray.200");
   const checkboxColorScheme = useColorModeValue("green", "green");
   return (
-    <Flex direction="column">
-      {allProductCategories.map(({ label, categories }) => (
+    <Flex direction="column" mt={2}>
+      {allProductCategories.map(({ label, categories: subCategories }) => (
         <Box key={label} mb={2}>
           <Heading size="md">{label}</Heading>
-          {categories.map(({ label: categoryLabel, value }) => (
-            <Flex align="center" mb={1} ml={1} key={value}>
+          {subCategories.map(({ label: categoryLabel, value }) => (
+            <Flex
+              key={value}
+              onClick={(event: React.MouseEvent) => {
+                event.preventDefault();
+                handleChange(value);
+              }}
+              align="center"
+              mb={1}
+              ml={1}
+              w="fit-content"
+              cursor="pointer"
+            >
               <Checkbox
+                isChecked={Boolean(categories?.includes(value))}
                 colorScheme={checkboxColorScheme}
                 borderColor={checkboxBorder}
-                onChange={() => handleChange(value)}
-                isChecked={Boolean(selected?.includes(value))}
                 mr={1}
               />
               {categoryLabel}
@@ -53,4 +65,4 @@ function Filters({}: Props): ReactElement {
   );
 }
 
-export default Filters;
+export default ProductCategories;

@@ -1,11 +1,5 @@
 import { SearchIcon } from "@chakra-ui/icons";
-import {
-  BoxProps,
-  chakra,
-  Flex,
-  Input,
-  useBreakpointValue,
-} from "@chakra-ui/react";
+import { chakra, Flex, Input, useBreakpointValue } from "@chakra-ui/react";
 import { isEmpty } from "lodash";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { Path } from "../../constants";
@@ -13,12 +7,13 @@ import useSmallScreen from "../../hooks/useSmallScreen";
 import useUrlParam from "../../hooks/useUrlParam";
 import Button from "../Button/Button";
 
-interface SearchbarProps extends BoxProps {
+interface SearchbarProps {
   onShowTextFieldCallback?: () => void;
   totalWidth?: (number | string)[];
   showFullSearchbar?: boolean;
   variant?: "dashed";
   className?: string;
+  scrollOnSearch?: boolean;
 }
 
 function Searchbar({
@@ -27,19 +22,19 @@ function Searchbar({
   showFullSearchbar,
   variant,
   className,
+  scrollOnSearch = true,
 }: SearchbarProps): ReactElement {
   const [isFocused, setIsFocused] = useState(false);
 
   const [show, setShowSearchbar] = useState(false);
 
-  const [query, setQuery] = useUrlParam("search", Path.RATINGS);
+  const [query, setQuery] = useUrlParam("search", Path.RATINGS, scrollOnSearch);
 
   const [inputText, setInputText] = useState<string | undefined>(
-    query as string
+    typeof query === "string" ? query : undefined
   );
-
   useEffect(() => {
-    setInputText(query as string);
+    setInputText(typeof query === "string" ? query : undefined);
   }, [query]);
 
   const searchbarRef = useRef<HTMLInputElement>(null);
@@ -63,7 +58,7 @@ function Searchbar({
 
   const handleSearchIconClick = () => {
     setShowSearchbar((prev) => !prev);
-    setQuery(isEmpty(inputText) ? undefined : inputText);
+    if (showInput) setQuery(isEmpty(inputText) ? undefined : inputText);
 
     // sets focus
     if (searchbarRef.current && !showInput) {
@@ -90,6 +85,7 @@ function Searchbar({
         borderRadius={16}
         transition="border 500ms ease-in-out"
         className={className}
+        w="fit-content"
       >
         <Input
           w={showInput ? totalWidth || inputWidth : 0}

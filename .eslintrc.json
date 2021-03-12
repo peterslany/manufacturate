@@ -1,13 +1,16 @@
 {
     "root": true,
-    "parser":"@typescript-eslint/parser",
+    "parser": "@typescript-eslint/parser",
     "extends": [
         "airbnb-typescript-prettier",
         "plugin:react/recommended",
         "plugin:import/errors",
         "plugin:import/warnings",
         "plugin:jsx-a11y/recommended",
-        "plugin:react-hooks/recommended"
+        "plugin:react-hooks/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript"
     ],
     "env": {
         "browser": true,
@@ -17,9 +20,9 @@
     },
     "plugins": ["@typescript-eslint", "react"],
     "rules": {
-        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+        "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
         "react/react-in-jsx-scope": "off",
-        "react/require-default-props" : "off",
+        "react/require-default-props": "off",
         "react/jsx-props-no-spreading": ["off"],
         "@typescript-eslint/no-empty-interface": ["warn"],
         "no-empty-pattern": ["warn"]
