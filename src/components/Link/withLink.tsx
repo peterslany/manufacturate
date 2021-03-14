@@ -21,7 +21,7 @@ export default function withLink<ComponentProps>(
     ...props
   }: WithLinkProps & ComponentProps): ReactElement {
     return (
-      <LinkBox>
+      <LinkBox role="group">
         <NextLink href={href} passHref>
           <LinkOverlay>
             <VisuallyHidden>{linkText}</VisuallyHidden>

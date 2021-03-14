@@ -9,9 +9,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { ReactElement, useEffect, useState } from "react";
-import Button from "../../components/Button/Button";
-import ProductCategories from "../../components/ProductCategories";
-import { URLParamValue } from "../../types/url";
+import { Button, ProductCategories } from "../../components";
+import { URLParamValue } from "../../types";
 
 interface Props {
   isOpen: boolean;

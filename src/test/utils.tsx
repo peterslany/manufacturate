@@ -4,7 +4,7 @@
 /* eslint-disable react/display-name */
 
 /**
- * Jest render override of render for testing with Next.js useRouter
+ * Jest render override of render method for testing with Next.js useRouter
  * code from https://github.com/vercel/next.js/issues/7479#issuecomment-659859682
  */
 

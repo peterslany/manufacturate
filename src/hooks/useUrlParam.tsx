@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { Path } from "../constants";
-import { URLParamValue } from "../types/url";
+import { URLParamValue } from "../types";
 
 const useUrlParam = (
   paramName: string,

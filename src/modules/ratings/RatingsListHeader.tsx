@@ -9,8 +9,8 @@ import {
 } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
 import { HEADER_HEIGHT, ratingSubcategories } from "../../constants";
-import useSmallScreen from "../../hooks/useSmallScreen";
-import { URLParamValue } from "../../types/url";
+import { useSmallScreen } from "../../hooks";
+import { URLParamValue } from "../../types";
 
 interface Props {
   sortBy: URLParamValue;

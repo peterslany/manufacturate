@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
 import { allProductCategories } from "../../constants";
-import { URLParamValue } from "../../types/url";
+import { URLParamValue } from "../../types";
 
 interface Props {
   categories: URLParamValue;

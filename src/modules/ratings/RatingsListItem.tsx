@@ -1,7 +1,8 @@
 import { Box, Center, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
+import { withLink } from "../../components/Link";
 import { RatingCategory, ratingSubcategories } from "../../constants";
-import useSmallScreen from "../../hooks/useSmallScreen";
+import { useSmallScreen } from "../../hooks";
 import { getListItemRatingColor } from "./utils";
 
 const RATING_TEST_DATA_TO_BE_REMOVED = {
@@ -53,12 +54,9 @@ function RatingBox({
 function RatingsListItem({}: Props): ReactElement {
   const isSmallScreen = useSmallScreen();
 
-  const smallScreenBg = useColorModeValue(
-    "linear(to-b,gray.900A05, gray.900A20)",
-    "linear(to-b, gray.50A05, gray.50A20)"
-  );
+  const smallScreenBg = useColorModeValue("gray.900A10", "gray.50A10");
   return isSmallScreen ? (
-    <Box borderRadius={48} bgGradient={smallScreenBg} mb={4} border="1px solid">
+    <Box borderRadius={48} bg={smallScreenBg} mb={4} border="1px solid">
       <Flex
         justify="space-around"
         align="center"
@@ -96,11 +94,10 @@ function RatingsListItem({}: Props): ReactElement {
       m={4}
       layerStyle="outline"
       p="4"
-      borderRadius={24}
       display="flex"
       alignItems="center"
       cursor="pointer"
-      _hover={{
+      _groupHover={{
         boxShadow: "0 0 0 2px",
         transition: "300ms",
       }}
@@ -128,4 +125,4 @@ function RatingsListItem({}: Props): ReactElement {
   );
 }
 
-export default RatingsListItem;
+export default withLink(RatingsListItem);

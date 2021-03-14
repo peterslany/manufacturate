@@ -1,0 +1,44 @@
+{
+    "name": "@types/next-auth",
+    "version": "3.7.1",
+    "description": "TypeScript definitions for next-auth",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Lluis",
+            "url": "https://github.com/lluia",
+            "githubUsername": "lluia"
+        },
+        {
+            "name": "Iain",
+            "url": "https://github.com/iaincollins",
+            "githubUsername": "iaincollins"
+        },
+        {
+            "name": "Juan",
+            "url": "https://github.com/JuanM04",
+            "githubUsername": "JuanM04"
+        },
+        {
+            "name": "Balázs",
+            "url": "https://github.com/balazsorban44",
+            "githubUsername": "balazsorban44"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/next-auth"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/node": "*",
+        "@types/react": "*",
+        "jose": "^1.28.0",
+        "typeorm": "^0.2.31"
+    },
+    "typesPublisherContentHash": "9f33e57f45a90b5e683ec945a99c450e4d06bbaadcc202fb3b9bd4f3c7ff9a99",
+    "typeScriptVersion": "3.5"
+}

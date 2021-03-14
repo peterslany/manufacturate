@@ -2,7 +2,7 @@ import { HeaderItemType } from "../types";
 import { allProductCategories } from "./categories";
 import { Path } from "./path";
 
-export const headerItems: HeaderItemType[] = [
+export const publicHeaderItems: HeaderItemType[] = [
   {
     label: "Domov",
     path: Path.ROOT,
@@ -34,6 +34,11 @@ export const headerItems: HeaderItemType[] = [
     label: "Ako hodnotime",
     path: Path.METHODOLOGY,
   },
+];
+
+export const authHeaderItems: HeaderItemType[] = [
+  { label: "Ovládací panel", path: Path.AUTH_DASHBOARD },
+  { label: "Nastavenia", path: Path.AUTH_SETTINGS },
 ];
 
 export const HEADER_HEIGHT = [16, 16, 24];

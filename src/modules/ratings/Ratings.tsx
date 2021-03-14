@@ -12,15 +12,16 @@ import {
 } from "@chakra-ui/react";
 import { isString } from "lodash";
 import React, { ReactElement, useEffect, useState } from "react";
-import Button from "../../components/Button/Button";
-import Pagination from "../../components/Pagination";
-import ProductCategories from "../../components/ProductCategories";
-import Searchbar from "../../components/Searchbar";
+import {
+  Button,
+  Pagination,
+  ProductCategories,
+  Searchbar,
+} from "../../components";
 import { allProductCategories } from "../../constants";
-import useSmallScreen from "../../hooks/useSmallScreen";
-import useUrlParam from "../../hooks/useUrlParam";
-import { URLParamValue } from "../../types/url";
-import { urlParamToArray } from "../../utils/url";
+import { useSmallScreen, useUrlParam } from "../../hooks";
+import { URLParamValue } from "../../types";
+import { urlParamToArray } from "../../utils";
 import RatingsCategoryModal from "./RatingsCategoryModal";
 import RatingsListHeader from "./RatingsListHeader";
 import RatingsListItem from "./RatingsListItem";
@@ -42,10 +43,7 @@ function Ratings({}: Props): ReactElement {
     isString(categories) ? categories : undefined
   );
 
-  const contentBg = useColorModeValue(
-    "linear(to-b,gray.900A05, gray.900A20)",
-    "linear(to-b, gray.50A05, gray.50A20)"
-  );
+  const contentBg = useColorModeValue("gray.900A10", "gray.50A10");
 
   const isSmallScreen = useSmallScreen();
 
@@ -75,9 +73,12 @@ function Ratings({}: Props): ReactElement {
 
   const items = (
     <>
-      <RatingsListItem />
-      <RatingsListItem />
-      <RatingsListItem />
+      <RatingsListItem href="/ratings/manufaktura-1" linkText="Manufaktura 1" />
+      <RatingsListItem href="/ratings/loreal" linkText="L'oreal" />
+      <RatingsListItem
+        href="ratings/manufacturer-slovakia"
+        linkText="Manufacturer Slovakia"
+      />
     </>
   );
   return (
@@ -86,7 +87,7 @@ function Ratings({}: Props): ReactElement {
         <Box
           p={2}
           pl={4}
-          bgGradient={contentBg}
+          bg={contentBg}
           pb={24}
           h="min-content"
           width="280px"
@@ -137,10 +138,10 @@ function Ratings({}: Props): ReactElement {
               <Tag
                 key={value}
                 size="md"
-                borderRadius="24px"
                 bg="transparent"
                 color="inherit"
                 variant="outline"
+                borderRadius="16px"
                 m="1"
               >
                 <TagLabel>{getProductCategoryLabel(value)}</TagLabel>
@@ -171,7 +172,11 @@ function Ratings({}: Props): ReactElement {
             )}
           </Select>
         </Box>
-        <Box {...(!isSmallScreen && { bgGradient: contentBg })}>
+        <Box
+          {...(!isSmallScreen && {
+            bg: contentBg,
+          })}
+        >
           <RatingsListHeader
             {...{ sortBy, sortMode, setSortBy, setSortMode }}
           />

@@ -5,14 +5,18 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
-import { DarkModeSwitch, Link } from "..";
-import { headerItems, HEADER_HEIGHT, Path } from "../../constants";
-import useSmallScreen from "../../hooks/useSmallScreen";
+import { Button, DarkModeSwitch, Link, LogoutButton, Searchbar } from "..";
+import {
+  authHeaderItems,
+  HEADER_HEIGHT,
+  Path,
+  publicHeaderItems,
+} from "../../constants";
+import { useSmallScreen } from "../../hooks";
 import { HeaderItemSubMenuType } from "../../types";
-import Button from "../Button/Button";
-import Searchbar from "../Searchbar";
 import HeaderDrawer from "./HeaderDrawer";
 import HeaderItem from "./HeaderItem";
 import HeaderItemSubMenu from "./HeaderItemSubMenu";
@@ -32,7 +36,9 @@ function Header(): ReactElement {
 
   const headerStyle = useColorModeValue("glassLight", "glassDark");
 
-  const items = headerItems
+  const [session] = useSession();
+
+  const items = (session ? authHeaderItems : publicHeaderItems)
     .filter(({ onlyInDrawer }) => !onlyInDrawer || isSmallScreen)
     .map(({ path, subMenu, ...props }) => {
       const Component = subMenu ? HeaderItemSubMenu : HeaderItem;
@@ -69,7 +75,6 @@ function Header(): ReactElement {
           <Button
             layerStyle="outline"
             p={0}
-            borderRadius={16}
             onClick={openDrawer}
             {...(showSearchbar ? { mr: 4 } : {})}
           >
@@ -95,9 +100,13 @@ function Header(): ReactElement {
           <DarkModeSwitch />
         </>
       )}
-      <Searchbar
-        onShowTextFieldCallback={() => setShowSearchbar((prev) => !prev)}
-      />
+      {session ? (
+        <LogoutButton />
+      ) : (
+        <Searchbar
+          onShowTextFieldCallback={() => setShowSearchbar((prev) => !prev)}
+        />
+      )}
       <HeaderDrawer
         {...{ items, isOpen: isDrawerOpen, onClose: closeDrawer }}
       />

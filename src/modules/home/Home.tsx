@@ -1,7 +1,7 @@
 import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import Image from "next/image";
 import { ReactElement } from "react";
-import Searchbar from "../../components/Searchbar";
+import { Searchbar } from "../../components";
 
 interface Props {}
 

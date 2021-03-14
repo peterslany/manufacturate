@@ -5,7 +5,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import React, { ReactElement, ReactNode } from "react";
-import { addToColor } from "../../utils/color";
+import { addToColor } from "../../utils";
 
 interface ButtonProps extends ChakraButtonProps {
   onClick: () => void;
@@ -19,6 +19,8 @@ function Button({
   children,
   variant,
   className,
+  isDisabled,
+  type,
 }: ButtonProps): ReactElement {
   const { colorMode } = useColorMode();
 
@@ -39,14 +41,20 @@ function Button({
         return backgroundColor ? addToColor(backgroundColor, -100) : "gray.200";
     }
   })();
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onClick();
+  };
   return (
     <ChakraButton
+      disabled={isDisabled}
       p={4}
-      borderRadius={24}
-      onClick={onClick}
+      onClick={handleClick}
       background={variant === "outline" ? "inherit" : background}
       _hover={{ background: hoverBackground }}
-      {...{ className, variant }}
+      {...{ className, variant, type }}
     >
       {children}
     </ChakraButton>

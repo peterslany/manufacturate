@@ -102,6 +102,7 @@ const theme = extendTheme({
     outline: {
       border: "1px solid",
       borderColor: "initial",
+      borderRadius: 24,
       background: "transparent",
     },
     focus: {
@@ -110,6 +111,14 @@ const theme = extendTheme({
     outlineFocused: {
       border: "1px solid",
       borderColor: "initial",
+      borderRadius: 24,
+      background: "transparent",
+      boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
+    },
+    outlineError: {
+      border: "1px solid",
+      borderColor: "initial",
+      borderRadius: 24,
       background: "transparent",
       boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
     },

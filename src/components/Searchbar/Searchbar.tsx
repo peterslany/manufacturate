@@ -2,10 +2,9 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { chakra, Flex, Input, useBreakpointValue } from "@chakra-ui/react";
 import { isEmpty } from "lodash";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
+import { Button } from "..";
 import { Path } from "../../constants";
-import useSmallScreen from "../../hooks/useSmallScreen";
-import useUrlParam from "../../hooks/useUrlParam";
-import Button from "../Button/Button";
+import { useSmallScreen, useUrlParam } from "../../hooks";
 
 interface SearchbarProps {
   onShowTextFieldCallback?: () => void;
@@ -82,9 +81,9 @@ function Searchbar({
         layerStyle={`${showInput ? "outline" : ""}${
           isFocused ? "Focused" : ""
         }`}
-        borderRadius={16}
         transition="border 500ms ease-in-out"
         className={className}
+        borderRadius="16px"
         w="fit-content"
       >
         <Input
@@ -106,13 +105,14 @@ function Searchbar({
         <Button
           type="submit"
           layerStyle="outline"
+          borderRadius="16px"
           p={0}
-          borderRadius={16}
           onClick={handleSearchIconClick}
           {...buttonDashed}
           {...(showInput
             ? { borderTop: "none", borderBottom: "none", borderRight: "none" }
             : {})}
+          {...(showFullSearchbar && { borderWidth: 2 })}
         >
           <SearchIcon />
         </Button>

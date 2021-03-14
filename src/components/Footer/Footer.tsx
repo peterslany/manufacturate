@@ -1,15 +1,20 @@
+import { Flex } from "@chakra-ui/react";
+import { useSession } from "next-auth/client";
 import { ReactElement } from "react";
+import { Link } from "..";
 
-interface Props {
-  w?: any;
-}
+interface Props {}
 
-function Footer({ w = "a" }: Props): ReactElement {
+function Footer({}: Props): ReactElement {
+  const [session] = useSession();
   return (
-    <div>
+    <Flex p="8" bg="yellow.200">
       FOOTER
-      {w}
-    </div>
+      {session?.user.username}
+      <Link ml="8" href="/auth/login">
+        Prihlasenie
+      </Link>
+    </Flex>
   );
 }
 

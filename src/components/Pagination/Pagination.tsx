@@ -1,6 +1,6 @@
-import { chakra, Flex, useColorModeValue } from "@chakra-ui/react";
+import { Box, chakra, Flex, useColorModeValue } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
-import Button from "../Button/Button";
+import { Button } from "..";
 
 interface PaginationProps {
   selectedPage: number;
@@ -26,21 +26,30 @@ function Pagination({
   );
 
   function Page({ value }: PageProps) {
-    const bg = useColorModeValue(
-      ["green.200", "green.300"],
-      ["teal.700", "teal.600"]
+    const hoverColor = useColorModeValue(
+      ["black", "white"],
+      ["white", "black"]
     );
     return (
       <Button
         layerStyle="outline"
         borderRadius="50%"
-        w={12}
-        h={12}
-        _hover={{ bg: bg[1] }}
+        border="1px dashed"
+        w={[10, 12]}
+        h={[10, 12]}
         onClick={() => onPageChange(value)}
-        m={0.5}
-        fontWeight="400"
-        {...(selectedPage === value && { bg: bg[0], fontWeight: 600 })}
+        mx={[0.5, 1.5]}
+        fontWeight="600"
+        {...(selectedPage === value && {
+          bg: hoverColor[0],
+          color: hoverColor[1],
+          border: "none",
+        })}
+        _hover={{
+          border: "1px solid",
+          background: "transparent",
+          color: "inherit",
+        }}
         className={className}
       >
         {value}
@@ -53,7 +62,7 @@ function Pagination({
       {renderFirstPage && (
         <>
           <Page value={1} />
-          {selectedPage > 3 && " - - - "}
+          {selectedPage > 3 && <Box mx={[1, 2]}> - </Box>}
         </>
       )}
       {middlePages.map((pageNumber) => (
@@ -61,7 +70,7 @@ function Pagination({
       ))}
       {renderLastPage && (
         <>
-          {selectedPage < totalPages - 2 && " - - - "}
+          {selectedPage < totalPages - 2 && <Box mx={[1, 2]}> - </Box>}
           <Page value={totalPages} />
         </>
       )}
