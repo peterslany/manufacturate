@@ -8,31 +8,42 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
-import { HEADER_HEIGHT, ratingSubcategories } from "../../constants";
-import { useSmallScreen } from "../../hooks";
-import { URLParamValue } from "../../types";
+import {
+  HEADER_HEIGHT,
+  LocaleMessages,
+  RatingCategory,
+  ratingSubcategories,
+  SortOrder,
+} from "../../constants";
+import { useLocale, useSmallScreen } from "../../hooks";
+import { LocaleMessage, URLParamValue } from "../../types";
 
 interface Props {
-  sortBy: URLParamValue;
-  sortMode: URLParamValue;
   setSortBy: (newValue: URLParamValue) => void;
-  setSortMode: (newValue: URLParamValue) => void;
+  setSortOrder: (newValue: URLParamValue) => void;
+  sortBy: URLParamValue;
+  sortOrder: URLParamValue;
 }
 
 function RatingsListHeader({
   sortBy,
-  sortMode,
+  sortOrder,
   setSortBy,
-  setSortMode,
+  setSortOrder,
 }: Props): ReactElement {
   const isSmallScreen = useSmallScreen();
 
   const listHeaderBg = useColorModeValue("glassLight", "glassDark");
 
+  const { localizeMessage, Message } = useLocale();
   // TODO add sort type
   const handleSort = (field: string) => {
     if (sortBy === field) {
-      setSortMode(sortMode === "asc" ? "desc" : "asc");
+      setSortOrder(
+        sortOrder === SortOrder.ASCENDING
+          ? SortOrder.DESCENDING
+          : SortOrder.ASCENDING
+      );
     } else {
       setSortBy(field);
     }
@@ -47,16 +58,16 @@ function RatingsListHeader({
     maxW,
     align,
   }: {
-    label: string;
-    width: string;
-    value: any;
-    pl?: number;
-    maxW?: string;
     align?: "center" | undefined;
+    label: LocaleMessage;
+    maxW?: string;
+    pl?: number;
+    value: any;
+    width: string;
   }) {
     return (
       <Flex
-        key={label}
+        key={value}
         w={width}
         maxW={maxW}
         pl={pl}
@@ -75,11 +86,13 @@ function RatingsListHeader({
           cursor="pointer"
           onClick={() => handleSort(value)}
         >
-          {label}
+          {localizeMessage(label)}
         </Text>
         {sortBy === value && (
           <ChevronDownIcon
-            transform={(sortMode === "asc" && "rotate(180deg)") || "none"}
+            transform={
+              (sortOrder === SortOrder.ASCENDING && "rotate(180deg)") || "none"
+            }
           />
         )}
       </Flex>
@@ -99,11 +112,11 @@ function RatingsListHeader({
             setSortBy(event.target.value)
           }
         >
-          <option value="RATING">Hodnotenie</option>
-          <option value="NAME">Názov</option>
+          <option value={RatingCategory.TOTAL}>{Message.RATING}</option>
+          <option value="manufacturer_name">{Message.MANUFACTURER_NAME}</option>
           {ratingSubcategories.map(({ label, subcategory }) => (
             <option key={subcategory} value={subcategory}>
-              {label}
+              {localizeMessage(label)}
             </option>
           ))}
         </Select>
@@ -111,11 +124,11 @@ function RatingsListHeader({
           layerStyle="outline"
           name="sortMode"
           onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-            setSortMode(event.target.value)
+            setSortOrder(event.target.value)
           }
         >
-          <option value="ASC">Vzostupne</option>
-          <option value="DESC">Zostupne</option>
+          <option value={SortOrder.DESCENDING}>Zostupne</option>
+          <option value={SortOrder.ASCENDING}>Vzostupne</option>
         </Select>
       </Flex>
     </>
@@ -129,14 +142,20 @@ function RatingsListHeader({
       flexWrap="nowrap"
       position="sticky"
       top={HEADER_HEIGHT}
+      zIndex="1"
     >
       <RatingsListHeadItem
-        label="Hodnotenie"
-        value="RATING"
+        label={LocaleMessages.RATING}
+        value={RatingCategory.TOTAL}
         width="14%"
         maxW="115px"
       />
-      <RatingsListHeadItem label="Názov" value="NAME" width="30%" pl={2} />
+      <RatingsListHeadItem
+        label={LocaleMessages.MANUFACTURER_NAME}
+        value="manufacturer_name"
+        width="30%"
+        pl={2}
+      />
       <Flex w="56%" justify="space-between">
         {ratingSubcategories.map(({ label, subcategory }) => (
           <RatingsListHeadItem

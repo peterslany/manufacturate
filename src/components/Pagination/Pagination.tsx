@@ -3,10 +3,10 @@ import React, { ReactElement } from "react";
 import { Button } from "..";
 
 interface PaginationProps {
-  selectedPage: number;
-  onPageChange: (n: number) => void;
-  totalPages: number;
   className?: string;
+  onPageChange: (n: number) => void;
+  selectedPage: number;
+  totalPages: number;
 }
 
 interface PageProps {

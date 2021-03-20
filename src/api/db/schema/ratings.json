@@ -1,0 +1,144 @@
+{
+    "bsonType": "object",
+    "required": ["_id", "name", "rating", "productCategories", "authors"],
+    "properties": {
+        "_id": {
+            "bsonType": "string",
+            "description": "must be a string and is required"
+        },
+        "name": {
+            "bsonType": "string",
+            "description": "must be a string and is required"
+        },
+        "rating": {
+            "bsonType": "object",
+            "required": ["overall", "subCategories"],
+            "properties": {
+                "overall": {
+                    "bsonType": "object",
+                    "required": ["lastChange", "total", "health", "ecology", "animals", "ethics", "description"],
+                    "properties": {
+                        "lastChange": {
+                            "bsonType": "date",
+                            "description": "must be a date and is required"
+                        },
+                        "total": {
+                            "bsonType": "double",
+                            "minimum": 0,
+                            "maximum": 10,
+                            "description": "must be a double and is required"
+                        },
+                        "health": {
+                            "bsonType": "double",
+                            "minimum": 0,
+                            "maximum": 10,
+                            "description": "must be a double and is required"
+                        },
+                        "ecology": {
+                            "bsonType": "double",
+                            "minimum": 0,
+                            "maximum": 10,
+                            "description": "must be a double and is required"
+                        },
+                        "animals": {
+                            "bsonType": "double",
+                            "minimum": 0,
+                            "maximum": 10,
+                            "description": "must be a double and is required"
+                        },
+                        "ethics": {
+                            "bsonType": "double",
+                            "minimum": 0,
+                            "maximum": 10,
+                            "description": "must be a double and is required"
+                        },
+                        "description": {
+                            "bsonType": "object",
+                            "required": ["sk", "en"],
+                            "properties": {
+                                "sk": {
+                                    "bsonType": "string",
+                                    "description": "must be a string"
+                                },
+                                "en": {
+                                    "bsonType": "string",
+                                    "description": "must be a string"
+                                }
+                            },
+                            "description": "must contain sk and en locales and is required for overall rating"
+                        }
+                    }
+                },
+                "subCategories": {
+                    "bsonType": "array",
+                    "items": {
+                        "bsonType": "object",
+                        "required": ["categoryName", "lastChange", "total", "health", "ecology", "animals", "ethics"],
+                        "properties": {
+                            "categoryName": {
+                                "bsonType": "string",
+                                "description": "must be a string and is required"
+                            },
+                            "lastChange": {
+                                "bsonType": "date",
+                                "description": "must be a date and is required"
+                            },
+                            "total": {
+                                "bsonType": "double",
+                                "minimum": 0,
+                                "maximum": 10,
+                                "description": "must be a double and is required"
+                            },
+                            "health": {
+                                "bsonType": "double",
+                                "minimum": 0,
+                                "maximum": 10,
+                                "description": "must be a double and is required"
+                            },
+                            "ecology": {
+                                "bsonType": "double",
+                                "minimum": 0,
+                                "maximum": 10,
+                                "description": "must be a double and is required"
+                            },
+                            "animals": {
+                                "bsonType": "double",
+                                "minimum": 0,
+                                "maximum": 10,
+                                "description": "must be a double and is required"
+                            },
+                            "ethics": {
+                                "bsonType": "double",
+                                "minimum": 0,
+                                "maximum": 10,
+                                "description": "must be a double and is required"
+                            },
+                            "description": {
+                                "bsonType": "object",
+                                "required": ["sk", "en"],
+                                "properties": {
+                                    "sk": {
+                                        "bsonType": "string",
+                                        "description": "must be a string"
+                                    },
+                                    "en": {
+                                        "bsonType": "string",
+                                        "description": "must be a string"
+                                    }
+                                },
+                                "description": "must contain both sk and en locales"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "authors": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "string",
+                "description":"must be a string"
+            }
+        }
+    }
+}

@@ -1,25 +1,26 @@
 import { Path } from "../constants/path";
+import { LocaleMessage } from "./locale";
 
 export type HeaderItemSubMenuBodyItem = {
-  label: string;
+  label: LocaleMessage;
 } & (
-  | { value: string; items?: never }
-  | { value?: never; items: HeaderItemSubMenuBodyItem[] }
+  | { items?: never; value: string }
+  | { items: HeaderItemSubMenuBodyItem[]; value?: never }
 );
 
 export interface HeaderItemSubMenuBody {
-  label: string;
-  parameter: string;
   items: HeaderItemSubMenuBodyItem[];
+  label: LocaleMessage;
+  parameter: string;
 }
 
 export interface HeaderItemSubMenuType {
-  header: HeaderItemType;
   body: HeaderItemSubMenuBody;
+  header: HeaderItemType;
 }
 export interface HeaderItemType {
-  label: string;
-  path: Path;
+  label: LocaleMessage;
   onlyInDrawer?: boolean;
+  path: Path;
   subMenu?: HeaderItemSubMenuType;
 }

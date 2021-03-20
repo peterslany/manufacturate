@@ -11,32 +11,34 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { isString } from "lodash";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useState } from "react";
 import {
   Button,
   Pagination,
   ProductCategories,
   Searchbar,
 } from "../../components";
-import { allProductCategories } from "../../constants";
-import { useSmallScreen, useUrlParam } from "../../hooks";
+import { allProductCategories, ApiUrl, PAGE_SIZE } from "../../constants";
+import { useGet, useLocale, useSmallScreen, useUrlParam } from "../../hooks";
 import { URLParamValue } from "../../types";
+import { RatingsListData } from "../../types/ratings";
 import { urlParamToArray } from "../../utils";
 import RatingsCategoryModal from "./RatingsCategoryModal";
 import RatingsListHeader from "./RatingsListHeader";
 import RatingsListItem from "./RatingsListItem";
 import { getProductCategoryLabel } from "./utils";
 
-interface Props {}
+interface Props {
+  // TODO:add Ratings type
+  initialRatingsData: RatingsListData;
+}
 
 function Ratings({}: Props): ReactElement {
-  //   const isSmallerScreen = useSmallScreen();
+  const isSmallScreen = useSmallScreen();
 
-  //   const FilterContainer = FiltersModal;
-  const [searchQuery] = useUrlParam("search");
   const [categories, setCategories] = useUrlParam("category");
   const [sortBy, setSortBy] = useUrlParam("sortBy");
-  const [sortMode, setSortMode] = useUrlParam("sortMode");
+  const [sortOrder, setSortOrder] = useUrlParam("sortOrder");
   const [page, setPage] = useUrlParam("page");
 
   const [ratingBy, setRatingBy] = useState<string | undefined>(
@@ -45,20 +47,18 @@ function Ratings({}: Props): ReactElement {
 
   const contentBg = useColorModeValue("gray.900A10", "gray.50A10");
 
-  const isSmallScreen = useSmallScreen();
+  // TODO: change data assignment to initialvalue from props
+  const {
+    data: { ratings, count } = { ratings: [], count: 0 },
+  } = useGet<RatingsListData>(ApiUrl.RATINGS);
+
+  const { Message, localizeMessage } = useLocale();
 
   const {
     isOpen: isCategoryModalOpen,
     onOpen: onCategoryModalOpen,
     onClose: onCategoryModalClose,
   } = useDisclosure();
-
-  useEffect(() => {
-    console.log(
-      "REFETCH DATA",
-      JSON.stringify({ searchQuery, categories, sortBy, sortMode, page })
-    );
-  }, [searchQuery, categories, sortBy, sortMode, page]);
 
   const handleModalConfirm = (newCategories: URLParamValue) => {
     setCategories(newCategories);
@@ -72,15 +72,17 @@ function Ratings({}: Props): ReactElement {
   };
 
   const items = (
-    <>
-      <RatingsListItem href="/ratings/manufaktura-1" linkText="Manufaktura 1" />
-      <RatingsListItem href="/ratings/loreal" linkText="L'oreal" />
-      <RatingsListItem
-        href="ratings/manufacturer-slovakia"
-        linkText="Manufacturer Slovakia"
-      />
-    </>
-  );
+    ratings || []
+  ).map(({ _id, name, rating: { overall: rating } }) => (
+    <RatingsListItem
+      href={`/ratings/${_id}`}
+      key={_id}
+      linkText={name}
+      name={name}
+      rating={rating}
+    />
+  ));
+
   return (
     <Flex direction={["column", "column", "row"]}>
       {!isSmallScreen && (
@@ -98,7 +100,7 @@ function Ratings({}: Props): ReactElement {
       )}
       <Box w="full" p={[4, 8, 0]} pl={[4, 8, 16]}>
         <Heading my={[2, 5]} size="lg">
-          Hodnotenia
+          {Message.RATINGS}
         </Heading>
         <Searchbar
           mb={5}
@@ -109,7 +111,7 @@ function Ratings({}: Props): ReactElement {
         />
 
         <Box mb={5}>
-          Kategórie
+          {Message.CATEGORIES}
           <Box
             border="1px solid"
             borderColor="initial"
@@ -144,7 +146,9 @@ function Ratings({}: Props): ReactElement {
                 borderRadius="16px"
                 m="1"
               >
-                <TagLabel>{getProductCategoryLabel(value)}</TagLabel>
+                <TagLabel>
+                  {localizeMessage(getProductCategoryLabel(value))}
+                </TagLabel>
                 <TagCloseButton onClick={() => handleRemoveCategory(value)} />
               </Tag>
             ))}
@@ -160,11 +164,14 @@ function Ratings({}: Props): ReactElement {
           >
             <option value="all"> Vsetky</option>
             {allProductCategories.map(
-              ({ label, categories: subcategories }) => (
-                <optgroup key={label} label={label}>
+              ({ label, categories: subcategories, mainCategory }) => (
+                <optgroup
+                  key={mainCategory}
+                  label={localizeMessage(label) as string}
+                >
                   {subcategories.map(({ label: subcategoryLabel, value }) => (
                     <option key={value} value={value}>
-                      {subcategoryLabel}
+                      {localizeMessage(subcategoryLabel)}
                     </option>
                   ))}
                 </optgroup>
@@ -178,7 +185,12 @@ function Ratings({}: Props): ReactElement {
           })}
         >
           <RatingsListHeader
-            {...{ sortBy, sortMode, setSortBy, setSortMode }}
+            {...{
+              sortBy,
+              sortOrder,
+              setSortBy,
+              setSortOrder,
+            }}
           />
           {items}
           <Center>
@@ -186,7 +198,7 @@ function Ratings({}: Props): ReactElement {
               mb="4"
               selectedPage={JSON.parse(isString(page) ? page : "1")}
               onPageChange={(pageNumber) => setPage(pageNumber.toString())}
-              totalPages={11}
+              totalPages={Math.ceil((count || 0) / PAGE_SIZE)}
             />
           </Center>
         </Box>

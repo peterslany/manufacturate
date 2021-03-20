@@ -8,9 +8,7 @@
         "plugin:import/warnings",
         "plugin:jsx-a11y/recommended",
         "plugin:react-hooks/recommended",
-        "plugin:import/errors",
-        "plugin:import/warnings",
-        "plugin:import/typescript"
+        "plugin:typescript-sort-keys/recommended"
     ],
     "env": {
         "browser": true,
@@ -18,7 +16,7 @@
         "es6": true,
         "node": true
     },
-    "plugins": ["@typescript-eslint", "react"],
+    "plugins": ["@typescript-eslint", "react", "typescript-sort-keys"],
     "rules": {
         "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
         "react/react-in-jsx-scope": "off",

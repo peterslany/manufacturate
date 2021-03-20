@@ -2,10 +2,13 @@ import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import Image from "next/image";
 import { ReactElement } from "react";
 import { Searchbar } from "../../components";
+import { useLocale } from "../../hooks";
 
 interface Props {}
 
 function Home({}: Props): ReactElement {
+  const { Message } = useLocale();
+
   const glassStyle = useColorModeValue("glassLight", "glassDark");
 
   return (
@@ -36,8 +39,7 @@ function Home({}: Props): ReactElement {
         fontSize={["2xl", "4xl", "6xl"]}
         align="center"
       >
-        Fair about care je neziskový projekt, ktorý poskytuje objektívne
-        hodnotenia výrobcov kozmetiky pre všetkých.
+        {Message.HOMEPAGE_MAIN_TEXT}
       </Text>
       Vyhladaj vyrobcu
       <Searchbar

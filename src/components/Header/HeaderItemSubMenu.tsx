@@ -12,16 +12,17 @@ import {
 } from "@chakra-ui/react";
 import React, { ReactElement, useState } from "react";
 import { Link } from "..";
-import { HeaderItemSubMenuType } from "../../types";
+import { useLocale } from "../../hooks";
+import { HeaderItemSubMenuType, LocaleMessage } from "../../types";
 import HeaderItem from "./HeaderItem";
 
 interface Props {
-  selected: boolean;
-  label: string;
-  path: string;
-  subMenu: HeaderItemSubMenuType;
   isSmallScreen: boolean;
+  label: LocaleMessage;
   onItemClick?: () => void;
+  path: string;
+  selected: boolean;
+  subMenu: HeaderItemSubMenuType;
 }
 
 function HeaderItemSubMenu({
@@ -35,6 +36,8 @@ function HeaderItemSubMenu({
   const [isOpen, setIsOpen] = useState(false);
 
   const dividerBorderColor = useColorModeValue("gray.300", "gray.600");
+
+  const { localizeMessage } = useLocale();
 
   const content = (
     <Flex justify="space-between" direction={isSmallScreen ? "column" : "row"}>
@@ -56,7 +59,7 @@ function HeaderItemSubMenu({
                   pl: 6,
                 },
               })}
-          key={bodyItemLabel}
+          key={JSON.stringify(localizeMessage(label))}
         >
           <Heading
             whiteSpace="nowrap"
@@ -65,7 +68,7 @@ function HeaderItemSubMenu({
             pb={1}
             textTransform="uppercase"
           >
-            {bodyItemLabel}
+            {localizeMessage(bodyItemLabel)}
           </Heading>
 
           <Flex direction="column" pr={6}>
@@ -76,7 +79,7 @@ function HeaderItemSubMenu({
                 onClick={onItemClick}
                 href={`${path}?${subMenu.body.parameter}=${value}`}
               >
-                - {bodySubItemLabel}
+                - {localizeMessage(bodySubItemLabel)}
               </Link>
             ))}
           </Flex>
@@ -106,7 +109,9 @@ function HeaderItemSubMenu({
       </PopoverTrigger>
       <PopoverContent width="fit-content">
         <PopoverHeader>
-          <Link href={subMenu.header.path}>{subMenu.header.label}</Link>
+          <Link href={subMenu.header.path}>
+            {localizeMessage(subMenu.header.label)}
+          </Link>
         </PopoverHeader>
         <PopoverBody>{content}</PopoverBody>
       </PopoverContent>
@@ -130,7 +135,7 @@ function HeaderItemSubMenu({
           display="inline-block"
           w="full"
         >
-          - {subMenu.header.label}
+          - {localizeMessage(subMenu.header.label)}
         </Link>
         {content}
       </Collapse>

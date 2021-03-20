@@ -1,23 +1,24 @@
-import { HeaderItemType } from "../types";
+import { HeaderItemType } from "../types/header";
 import { allProductCategories } from "./categories";
+import { LocaleMessages } from "./locale";
 import { Path } from "./path";
 
 export const publicHeaderItems: HeaderItemType[] = [
   {
-    label: "Domov",
+    label: LocaleMessages.HOME,
     path: Path.ROOT,
     onlyInDrawer: true,
   },
   {
-    label: "Hodnotenia",
+    label: LocaleMessages.RATINGS,
     path: Path.RATINGS,
     subMenu: {
       header: {
-        label: "Všetky hodnotenia",
+        label: LocaleMessages.RATINGS,
         path: Path.RATINGS,
       },
       body: {
-        label: "Kategórie",
+        label: LocaleMessages.CATEGORIES,
         parameter: "category",
         items: allProductCategories.map(({ label, categories }) => ({
           label,
@@ -27,18 +28,18 @@ export const publicHeaderItems: HeaderItemType[] = [
     },
   },
   {
-    label: "O projekte",
+    label: LocaleMessages.ABOUT,
     path: Path.ABOUT,
   },
   {
-    label: "Ako hodnotime",
+    label: LocaleMessages.METHODOLOGY,
     path: Path.METHODOLOGY,
   },
 ];
 
 export const authHeaderItems: HeaderItemType[] = [
-  { label: "Ovládací panel", path: Path.AUTH_DASHBOARD },
-  { label: "Nastavenia", path: Path.AUTH_SETTINGS },
+  { label: LocaleMessages.DASHBOARD, path: Path.AUTH_DASHBOARD },
+  { label: LocaleMessages.SETTINGS, path: Path.AUTH_SETTINGS },
 ];
 
 export const HEADER_HEIGHT = [16, 16, 24];

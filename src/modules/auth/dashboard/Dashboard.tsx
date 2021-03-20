@@ -9,20 +9,20 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
-import { Button, TextField } from "components";
 import { useSession } from "next-auth/client";
 import React, { ReactElement, useState } from "react";
+import { Button, TextField } from "../../../components";
 import withAuth from "../withAuth";
 
 interface Props {}
 
 function Dashboard({}: Props): ReactElement {
-  const [session, loading] = useSession();
+  const [session] = useSession(); // const [session, loading] = useSession();
 
   const isAdmin = session?.user.isAdmin;
 
   const [showUserAdministration, setShowUserAdministration] = useState(false);
-  const [showRatingApproval, setShowRatingApproval] = useState(false);
+  // const [showRatingApproval, setShowRatingApproval] = useState(false);
 
   return (
     <Box mx={[2, 4, 8]} mt={[2, 4, 6]}>

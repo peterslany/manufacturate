@@ -123,11 +123,11 @@ const theme = extendTheme({
       boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
     },
     glassLight: {
-      backdropFilter: "blur(5px)",
+      backdropFilter: "blur(15px)",
       backgroundColor: "gray.900A05",
     },
     glassDark: {
-      backdropFilter: "blur(5px)",
+      backdropFilter: "blur(15px)",
       backgroundColor: "gray.50A05",
     },
   },

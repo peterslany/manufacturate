@@ -11,8 +11,8 @@ import React, { ReactElement, ReactNode } from "react";
 import { DarkModeSwitch } from "..";
 
 interface Props {
-  items: ReactNode;
   isOpen: boolean;
+  items: ReactNode;
   onClose: () => void;
 }
 

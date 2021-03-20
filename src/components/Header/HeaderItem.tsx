@@ -3,15 +3,17 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Link, useColorMode } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { ReactElement } from "react";
+import { useLocale } from "../../hooks";
+import { LocaleMessage } from "../../types";
 
 interface Props {
-  path: string;
-  label: string;
-  selected: boolean;
-  isSmallScreen: boolean;
-  onItemClick?: () => void;
-  withChevron?: boolean;
   isOpen?: boolean;
+  isSmallScreen: boolean;
+  label: LocaleMessage;
+  onItemClick?: () => void;
+  path: string;
+  selected: boolean;
+  withChevron?: boolean;
 }
 
 function HeaderItem({
@@ -24,6 +26,7 @@ function HeaderItem({
   isOpen,
 }: Props): ReactElement {
   const { colorMode } = useColorMode();
+  const { localizeMessage } = useLocale();
 
   const color = (() => {
     switch (colorMode) {
@@ -63,7 +66,7 @@ function HeaderItem({
           mb: isSmallScreen ? 2 : 0,
         }}
       >
-        {label}
+        {localizeMessage(label)}
         {withChevron && (
           <ChevronDownIcon
             transition="transform 300ms ease-in-out"

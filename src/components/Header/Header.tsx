@@ -17,6 +17,7 @@ import {
 } from "../../constants";
 import { useSmallScreen } from "../../hooks";
 import { HeaderItemSubMenuType } from "../../types";
+import LocaleChange from "../LocaleChange/LocaleChange";
 import HeaderDrawer from "./HeaderDrawer";
 import HeaderItem from "./HeaderItem";
 import HeaderItemSubMenu from "./HeaderItemSubMenu";
@@ -110,6 +111,7 @@ function Header(): ReactElement {
       <HeaderDrawer
         {...{ items, isOpen: isDrawerOpen, onClose: closeDrawer }}
       />
+      <LocaleChange />
     </Flex>
   );
 }

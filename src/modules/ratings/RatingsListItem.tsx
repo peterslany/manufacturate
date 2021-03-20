@@ -2,25 +2,18 @@ import { Box, Center, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
 import { withLink } from "../../components/Link";
 import { RatingCategory, ratingSubcategories } from "../../constants";
-import { useSmallScreen } from "../../hooks";
+import { useLocale, useSmallScreen } from "../../hooks";
 import { getListItemRatingColor } from "./utils";
 
-const RATING_TEST_DATA_TO_BE_REMOVED = {
-  rating: {
-    TOTAL: 5.5,
-    HEALTH: 6.8,
-    ECO: 5.6,
-    ANIMALS: 4.4,
-    ETHICS: 5.2,
-  },
-};
-
-interface Props {}
+interface Props {
+  name: string;
+  rating: any;
+}
 
 interface RatingBoxProps {
   category: RatingCategory;
-  value: number;
   smallerSize?: boolean;
+  value: number;
 }
 
 function RatingBox({
@@ -32,7 +25,6 @@ function RatingBox({
     getListItemRatingColor(false, category),
     getListItemRatingColor(true, category)
   );
-
   const size = smallerSize ? 12 : 16;
   const fontSize = smallerSize ? "xl" : "2xl";
   return (
@@ -51,9 +43,10 @@ function RatingBox({
   );
 }
 
-function RatingsListItem({}: Props): ReactElement {
+function RatingsListItem({ name, rating }: Props): ReactElement {
   const isSmallScreen = useSmallScreen();
 
+  const { localizeMessage } = useLocale();
   const smallScreenBg = useColorModeValue("gray.900A10", "gray.50A10");
   return isSmallScreen ? (
     <Box borderRadius={48} bg={smallScreenBg} mb={4} border="1px solid">
@@ -63,9 +56,9 @@ function RatingsListItem({}: Props): ReactElement {
         borderBottom="1px solid"
         p="4"
       >
-        <RatingBox value={7.6} category={RatingCategory.TOTAL} />
+        <RatingBox value={rating.total} category={RatingCategory.TOTAL} />
         <Text fontWeight="semibold" fontSize="lg" pl="8px" w="70%">
-          Manufacturer Slovakia
+          {name}
         </Text>
       </Flex>
       <Flex wrap="wrap" p="2" pt="0">
@@ -80,10 +73,10 @@ function RatingsListItem({}: Props): ReactElement {
           >
             <RatingBox
               smallerSize
-              value={RATING_TEST_DATA_TO_BE_REMOVED.rating[subcategory]}
+              value={rating[subcategory]}
               category={subcategory}
             />
-            {label}
+            {localizeMessage(label)}
           </Center>
         ))}
       </Flex>
@@ -97,27 +90,21 @@ function RatingsListItem({}: Props): ReactElement {
       display="flex"
       alignItems="center"
       cursor="pointer"
+      transition="box-shadow 300ms ease-in-out"
       _groupHover={{
         boxShadow: "0 0 0 2px",
-        transition: "300ms",
       }}
     >
       <Box w="14%" maxW="115px">
-        <RatingBox
-          category={RatingCategory.TOTAL}
-          value={RATING_TEST_DATA_TO_BE_REMOVED.rating.TOTAL}
-        />
+        <RatingBox category={RatingCategory.TOTAL} value={rating?.total} />
       </Box>
       <Text fontWeight="semibold" fontSize="lg" pl="8px" w="30%">
-        Manufacturer Slovakia
+        {name}
       </Text>
       <Flex w="56%" justify="space-between">
         {ratingSubcategories.map(({ subcategory }) => (
           <Center key={subcategory} w="25%">
-            <RatingBox
-              category={subcategory}
-              value={RATING_TEST_DATA_TO_BE_REMOVED.rating[subcategory]}
-            />
+            <RatingBox category={subcategory} value={rating?.[subcategory]} />
           </Center>
         ))}
       </Flex>
@@ -125,4 +112,4 @@ function RatingsListItem({}: Props): ReactElement {
   );
 }
 
-export default withLink(RatingsListItem);
+export default withLink<Props>(RatingsListItem);

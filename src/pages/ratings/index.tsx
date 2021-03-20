@@ -7,7 +7,8 @@ interface Props {}
 // });
 
 function Ratings({}: Props): ReactElement {
-  return <RatingsModule />;
+  // TODO get initial data in getstatic props
+  return <RatingsModule initialRatingsData={[]} />;
 }
 
 export default Ratings;

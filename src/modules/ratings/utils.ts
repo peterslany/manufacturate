@@ -1,5 +1,6 @@
 import { find, flatten } from "lodash";
-import { allProductCategories, RatingCategory } from "../../constants";
+import { allProductCategories, Locale, RatingCategory } from "../../constants";
+import { LocaleMessage } from "../../types";
 
 /* eslint-disable import/prefer-default-export */
 export const getListItemRatingColor = (
@@ -9,7 +10,7 @@ export const getListItemRatingColor = (
   switch (category) {
     case RatingCategory.HEALTH:
       return !dark ? "red.600" : "red.200";
-    case RatingCategory.ECO:
+    case RatingCategory.ECOLOGY:
       return !dark ? "green.700" : "green.200";
     case RatingCategory.ANIMALS:
       return !dark ? "blue.600" : "blue.200";
@@ -21,9 +22,11 @@ export const getListItemRatingColor = (
   }
 };
 
-export const getProductCategoryLabel = (
-  categoryValue: string
-): string | undefined =>
+export const getProductCategoryLabel = (categoryValue: string): LocaleMessage =>
   find(flatten(allProductCategories.map(({ categories }) => categories)), {
     value: categoryValue,
-  })?.label;
+  })?.label ||
+  (Object.keys(Locale).reduce(
+    (res, locale) => ({ [locale]: "", ...res }),
+    {}
+  ) as LocaleMessage);
