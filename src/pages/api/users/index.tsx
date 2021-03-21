@@ -7,7 +7,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       break;
     case "POST":
       console.log("creates new user"); // only admin
-      res.status(404);
+      res.status(403);
       break;
     default:
   }

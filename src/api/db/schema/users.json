@@ -1,0 +1,22 @@
+{
+    "bsonType": "object",
+    "required": ["_id", "isAdmin", "name", "passwordHash"],
+    "properties": {
+        "_id": {
+            "bsonType": "string",
+            "description": "must be a string and is required"
+        },
+        "isAdmin": {
+            "bsonType": "boolean",
+            "description": "must be a boolean and is required"
+        },
+        "name": {
+            "bsonType": "name",
+            "description": "must be a string and is required"
+        },
+        "passwordHash": {
+            "enum": "string",
+            "description": "must be a string and is required"
+        }
+    }
+}

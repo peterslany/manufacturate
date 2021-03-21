@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import { Db, MongoClient } from "mongodb";
+import blogpostsSchema from "./schema/blogposts.json";
+import changeRequestsSchema from "./schema/change_requests";
 import ratingsSchema from "./schema/ratings.json";
+import usersSchema from "./schema/users.json";
 
 const uri: string | undefined = process.env.MONGODB_URI;
 const dbName: string | undefined = process.env.MONGODB_DB_NAME;
@@ -27,14 +27,28 @@ let initialized = false;
 async function initializeDb(db: Db) {
   // creates collections with validation schema
   try {
-    db.createCollection("ratings", {
+    await db.createCollection("blogposts", {
+      validator: {
+        $jsonSchema: blogpostsSchema,
+      },
+    });
+    await db.createCollection("change_requests", {
+      validator: {
+        $jsonSchema: changeRequestsSchema,
+      },
+    });
+    await db.createCollection("ratings", {
       validator: {
         $jsonSchema: ratingsSchema,
       },
-      validationAction: "warn",
     });
-  } catch (err) {
-    console.log(err);
+    await db.createCollection("users", {
+      validator: {
+        $jsonSchema: usersSchema,
+      },
+    });
+    // eslint-disable-next-line no-empty
+  } catch {
   } finally {
     initialized = true;
   }
@@ -63,7 +77,6 @@ export default async function database(): Promise<{
   if (cachedClient && cachedDb) {
     return { client: cachedClient, db: cachedDb };
   }
-  console.log("UNCACHED");
 
   const client = await MongoClient.connect(uri as string, {
     useNewUrlParser: true,

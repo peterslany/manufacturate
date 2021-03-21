@@ -1,5 +1,11 @@
+import { NextApiResponse } from "next";
 import { Locale } from "../../constants";
-import { LocaleMessage, SimpleLocaleMessage } from "../../types";
+import { ResponseError, SimpleLocaleMessage } from "../../types";
+import {
+  RatingFull,
+  RatingLocalized,
+  SubCategoryRatingUnit,
+} from "../../types/ratings";
 import { parseString } from "../../utils/common";
 
 export const asLocale = (language?: string | string[]) => {
@@ -14,36 +20,82 @@ export const asLocale = (language?: string | string[]) => {
   }
 };
 
-// TODO: add rating type
-export const localizeRatingData = (rating?: any, locale: Locale) => {
-  const result = rating;
-  result.rating.overall.description = result.rating.overall.description[locale];
-  result.rating.subCategories = result.rating.subCategories.map(
-    ({ description, ...rest }: { description: LocaleMessage }) => ({
-      ...rest,
-      description: description[locale],
-    })
-  );
+export const localizeRatingData = (
+  rating: RatingFull,
+  locale: Locale
+): RatingLocalized => {
+  const result: RatingLocalized = {
+    ...rating,
+    rating: {
+      ...rating.rating,
+      overall: {
+        ...rating.rating.overall,
+        description: rating.rating.overall.description[locale],
+      },
+      subCategories: rating.rating.subCategories.map(
+        ({
+          description,
+          ...rest
+        }: SubCategoryRatingUnit<SimpleLocaleMessage>) => ({
+          ...rest,
+          description: description[locale],
+        })
+      ),
+    },
+  };
+
   return result;
 };
 
 const localizeMessage = (message: SimpleLocaleMessage, locale: Locale) =>
   message[locale];
 
-export const localizeError = (statusCode: number, locale: Locale) => {
+export const localizedError = (
+  statusCode: number,
+  locale: Locale
+): ResponseError => {
   const message: SimpleLocaleMessage = (() => {
     switch (statusCode) {
+      case 400:
+        return {
+          en: "Invalid request, check what you are sending.",
+          sk: "Neplatná požiadavka, skontroluj čo zasielaš.",
+        };
       case 403:
         return {
+          en: "You are not authorized for that operation.",
           sk: "Na požadovanú operáciu nemáš oprávnenie.",
-          en: "You don't have authorization for that operation",
+        };
+      case 404:
+        return {
+          en: "Item not found.",
+          sk: "Požadovaná položka sa nenašla.",
+        };
+      case 405:
+        return {
+          en: "Request method not allowed.",
+          sk: "Metóda požiadavky nie je povolená.",
+        };
+      case 422:
+        return {
+          en: "Received data are in invalid form.",
+          sk: "Prijaté dáta nie sú v správnom tvare.",
         };
       default:
         return {
-          sk: "Pri získavaní dát nastala chyba.",
-          en: "Error happened while retrieving data.",
+          en: "Error happened while working with data.",
+          sk: "Pri operácii s dátami nastala chyba.",
         };
     }
   })();
-  return localizeMessage(message, locale);
+  return { status: statusCode, message: localizeMessage(message, locale) };
+};
+
+export const sendLocalizedError = (
+  res: NextApiResponse,
+  statusCode: number,
+  locale: Locale
+): void => {
+  const error = localizedError(statusCode, locale);
+  res.status(403).json(error);
 };

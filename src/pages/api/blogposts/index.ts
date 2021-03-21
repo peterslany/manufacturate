@@ -1,31 +1,26 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getRatingsList } from "../../../api/db";
+import { getBlogposts } from "../../../api/db/blogposts";
 import { asLocale, sendLocalizedError } from "../../../api/utils/locale";
-import {
-  RatingsSortFields,
-  RequestMethod,
-  SortOrder,
-} from "../../../constants";
+import { RequestMethod, SortOrder } from "../../../constants";
 import { ResponseError } from "../../../types/api";
-import { RatingsListData } from "../../../types/ratings";
+import { BlogpostsData } from "../../../types/ratings";
 import { parseInteger, parseString } from "../../../utils/common";
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<RatingsListData | ResponseError>
+  res: NextApiResponse<BlogpostsData | ResponseError>
 ): Promise<void> => {
   const locale = asLocale(req.headers["accept-language"]);
   const {
-    query: { search, category, sortBy, sortOrder, page },
+    query: { search, sortOrder, page },
     method,
   } = req;
   switch (method) {
     case RequestMethod.GET: {
-      const data = await getRatingsList(
+      const data = await getBlogposts(
+        locale,
         parseString(search),
-        parseString(sortBy) as RatingsSortFields,
         parseString(sortOrder) as SortOrder,
-        category,
         parseInteger(parseString(page))
       );
       res.status(200).json(data);

@@ -1,0 +1,34 @@
+{
+    "bsonType": "object",
+    "required": ["author", "content", "date", "locale", "title", "urlPathSegment"],
+    "properties": {
+        "author": {
+            "bsonType": "string",
+            "description": "must be a string and is required"
+        },
+        "content": {
+            "bsonType": "string",
+            "description": "must be a string and is required"
+        },
+        "date": {
+            "bsonType": "date",
+            "description": "must be a date and is required"
+        },
+        "locale": {
+            "enum": ["en", "sk"],
+            "description": "must be one of the locale values and is required"
+        },
+        "thumbnailUrl": {
+            "bsonType": "string",
+            "description": "must be a string and is required"
+        },
+        "title": {
+            "bsonType": "string",
+            "description": "must be a string and is required"
+        },
+        "urlPathSegment": {
+            "bsonType": "string",
+            "description": "must be a string and is required"
+        }
+    }
+}

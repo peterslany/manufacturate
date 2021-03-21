@@ -1,6 +1,6 @@
 {
     "bsonType": "object",
-    "required": ["_id", "name", "rating", "productCategories", "authors"],
+    "required": ["_id", "name", "rating", "authors"],
     "properties": {
         "_id": {
             "bsonType": "string",
