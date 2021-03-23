@@ -19,7 +19,7 @@ export const makeRequest = async <T extends unknown>(
       },
       ...(body && { body: JSON.stringify(body) }),
     });
-
+    console.log(response);
     if (!response.ok) {
       onErrorCallback({
         status: response.status,
@@ -29,6 +29,8 @@ export const makeRequest = async <T extends unknown>(
     }
 
     if (onSuccessCallback) onSuccessCallback();
+
+    if (response.status === 204) return null;
 
     return response.json();
   } catch (error) {

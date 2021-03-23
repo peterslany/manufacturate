@@ -10,8 +10,8 @@ export default {
       description: "must be a string and is required",
     },
     date: {
-      bsonType: "date",
-      description: "must be a date and is required",
+      bsonType: "string",
+      description: "must be an ISOString date and is required",
     },
     newValue: {
       anyOf: [ratingsSchema, blogpostsSchema],

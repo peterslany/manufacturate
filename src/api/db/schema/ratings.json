@@ -19,8 +19,8 @@
                     "required": ["lastChange", "total", "health", "ecology", "animals", "ethics", "description"],
                     "properties": {
                         "lastChange": {
-                            "bsonType": "date",
-                            "description": "must be a date and is required"
+                            "bsonType": "string",
+                            "description": "must be an ISOString date and is required"
                         },
                         "total": {
                             "bsonType": "double",
@@ -80,8 +80,8 @@
                                 "description": "must be a string and is required"
                             },
                             "lastChange": {
-                                "bsonType": "date",
-                                "description": "must be a date and is required"
+                                "bsonType": "string",
+                                "description": "must be an ISOString date and is required"
                             },
                             "total": {
                                 "bsonType": "double",

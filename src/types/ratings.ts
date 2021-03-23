@@ -14,7 +14,7 @@ interface BasicRatingUnit {
 
 interface RatingUnit<T> extends BasicRatingUnit {
   description: T;
-  lastChange: string | Date;
+  lastChange: string;
 }
 
 export interface SubCategoryRatingUnit<T> extends RatingUnit<T> {
@@ -53,7 +53,7 @@ export type BlogpostsData = { count: number; ratings: BlogpostBase[] };
 export interface BlogpostBase {
   _id: ObjectId;
   author: string;
-  date: string | Date;
+  date: string;
   locale: Locale;
   subTitle: string;
   thumbnailUrl: string;
@@ -64,28 +64,22 @@ export interface Blogpost extends BlogpostBase {
   content: string;
 }
 
-export interface ChangeRequest<C, T> {
+export interface ChangeRequest<T extends RatingFull | Blogpost> {
   _id: ObjectId;
   author: string;
-  date: string | Date;
-  newValue: C;
+  date: string;
+  newValue: T;
   note?: string;
-  type: T;
+  type: T extends RatingFull
+    ? "rating"
+    : T extends Blogpost
+    ? "blogpost"
+    : "rating" | "blogpost";
 }
 
-export type RatingChangeRequest = ChangeRequest<RatingFull, "rating">;
+export type GeneralChangeRequest = ChangeRequest<RatingFull | Blogpost>;
 
-export type BlogpostChangeRequest = ChangeRequest<Blogpost, "blogpost">;
-
-export type GeneralChangeRequest = ChangeRequest<
-  RatingFull | Blogpost,
-  "rating" | "blogpost"
->;
-
-interface ChangeRequestApproveObject<T> {
+export interface ChangeRequestApproveObject<T> {
   changeRequestId: ObjectId;
   newValue: T;
 }
-
-export type ChangeRequestApproveRating = ChangeRequestApproveObject<RatingFull>;
-export type ChangeRequestApproveBlogpost = ChangeRequestApproveObject<Blogpost>;

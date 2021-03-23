@@ -19,7 +19,13 @@ import {
   Searchbar,
 } from "../../components";
 import { allProductCategories, ApiUrl, PAGE_SIZE } from "../../constants";
-import { useGet, useLocale, useSmallScreen, useUrlParam } from "../../hooks";
+import {
+  useGet,
+  useLocale,
+  usePut,
+  useSmallScreen,
+  useUrlParam,
+} from "../../hooks";
 import { URLParamValue } from "../../types";
 import { RatingsListData } from "../../types/ratings";
 import { urlParamToArray } from "../../utils";
@@ -83,6 +89,7 @@ function Ratings({}: Props): ReactElement {
     />
   ));
 
+  const { send } = usePut("ratings/iness-rocher");
   return (
     <Flex direction={["column", "column", "row"]}>
       {!isSmallScreen && (
@@ -98,6 +105,82 @@ function Ratings({}: Props): ReactElement {
           <ProductCategories {...{ categories, setCategories }} />
         </Box>
       )}
+      <button
+        type="button"
+        onClick={() =>
+          send({
+            changeRequestId: "6057ae56c6ad29407a75bf1b",
+            newValue: {
+              _id: "iness-rocher",
+              name: "Yves Rocher",
+              rating: {
+                overall: {
+                  lastChange: new Date(),
+                  total: 7.4,
+                  health: 6.3,
+                  ecology: 8.8,
+                  animals: 5.2,
+                  ethics: 9.2,
+                  description: {
+                    sk:
+                      "Yves rocher vyraba kozmetiku najma z prirodnych zloziek...",
+                    en:
+                      "Yves rocher uses mainly natural ingredients in its personal care products...",
+                  },
+                },
+                subCategories: [
+                  {
+                    categoryName: "hair_cleansing",
+                    lastChange: new Date(),
+                    total: 8.8,
+                    health: 9.3,
+                    ecology: 7.5,
+                    animals: 5.2,
+                    ethics: 9.2,
+                    description: {
+                      sk: "- produkty maju nereaktivne zlozenie",
+                      en:
+                        "- products contain toxic compounds that can irritate skin and kill good bacteria",
+                    },
+                  },
+                  {
+                    categoryName: "beauty_eyes",
+                    lastChange: new Date(),
+                    total: 6.8,
+                    health: 8.2,
+                    ecology: 6.9,
+                    animals: 5.2,
+                    ethics: 9.2,
+                    description: {
+                      sk: "- produkty maju nereaktivne zlozenie",
+                      en:
+                        "- products contain toxic compounds that can irritate skin and kill good bacteria",
+                    },
+                  },
+                  {
+                    categoryName: "skin_nourishing",
+                    lastChange: new Date(),
+                    total: 6.2,
+                    health: 5.4,
+                    ecology: 7.3,
+                    animals: 5.5,
+                    ethics: 9.2,
+                    description: {
+                      sk:
+                        "- niekotre latky nie su prirodneho povodu a mozu sposobit alergicku reakciu",
+                      en:
+                        "- some of the ingredients can cause allergic reaction and skin irritation",
+                    },
+                  },
+                ],
+              },
+              authors: ["petos"],
+            },
+          })
+        }
+      >
+        req
+      </button>
       <Box w="full" p={[4, 8, 0]} pl={[4, 8, 16]}>
         <Heading my={[2, 5]} size="lg">
           {Message.RATINGS}

@@ -97,5 +97,5 @@ export const sendLocalizedError = (
   locale: Locale
 ): void => {
   const error = localizedError(statusCode, locale);
-  res.status(403).json(error);
+  res.status(statusCode).json(error);
 };
