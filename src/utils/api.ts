@@ -8,7 +8,8 @@ export const makeRequest = async <T extends unknown>(
   onErrorCallback: (e: ResponseError) => void,
   locale: Locale,
   body?: CommonObject,
-  onSuccessCallback?: () => void
+  onSuccessCallback?: () => void,
+  disableCache?: boolean
 ): Promise<T | null> => {
   try {
     const response = await fetch(`/api/${url}`, {
@@ -16,10 +17,11 @@ export const makeRequest = async <T extends unknown>(
       headers: {
         "Content-type": "application/json; charset=UTF-8",
         "Accept-Language": locale,
+        ...(disableCache && { "Cache-Control": "no-store" }),
       },
       ...(body && { body: JSON.stringify(body) }),
     });
-    console.log(response);
+
     if (!response.ok) {
       onErrorCallback({
         status: response.status,
@@ -27,12 +29,14 @@ export const makeRequest = async <T extends unknown>(
       });
       return null;
     }
-
     if (onSuccessCallback) onSuccessCallback();
+    console.log(response);
 
-    if (response.status === 204) return null;
+    if (response.status === 204) {
+      return null;
+    }
 
-    return response.json();
+    return await response.json();
   } catch (error) {
     // TODO maybe replace with some generic error message 'something went wrong..'
     onErrorCallback({ status: 0, message: error.message });

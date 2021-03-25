@@ -1,15 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getBlogposts } from "../../../api/db/blogposts";
-import { asLocale, sendLocalizedError } from "../../../api/utils/locale";
+import { getBlogposts } from "../../../api/db";
+import { asLocale, sendLocalizedError } from "../../../api/utils";
 import { RequestMethod, SortOrder } from "../../../constants";
-import { ResponseError } from "../../../types/api";
-import { BlogpostsData } from "../../../types/ratings";
-import { parseInteger, parseString } from "../../../utils/common";
+import { BlogpostsData, ResponseError } from "../../../types";
+import { parseInteger, parseString } from "../../../utils";
 
-export default async (
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<BlogpostsData | ResponseError>
-): Promise<void> => {
+): Promise<void> {
   const locale = asLocale(req.headers["accept-language"]);
   const {
     query: { search, sortOrder, page },
@@ -30,6 +29,5 @@ export default async (
     default:
       res.setHeader("Allow", ["GET"]);
       sendLocalizedError(res, 405, locale);
-      break;
   }
-};
+}

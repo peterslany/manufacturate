@@ -7,6 +7,8 @@ import { makeRequest } from "../../utils";
 
 // TODO: move outside this file
 export interface UseRequestOptions<T> {
+  disableCache?: boolean;
+  disableDefaultErrorMessage?: boolean;
   errorLabelMapper?: (err: ResponseError) => string;
   initialValue?: T;
   successMessage?: string;
@@ -23,41 +25,60 @@ const useRequest = <T>(
   method: RequestMethod,
   options?: UseRequestOptions<T>
 ): UseRequestResult<T> => {
-  const [result, setResult] = useState<T | undefined>(options?.initialValue);
+  const [data, setData] = useState<T | undefined>(options?.initialValue);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ResponseError>();
 
   const errorAlert = useAlert("error");
-  // todo complete success message
-  // const successAlert = useAlert("success");
+
+  const successAlert = useAlert("success");
 
   const { locale, Message } = useLocale();
 
-  const handleError = useCallback(
+  const onError = useCallback(
     (err: ResponseError) => {
       setError(err);
-      const message =
-        err.status === 0
-          ? (Message.ERROR_DEFAULT_MESSAGE as string)
-          : `${err.status}: ${err.message}`;
-      errorAlert(message);
+      if (!options?.disableDefaultErrorMessage) {
+        const message =
+          err.status === 0
+            ? (Message.ERROR_DEFAULT_MESSAGE as string)
+            : `${err.status}: ${err.message}`;
+        errorAlert(message);
+      }
     },
-    [Message.ERROR_DEFAULT_MESSAGE, errorAlert]
+    [
+      Message.ERROR_DEFAULT_MESSAGE,
+      errorAlert,
+      options?.disableDefaultErrorMessage,
+    ]
   );
 
-  // const onSuccess = () => null; // TODO
+  const onSuccess = useCallback(() => {
+    setError(undefined);
+    if (options?.successMessage) {
+      successAlert(options.successMessage);
+    }
+  }, [options?.successMessage, successAlert]);
 
   const send = useCallback(
     async (body?: CommonObject) => {
       setLoading(true);
-      const data = await makeRequest<T>(url, method, handleError, locale, body);
-      if (data) setResult(data);
+      const response = await makeRequest<T>(
+        url,
+        method,
+        onError,
+        locale,
+        body,
+        onSuccess,
+        options?.disableCache
+      );
+      if (response) setData(response);
       setLoading(false);
     },
-    [url, method, handleError, locale]
+    [url, method, onError, locale, onSuccess]
   );
 
-  return { data: result, loading, error, send };
+  return { data, loading, error, send };
 };
 
 export default useRequest;

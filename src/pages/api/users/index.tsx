@@ -1,14 +1,60 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { createUser, getUsersList } from "../../../api/db";
+import {
+  asLocale,
+  checkToken,
+  dbUserToUser,
+  hashPassword,
+  sendLocalizedError,
+} from "../../../api/utils";
+import { RequestMethod } from "../../../constants";
+import { parseInteger, parseString } from "../../../utils";
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-  switch (req.method) {
-    case "GET":
-      console.log("returns users"); // only admin
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> {
+  const user = await checkToken(req);
+
+  const {
+    query: { search, page },
+    method,
+    body,
+  } = req;
+
+  const locale = asLocale(req.headers["accept-language"]);
+
+  if (!user?.isAdmin) {
+    sendLocalizedError(res, 403, locale);
+    return;
+  }
+
+  switch (method) {
+    case RequestMethod.GET: {
+      const [searchParsed, pageParsed] = [
+        parseString(search),
+        parseInteger(parseString(page)),
+      ];
+
+      const { count, users } = await getUsersList(searchParsed, pageParsed);
+
+      const result = { count, users: users.map(dbUserToUser) };
+
+      res.status(200).json(result);
       break;
-    case "POST":
-      console.log("creates new user"); // only admin
-      res.status(403);
+    }
+    case RequestMethod.POST:
+      try {
+        const { username, password } = body;
+        const passwordHash = hashPassword(password);
+        await createUser(username, passwordHash);
+        res.status(204).end();
+      } catch {
+        sendLocalizedError(res, 422, locale);
+      }
       break;
     default:
+      res.setHeader("Allow", ["GET", "POST"]);
+      sendLocalizedError(res, 405, locale);
   }
-};
+}

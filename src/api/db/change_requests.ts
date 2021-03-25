@@ -4,13 +4,16 @@ import {
   ChangeRequestApproveObject,
   GeneralChangeRequest,
   RatingFull,
-} from "../../types/ratings";
+} from "../../types";
+import { Collection } from "../constants";
 import database from "./db";
 
 export const deleteChangeRequest = async (id: string): Promise<void> => {
   const { db } = await database();
 
-  await db.collection("change_requests").deleteOne({ _id: new ObjectId(id) });
+  await db
+    .collection(Collection.CHANGE_REQUESTS)
+    .deleteOne({ _id: new ObjectId(id) });
 };
 
 export const updateChangeRequest = async (
@@ -20,7 +23,7 @@ export const updateChangeRequest = async (
   const { db } = await database();
 
   await db
-    .collection("change_requests")
+    .collection(Collection.CHANGE_REQUESTS)
     .replaceOne({ _id: new ObjectId(id) }, newChangeRequest);
 };
 
@@ -29,7 +32,9 @@ export const getChangeRequest = async (
 ): Promise<GeneralChangeRequest | null> => {
   const { db } = await database();
 
-  return db.collection("change_requests").findOne({ _id: new ObjectId(id) });
+  return db
+    .collection(Collection.CHANGE_REQUESTS)
+    .findOne({ _id: new ObjectId(id) });
 };
 
 export const getChangeRequests = async (
@@ -41,7 +46,11 @@ export const getChangeRequests = async (
 
   const query = { ...(getAll && { author: username }), ...(type && { type }) };
 
-  return db.collection("change_requests").find(query).limit(0).toArray();
+  return db
+    .collection(Collection.CHANGE_REQUESTS)
+    .find(query)
+    .limit(0)
+    .toArray();
 };
 
 export const createChangeRequest = async (
@@ -49,7 +58,7 @@ export const createChangeRequest = async (
 ): Promise<void> => {
   const { db } = await database();
 
-  await db.collection("change_requests").insertOne(newChangeRequest);
+  await db.collection(Collection.CHANGE_REQUESTS).insertOne(newChangeRequest);
 };
 
 // Approves change requests: puts new content into its public collection
@@ -59,7 +68,8 @@ export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
   id: T extends Blogpost ? ObjectId : string,
   type: T extends Blogpost ? "blogpost" : "rating"
 ): Promise<void> => {
-  const collectionName = `${type}s`;
+  const collectionName =
+    type === "blogpost" ? Collection.BLOGPOSTS : Collection.RATINGS;
 
   const { db, client } = await database();
 
@@ -73,7 +83,7 @@ export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
       });
 
       await db
-        .collection("change_requests")
+        .collection(Collection.CHANGE_REQUESTS)
         .deleteOne({ _id: new ObjectId(changeRequestId) }, { session });
     });
 
@@ -90,7 +100,8 @@ export const reverseToChangeRequest = async <T extends Blogpost | RatingFull>(
   type: T extends Blogpost ? "blogpost" : "rating",
   username: string
 ): Promise<void> => {
-  const collectionName = `${type}s`;
+  const collectionName =
+    type === "blogpost" ? Collection.BLOGPOSTS : Collection.RATINGS;
 
   const { db, client } = await database();
 
@@ -115,7 +126,7 @@ export const reverseToChangeRequest = async <T extends Blogpost | RatingFull>(
       };
 
       await db
-        .collection("change_requests")
+        .collection(Collection.CHANGE_REQUESTS)
         .insertOne(newChangeRequest, { session });
       await db.collection(collectionName).deleteOne({ _id: id }, { session });
     });

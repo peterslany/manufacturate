@@ -1,19 +1,18 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getRatingsList } from "../../../api/db";
-import { asLocale, sendLocalizedError } from "../../../api/utils/locale";
+import { asLocale, sendLocalizedError } from "../../../api/utils";
 import {
   RatingsSortFields,
   RequestMethod,
   SortOrder,
 } from "../../../constants";
-import { ResponseError } from "../../../types/api";
-import { RatingsListData } from "../../../types/ratings";
-import { parseInteger, parseString } from "../../../utils/common";
+import { RatingsListData, ResponseError } from "../../../types";
+import { parseInteger, parseString } from "../../../utils";
 
-export default async (
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<RatingsListData | ResponseError>
-): Promise<void> => {
+): Promise<void> {
   const locale = asLocale(req.headers["accept-language"]);
   const {
     query: { search, category, sortBy, sortOrder, page },
@@ -35,6 +34,5 @@ export default async (
     default:
       res.setHeader("Allow", ["GET"]);
       sendLocalizedError(res, 405, locale);
-      break;
   }
-};
+}

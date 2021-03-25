@@ -1,21 +1,19 @@
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getBlogpost } from "../../../api/db/blogposts";
 import {
   approveChangeRequest,
+  getBlogpost,
   reverseToChangeRequest,
-} from "../../../api/db/change_requests";
-import { checkToken } from "../../../api/utils/auth";
-import { asLocale, sendLocalizedError } from "../../../api/utils/locale";
+} from "../../../api/db";
+import { asLocale, checkToken, sendLocalizedError } from "../../../api/utils";
 import { RequestMethod } from "../../../constants";
-import { ResponseError } from "../../../types";
-import { Blogpost } from "../../../types/ratings";
-import { parseString } from "../../../utils/common";
+import { Blogpost, ResponseError } from "../../../types";
+import { parseString } from "../../../utils";
 
-export default async (
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Blogpost | ResponseError>
-): Promise<void> => {
+): Promise<void> {
   const {
     query: { id },
     method,
@@ -57,13 +55,14 @@ export default async (
       break;
 
     case RequestMethod.GET:
-      if (!blogpost) sendLocalizedError(res, 404, locale);
-      else {
+      if (!blogpost) {
+        sendLocalizedError(res, 404, locale);
+      } else {
         res.status(200).json(blogpost);
       }
       break;
 
-    // approves change request and creates/updates rating
+    // approves blogpost change request (contained in body) and creates/updates rating
     case RequestMethod.PUT:
       if (user?.isAdmin) {
         try {
@@ -91,4 +90,4 @@ export default async (
       res.setHeader("Allow", ["DELETE", "GET", "PUT"]);
       sendLocalizedError(res, 405, locale);
   }
-};
+}

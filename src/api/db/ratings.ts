@@ -1,9 +1,9 @@
 import { isString } from "lodash";
 import { PAGE_SIZE, RatingsSortFields, SortOrder } from "../../constants";
-import { RatingFull, RatingsListData } from "../../types/ratings";
-import { parseInteger } from "../../utils/common";
-import { ratingsSortableFields } from "../constants/db";
-import { getRatingsFieldPath } from "../utils/db";
+import { RatingFull, RatingsListData } from "../../types";
+import { parseInteger } from "../../utils";
+import { Collection, ratingsSortableFields } from "../constants";
+import { getRatingsFieldPath } from "../utils";
 import database from "./db";
 
 export const getRatingsList = async (
@@ -46,7 +46,7 @@ export const getRatingsList = async (
   const { db } = await database();
 
   const ratings = await db
-    .collection("ratings")
+    .collection(Collection.RATINGS)
     .find(query)
     .project(projections)
     .sort(sort)
@@ -54,7 +54,7 @@ export const getRatingsList = async (
     .skip(((pageNumber || 1) - 1) * PAGE_SIZE)
     .toArray();
 
-  const count = await db.collection("ratings").find(query).count();
+  const count = await db.collection(Collection.RATINGS).find(query).count();
 
   return { ratings, count };
 };
@@ -64,5 +64,5 @@ export const getRatingDetail = async (
 ): Promise<RatingFull | null> => {
   const { db } = await database();
 
-  return db.collection("ratings").findOne({ _id: name });
+  return db.collection(Collection.RATINGS).findOne({ _id: name });
 };

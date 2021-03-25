@@ -1,19 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-  getChangeRequest,
-  updateChangeRequest,
-} from "../../../api/db/change_requests";
-import { checkToken } from "../../../api/utils/auth";
-import { asLocale, sendLocalizedError } from "../../../api/utils/locale";
+import { getChangeRequest, updateChangeRequest } from "../../../api/db";
+import { asLocale, checkToken, sendLocalizedError } from "../../../api/utils";
 import { RequestMethod } from "../../../constants";
-import { ResponseError } from "../../../types/api";
-import { GeneralChangeRequest } from "../../../types/ratings";
-import { parseString } from "../../../utils/common";
+import { GeneralChangeRequest, ResponseError } from "../../../types";
+import { parseString } from "../../../utils";
 
-export default async (
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<GeneralChangeRequest | ResponseError>
-): Promise<void> => {
+): Promise<void> {
   const locale = asLocale(req.headers["accept-language"]);
   const {
     query: { id },
@@ -62,6 +57,5 @@ export default async (
     default:
       res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
       sendLocalizedError(res, 405, locale);
-      break;
   }
-};
+}

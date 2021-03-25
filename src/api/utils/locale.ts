@@ -1,14 +1,15 @@
 import { NextApiResponse } from "next";
 import { Locale } from "../../constants";
-import { ResponseError, SimpleLocaleMessage } from "../../types";
 import {
   RatingFull,
   RatingLocalized,
+  ResponseError,
+  SimpleLocaleMessage,
   SubCategoryRatingUnit,
-} from "../../types/ratings";
-import { parseString } from "../../utils/common";
+} from "../../types";
+import { parseString } from "../../utils";
 
-export const asLocale = (language?: string | string[]) => {
+export const asLocale = (language?: string | string[]): Locale => {
   const lang = parseString(language);
   switch (lang) {
     case Locale.en:

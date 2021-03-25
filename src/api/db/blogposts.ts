@@ -1,8 +1,9 @@
 import { ObjectId } from "mongodb";
-import database from ".";
 import { Locale, PAGE_SIZE, SortOrder } from "../../constants";
-import { Blogpost, BlogpostsData } from "../../types/ratings";
-import { parseInteger } from "../../utils/common";
+import { Blogpost, BlogpostsData } from "../../types";
+import { parseInteger } from "../../utils";
+import { Collection } from "../constants";
+import database from "./db";
 
 export const getBlogposts = async (
   locale: Locale,
@@ -25,8 +26,8 @@ export const getBlogposts = async (
 
   const { db } = await database();
 
-  const ratings = await db
-    .collection("blogposts")
+  const blogposts = await db
+    .collection(Collection.BLOGPOSTS)
     .find(query)
     .project({ content: 0 })
     .sort(sort)
@@ -34,13 +35,13 @@ export const getBlogposts = async (
     .skip(((pageNumber || 1) - 1) * PAGE_SIZE)
     .toArray();
 
-  const count = await db.collection("blogposts").find(query).count();
+  const count = await db.collection(Collection.BLOGPOSTS).find(query).count();
 
-  return { ratings, count };
+  return { blogposts, count };
 };
 
 export const getBlogpost = async (id?: string): Promise<Blogpost | null> => {
   const { db } = await database();
 
-  return db.collection("blogpost").findOne({ _id: new ObjectId(id) });
+  return db.collection(Collection.BLOGPOSTS).findOne({ _id: new ObjectId(id) });
 };

@@ -2,6 +2,7 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import { getUser } from "../../../api/db";
+import { checkPasswordAgainstHash } from "../../../api/utils";
 import { Token } from "../../../types";
 
 const secret = process.env.SECRET;
@@ -45,16 +46,15 @@ export default NextAuth({
       async authorize(credentials) {
         if (credentials.username && credentials.password) {
           const user = await getUser(credentials.username);
-          if (!user) throw "/auth/login/?error=invalid_credentials";
-          const {
-            _id: username,
-            name,
-            isAdmin,
-            passwordHash: correctHash,
-          } = user;
-          // TODO: hash password and then compare salted hashes
-          const hashToTest = credentials.password;
-          const areCredentialsValid = hashToTest === correctHash;
+          if (!user) {
+            throw "/auth/login/?error=invalid_credentials";
+          }
+          const { _id: username, name, isAdmin, passwordHash } = user;
+
+          const areCredentialsValid = await checkPasswordAgainstHash(
+            credentials.password,
+            passwordHash
+          );
 
           if (areCredentialsValid) {
             return { username, name, isAdmin };

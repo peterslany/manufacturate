@@ -56,7 +56,7 @@ function Ratings({}: Props): ReactElement {
   // TODO: change data assignment to initialvalue from props
   const {
     data: { ratings, count } = { ratings: [], count: 0 },
-  } = useGet<RatingsListData>(ApiUrl.RATINGS);
+  } = useGet<RatingsListData>(ApiUrl.RATINGS, { includeQueryString: true });
 
   const { Message, localizeMessage } = useLocale();
 
@@ -89,7 +89,7 @@ function Ratings({}: Props): ReactElement {
     />
   ));
 
-  const { send } = usePut("ratings/iness-rocher");
+  const { send } = usePut("ratings/iness-rocher", { successMessage: "OK!" });
   return (
     <Flex direction={["column", "column", "row"]}>
       {!isSmallScreen && (

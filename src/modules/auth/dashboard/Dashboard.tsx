@@ -11,28 +11,33 @@ import {
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
 import React, { ReactElement, useState } from "react";
-import { Button, TextField } from "../../../components";
+import { useLocale } from "../../../hooks";
 import withAuth from "../withAuth";
+import RatingForm from "./RatingForm";
+import UsersAdministration from "./usersAdministration/UsersAdministration";
 
 interface Props {}
 
 function Dashboard({}: Props): ReactElement {
-  const [session] = useSession(); // const [session, loading] = useSession();
+  const { Message } = useLocale();
+  const [session, loading] = useSession();
 
   const isAdmin = session?.user.isAdmin;
 
-  const [showUserAdministration, setShowUserAdministration] = useState(false);
+  const [showUsersAdministration, setShowUsersAdministration] = useState(false);
   // const [showRatingApproval, setShowRatingApproval] = useState(false);
 
   return (
     <Box mx={[2, 4, 8]} mt={[2, 4, 6]}>
-      <Alert status="warning" fontSize="lg">
-        <AlertIcon />V systéme je 7 zmien čakajúcich na schválenie.
+      <Alert my="4" status="warning" fontSize="lg">
+        <AlertIcon />V -=49496systéme je 7 zmien čakajúcich na schválenie.
       </Alert>
-      <Heading>Vitaj, {session?.user.name}</Heading>
+      <Heading>
+        {Message.WELCOME}, {session?.user.username}
+      </Heading>
       <Divider />
       <Text>
-        V tejto sekcii môžeš vytvárať a upravovať hodnotenia
+        Tu môžeš vytvárať a upravovať hodnotenia a blogy
         {isAdmin && ", spravovať užívateľov a schvaľovať zmeny"}.
       </Text>
       {/* TODO: put into it's own component and complete  */}
@@ -44,60 +49,25 @@ function Dashboard({}: Props): ReactElement {
               cursor="pointer"
               p="4"
               _hover={{ fontWeight: 600, textDecoration: "underline" }}
-              onClick={() => setShowUserAdministration((prev) => !prev)}
+              onClick={() => setShowUsersAdministration((prev) => !prev)}
             >
-              Správa užívateľov
+              {Message.USERS_ADMINISTRATION}
               <ChevronDownIcon
                 fontSize="xl"
-                {...(showUserAdministration && { transform: "rotate(180deg)" })}
+                {...(showUsersAdministration && {
+                  transform: "rotate(180deg)",
+                })}
               />
             </Flex>
 
-            <Collapse in={showUserAdministration} animateOpacity>
+            <Collapse in={showUsersAdministration} animateOpacity>
               <Divider />
-              <Flex
-                mx="4"
-                mb="8"
-                mt="4"
-                wrap="wrap"
-                justifyContent="space-between"
-              >
-                <Flex
-                  p="4"
-                  border="1px dashed gray"
-                  w={["full", "full", "60%"]}
-                >
-                  <TextField
-                    label="Hľadať podľa používateľského mena"
-                    onChange={console.log}
-                    name="username"
-                  />
-                  USER 1
-                </Flex>
-
-                <Box p="4" border="1px dashed gray" w={["full", "full", "35%"]}>
-                  <Heading size="md" pb="2" mb="2" borderBottom="1px solid">
-                    Vytvorenie nového účtu
-                  </Heading>
-                  <TextField
-                    label="Používateľské meno"
-                    onChange={console.log}
-                    name="new user's username"
-                  />
-                  <TextField
-                    label="Heslo"
-                    onChange={console.log}
-                    name="new user's password"
-                  />
-                  <Button layerStyle="outline" onClick={() => null}>
-                    Vytvoriť
-                  </Button>
-                </Box>
-              </Flex>
+              <UsersAdministration />
             </Collapse>
           </Box>
         </>
       )}
+      <RatingForm />
     </Box>
   );
 }

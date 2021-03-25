@@ -75,6 +75,7 @@ function Header(): ReactElement {
         <>
           <Button
             layerStyle="outline"
+            borderRadius="16px"
             p={0}
             onClick={openDrawer}
             {...(showSearchbar ? { mr: 4 } : {})}

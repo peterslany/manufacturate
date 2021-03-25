@@ -1,26 +1,25 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getRatingDetail } from "../../../api/db";
 import {
   approveChangeRequest,
+  getRatingDetail,
   reverseToChangeRequest,
-} from "../../../api/db/change_requests";
-import { checkToken } from "../../../api/utils/auth";
+} from "../../../api/db";
 import {
   asLocale,
+  checkToken,
   localizeRatingData,
   sendLocalizedError,
-} from "../../../api/utils/locale";
+} from "../../../api/utils";
 import { RequestMethod } from "../../../constants";
-import { ResponseError } from "../../../types";
-import { RatingFull, RatingLocalized } from "../../../types/ratings";
-import { parseString } from "../../../utils/common";
+import { RatingFull, RatingLocalized, ResponseError } from "../../../types";
+import { parseString } from "../../../utils";
 
-export default async (
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<
     RatingLocalized | RatingFull | ResponseError | { name: string }
   >
-): Promise<void> => {
+): Promise<void> {
   const {
     query: { name, localize },
     method,
@@ -36,10 +35,10 @@ export default async (
 
   switch (method) {
     case RequestMethod.GET:
-      if (!rating) sendLocalizedError(res, 404, locale);
-      else {
+      if (!rating) {
+        sendLocalizedError(res, 404, locale);
+      } else {
         const result = localize ? localizeRatingData(rating, locale) : rating;
-
         res.status(200).json(result);
       }
       break;
@@ -95,4 +94,4 @@ export default async (
       res.setHeader("Allow", ["DELETE", "GET", "PUT"]);
       sendLocalizedError(res, 405, locale);
   }
-};
+}

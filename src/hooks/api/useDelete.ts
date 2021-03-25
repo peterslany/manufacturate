@@ -1,9 +1,9 @@
 import { RequestMethod } from "../../constants";
 import useRequest, { UseRequestOptions, UseRequestResult } from "./useRequest";
 
-const usePut = <T>(
+const useDelete = <T>(
   url: string,
   options?: UseRequestOptions<T>
-): UseRequestResult<T> => useRequest(url, RequestMethod.PUT, options);
+): UseRequestResult<T> => useRequest(url, RequestMethod.DELETE, options);
 
-export default usePut;
+export default useDelete;

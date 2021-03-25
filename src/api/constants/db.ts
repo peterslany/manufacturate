@@ -2,7 +2,7 @@ import { RatingCategory, RatingsSortFields } from "../../constants";
 import { getRatingsFieldPath } from "../utils/db";
 
 export enum Collection {
-  BLOGPOSTS = "blog_posts",
+  BLOGPOSTS = "blogposts",
   CHANGE_REQUESTS = "change_requests",
   RATINGS = "ratings",
   USERS = "users",

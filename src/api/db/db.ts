@@ -1,4 +1,6 @@
 import { Db, MongoClient } from "mongodb";
+import { Collection } from "../constants";
+import { hashPassword } from "../utils";
 import blogpostsSchema from "./schema/blogposts.json";
 import changeRequestsSchema from "./schema/change_requests";
 import ratingsSchema from "./schema/ratings.json";
@@ -24,25 +26,38 @@ if (!dbName) {
 
 let initialized = false;
 
+const insertAdminUser = async (db: Db) => {
+  if (!(await db.collection(Collection.USERS).findOne({ _id: "admin" }))) {
+    const hashedPassword = hashPassword("admin");
+    await db.collection(Collection.USERS).insertOne({
+      _id: "admin",
+      isAdmin: true,
+      passwordHash: hashedPassword,
+      name: "Admininistrator",
+    });
+  }
+};
+
+// todo change to check if collection exists
 async function initializeDb(db: Db) {
   // creates collections with validation schema
   try {
-    await db.createCollection("blogposts", {
+    await db.createCollection(Collection.BLOGPOSTS, {
       validator: {
         $jsonSchema: blogpostsSchema,
       },
     });
-    await db.createCollection("change_requests", {
+    await db.createCollection(Collection.CHANGE_REQUESTS, {
       validator: {
         $jsonSchema: changeRequestsSchema,
       },
     });
-    await db.createCollection("ratings", {
+    await db.createCollection(Collection.RATINGS, {
       validator: {
         $jsonSchema: ratingsSchema,
       },
     });
-    await db.createCollection("users", {
+    await db.createCollection(Collection.USERS, {
       validator: {
         $jsonSchema: usersSchema,
       },
@@ -85,12 +100,15 @@ export default async function database(): Promise<{
 
   const db = await client.db(dbName);
 
-  if (!initialized) initializeDb(db);
+  if (!initialized) {
+    initializeDb(db);
+  }
 
   cachedClient = client;
   cachedDb = db;
 
-  // if (!indexesCreated) await createIndexes(db);
+  // if (!indexesCreated) {await createIndexes(db);}
+  await insertAdminUser(db);
 
   return { client, db };
 }

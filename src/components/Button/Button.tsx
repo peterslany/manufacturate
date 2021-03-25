@@ -8,9 +8,9 @@ import React, { ReactElement, ReactNode } from "react";
 import { addToColor } from "../../utils";
 
 interface ButtonProps extends ChakraButtonProps {
-  onClick: () => void;
   backgroundColor?: string;
   children: ReactNode;
+  onClick?: () => void;
 }
 
 function Button({
@@ -45,13 +45,15 @@ function Button({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    onClick();
+    if (onClick) {
+      onClick();
+    }
   };
   return (
     <ChakraButton
       disabled={isDisabled}
       p={4}
-      onClick={handleClick}
+      onClick={onClick && handleClick}
       background={variant === "outline" ? "inherit" : background}
       _hover={{ background: hoverBackground }}
       {...{ className, variant, type }}

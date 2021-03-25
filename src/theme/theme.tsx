@@ -67,7 +67,7 @@ const theme = extendTheme({
       200: "#8cf1a9",
       300: "#60ec82",
       400: "#35e76b",
-      500: "#1dcd5e",
+      500: "#38a168",
       600: "#2e825d",
       700: "#1f5d46",
       800: "#0f392c",
@@ -120,7 +120,7 @@ const theme = extendTheme({
       borderColor: "initial",
       borderRadius: 24,
       background: "transparent",
-      boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
+      boxShadow: "0 0 0 3px rgba(246, 72, 72, 0.8)",
     },
     glassLight: {
       backdropFilter: "blur(15px)",

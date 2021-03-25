@@ -1,6 +1,7 @@
 import { RatingCategory, RatingsSortFields } from "../../constants";
+import { User, UserDB } from "../../types";
 
-export const getRatingsFieldPath = (field: RatingsSortFields) => {
+export const getRatingsFieldPath = (field: RatingsSortFields): string => {
   switch (field) {
     case "manufacturer_name":
       return "name";
@@ -12,14 +13,14 @@ export const getRatingsFieldPath = (field: RatingsSortFields) => {
       return "rating.overall.ethics";
     case RatingCategory.HEALTH:
       return "rating.overall.health";
+    default:
     case RatingCategory.TOTAL:
       return "rating.overall.total";
   }
 };
 
-// export const getLocaleFields = (collection: Collection, ) => {
-//     switch(collection) {
-//         case Collection.RATINGS:
-//             switch
-//     }
-// }
+export const dbUserToUser = ({ _id, name, isAdmin }: UserDB): User => ({
+  username: _id,
+  name,
+  isAdmin,
+});

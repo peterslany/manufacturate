@@ -12,6 +12,7 @@ import {
   HEADER_HEIGHT,
   LocaleMessages,
   RatingCategory,
+  RatingsSortFields,
   ratingSubcategories,
   SortOrder,
 } from "../../constants";
@@ -33,7 +34,10 @@ function RatingsListHeader({
 }: Props): ReactElement {
   const isSmallScreen = useSmallScreen();
 
-  const listHeaderBg = useColorModeValue("glassLight", "glassDark");
+  const listHeaderColors = useColorModeValue(
+    ["gray.700", "gray.50"],
+    ["gray.300", "gray.900"]
+  );
 
   const { localizeMessage, Message } = useLocale();
   // TODO add sort type
@@ -62,7 +66,7 @@ function RatingsListHeader({
     label: LocaleMessage;
     maxW?: string;
     pl?: number;
-    value: any;
+    value: RatingsSortFields;
     width: string;
   }) {
     return (
@@ -100,8 +104,7 @@ function RatingsListHeader({
   }
 
   return isSmallScreen ? (
-    /* TODO: refactor for correct labels for accessability, put into own file and component
-            together with table head for desktop version */
+    /* TODO: refactor for correct labels for accessability, refactor to one Select component */
     <>
       <FormLabel htmlFor="sortBy">Zoradit podla</FormLabel>
       <Flex>
@@ -134,7 +137,8 @@ function RatingsListHeader({
     </>
   ) : (
     <Box
-      layerStyle={listHeaderBg}
+      bg={listHeaderColors[0]}
+      color={listHeaderColors[1]}
       mt="-1px"
       py="4"
       px="8"
