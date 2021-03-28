@@ -39,29 +39,39 @@ function Header(): ReactElement {
 
   const [session] = useSession();
 
-  const items = (session ? authHeaderItems : publicHeaderItems)
-    .filter(({ onlyInDrawer }) => !onlyInDrawer || isSmallScreen)
-    .map(({ path, subMenu, ...props }) => {
-      const Component = subMenu ? HeaderItemSubMenu : HeaderItem;
-      return (
-        <Component
-          key={path}
-          selected={route === path}
-          onItemClick={closeDrawer}
-          {...{
-            ...props,
-            path,
-            isSmallScreen,
-            ...{
-              subMenu: subMenu as HeaderItemSubMenuType,
-            },
-          }}
-        />
-      );
-    });
+  const items = (
+    <Flex
+      as="nav"
+      justify="space-evenly"
+      flex="1 auto"
+      direction={["column", "column", "row"]}
+    >
+      {(session ? authHeaderItems : publicHeaderItems)
+        .filter(({ onlyInDrawer }) => !onlyInDrawer || isSmallScreen)
+        .map(({ path, subMenu, ...props }) => {
+          const Component = subMenu ? HeaderItemSubMenu : HeaderItem;
+          return (
+            <Component
+              key={path}
+              selected={route === path}
+              onItemClick={closeDrawer}
+              {...{
+                ...props,
+                path,
+                isSmallScreen,
+                ...{
+                  subMenu: subMenu as HeaderItemSubMenuType,
+                },
+              }}
+            />
+          );
+        })}
+    </Flex>
+  );
 
   return (
     <Flex
+      as="header"
       h={HEADER_HEIGHT}
       align="center"
       justify="space-between"

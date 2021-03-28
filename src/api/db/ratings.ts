@@ -1,6 +1,10 @@
 import { isString } from "lodash";
-import { PAGE_SIZE, RatingsSortFields, SortOrder } from "../../constants";
-import { RatingFull, RatingsListData } from "../../types";
+import { PAGE_SIZE, SortOrder } from "../../constants";
+import {
+  RatingFull,
+  RatingsListData,
+  RatingsSortableFields,
+} from "../../types";
 import { parseInteger } from "../../utils";
 import { Collection, ratingsSortableFields } from "../constants";
 import { getRatingsFieldPath } from "../utils";
@@ -8,7 +12,7 @@ import database from "./db";
 
 export const getRatingsList = async (
   name?: string,
-  sortBy?: RatingsSortFields,
+  sortBy?: RatingsSortableFields,
   sortOrder?: SortOrder,
   productCategories?: string | string[],
   pageNumber?: number
@@ -21,9 +25,7 @@ export const getRatingsList = async (
   const query = {
     ...(name && { name: { $regex: `(?i)(?:$|^| )${name}` } }),
     ...(categories && {
-      $or: categories.map((category) => ({
-        "rating.subCategories": { $elemMatch: { categoryName: category } },
-      })),
+      subCategories: { $all: categories },
     }),
   };
 

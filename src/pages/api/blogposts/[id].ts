@@ -6,7 +6,7 @@ import {
   reverseToChangeRequest,
 } from "../../../api/db";
 import { asLocale, checkToken, sendLocalizedError } from "../../../api/utils";
-import { RequestMethod } from "../../../constants";
+import { ChangeRequestType, RequestMethod } from "../../../constants";
 import { Blogpost, ResponseError } from "../../../types";
 import { parseString } from "../../../utils";
 
@@ -41,7 +41,7 @@ export default async function handler(
           }
           await reverseToChangeRequest<Blogpost>(
             new ObjectId(parsedId),
-            "blogpost",
+            ChangeRequestType.BLOGPOST,
             user.username
           );
           res.status(204).end();
@@ -64,6 +64,12 @@ export default async function handler(
 
     // approves blogpost change request (contained in body) and creates/updates rating
     case RequestMethod.PUT:
+      /**
+       * BODY
+       * {
+       *  changeRequestId: string
+       * }
+       */
       if (user?.isAdmin) {
         try {
           if (!parsedId) {
@@ -71,9 +77,9 @@ export default async function handler(
           }
 
           await approveChangeRequest<Blogpost>(
-            body,
+            body.changeRequestId,
             new ObjectId(parsedId),
-            "blogpost"
+            ChangeRequestType.BLOGPOST
           );
           res.status(204).end();
           return;

@@ -1,6 +1,4 @@
-import { find, flatten } from "lodash";
-import { allProductCategories, Locale, RatingCategory } from "../../constants";
-import { LocaleMessage } from "../../types";
+import { RatingCategory } from "../../constants";
 
 /* eslint-disable import/prefer-default-export */
 export const getListItemRatingColor = (
@@ -21,12 +19,3 @@ export const getListItemRatingColor = (
       return !dark ? "gray.700" : "gray.100";
   }
 };
-
-export const getProductCategoryLabel = (categoryValue: string): LocaleMessage =>
-  find(flatten(allProductCategories.map(({ categories }) => categories)), {
-    value: categoryValue,
-  })?.label ||
-  (Object.keys(Locale).reduce(
-    (res, locale) => ({ [locale]: "", ...res }),
-    {}
-  ) as LocaleMessage);

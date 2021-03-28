@@ -11,9 +11,11 @@ import {
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
 import React, { ReactElement, useState } from "react";
+import { Button } from "../../../components";
+import { ChangeRequestType } from "../../../constants";
 import { useLocale } from "../../../hooks";
 import withAuth from "../withAuth";
-import RatingForm from "./RatingForm";
+import useChangeRequestFormModal from "./useChangeRequestFormModal";
 import UsersAdministration from "./usersAdministration/UsersAdministration";
 
 interface Props {}
@@ -25,12 +27,22 @@ function Dashboard({}: Props): ReactElement {
   const isAdmin = session?.user.isAdmin;
 
   const [showUsersAdministration, setShowUsersAdministration] = useState(false);
-  // const [showRatingApproval, setShowRatingApproval] = useState(false);
+  const [showChangeRequestApproval, setShowChangeRequestApproval] = useState(
+    false
+  );
+
+  const {
+    edit,
+    createFromContent,
+    createNew,
+    Component,
+  } = useChangeRequestFormModal();
 
   return (
     <Box mx={[2, 4, 8]} mt={[2, 4, 6]}>
       <Alert my="4" status="warning" fontSize="lg">
-        <AlertIcon />V -=49496systéme je 7 zmien čakajúcich na schválenie.
+        <AlertIcon />
+        {Message.ALERT_CHANGE_REQUESTS_WAITING}( 7 ).
       </Alert>
       <Heading>
         {Message.WELCOME}, {session?.user.username}
@@ -40,6 +52,18 @@ function Dashboard({}: Props): ReactElement {
         Tu môžeš vytvárať a upravovať hodnotenia a blogy
         {isAdmin && ", spravovať užívateľov a schvaľovať zmeny"}.
       </Text>
+      Moje zmeny ...
+      <Button onClick={() => createNew(ChangeRequestType.RATING)}>
+        NOVY CHANGE REQUEST
+      </Button>
+      <Button
+        onClick={() =>
+          edit("6060f86d6a6c91b598846b4f", ChangeRequestType.RATING)
+        }
+      >
+        UPRAVIT CHANGE REQUEST
+      </Button>
+      <br /> {/* todo: remove br later */}
       {/* TODO: put into it's own component and complete  */}
       {isAdmin && (
         <>
@@ -67,7 +91,13 @@ function Dashboard({}: Props): ReactElement {
           </Box>
         </>
       )}
-      <RatingForm />
+      {/* <ChangeRequestForm
+        contentType={ChangeRequestType.RATING}
+        mode={ChangeRequestFormMode.EDIT}
+        changeRequestId="606095f3739490e89038590f"
+      /> */}
+      {/* <Modal /> */}
+      <Component />
     </Box>
   );
 }

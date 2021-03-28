@@ -1,9 +1,9 @@
 import blogpostsSchema from "./blogposts.json";
-import ratingsSchema from "./ratings.json";
+import ratingsSchema from "./ratings";
 
 export default {
   bsonType: "object",
-  required: ["author", "date", "newValue", "type"],
+  required: ["author", "date", "content", "type"],
   properties: {
     author: {
       bsonType: "string",
@@ -13,7 +13,7 @@ export default {
       bsonType: "string",
       description: "must be an ISOString date and is required",
     },
-    newValue: {
+    content: {
       anyOf: [ratingsSchema, blogpostsSchema],
       description:
         "is object with schema of rating or blogpost and is required",

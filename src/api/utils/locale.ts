@@ -1,11 +1,11 @@
 import { NextApiResponse } from "next";
-import { Locale } from "../../constants";
+import { Locale, ProductCategory } from "../../constants";
 import {
   RatingFull,
   RatingLocalized,
   ResponseError,
   SimpleLocaleMessage,
-  SubCategoryRatingUnit,
+  SubCategoriesRating,
 } from "../../types";
 import { parseString } from "../../utils";
 
@@ -22,31 +22,30 @@ export const asLocale = (language?: string | string[]): Locale => {
 };
 
 export const localizeRatingData = (
-  rating: RatingFull,
+  data: RatingFull,
   locale: Locale
-): RatingLocalized => {
-  const result: RatingLocalized = {
-    ...rating,
-    rating: {
-      ...rating.rating,
-      overall: {
-        ...rating.rating.overall,
-        description: rating.rating.overall.description[locale],
-      },
-      subCategories: rating.rating.subCategories.map(
-        ({
-          description,
-          ...rest
-        }: SubCategoryRatingUnit<SimpleLocaleMessage>) => ({
-          ...rest,
-          description: description[locale],
-        })
-      ),
+): RatingLocalized => ({
+  ...data,
+  rating: {
+    ...data.rating,
+    overall: {
+      ...data.rating.overall,
+      description: data.rating.overall.description[locale],
     },
-  };
-
-  return result;
-};
+    subCategories: Object.keys(data.rating.subCategories).reduce(
+      (result, subCategory) => ({
+        ...result,
+        [subCategory]: {
+          ...data.rating.subCategories[subCategory as ProductCategory],
+          description:
+            data.rating.subCategories[subCategory as ProductCategory]
+              .description[locale],
+        },
+      }),
+      {} as SubCategoriesRating<string>
+    ),
+  },
+});
 
 const localizeMessage = (message: SimpleLocaleMessage, locale: Locale) =>
   message[locale];

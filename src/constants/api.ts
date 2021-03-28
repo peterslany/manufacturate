@@ -7,7 +7,7 @@ export enum RequestMethod {
 
 export enum ApiUrl {
   BLOGPOSTS = "blogposts",
-  CHANGE_REQEUSTS = "change-requests",
+  CHANGE_REQUESTS = "change-requests",
   RATINGS = "ratings",
   USERS = "users",
 }

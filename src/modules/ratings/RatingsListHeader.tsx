@@ -1,23 +1,20 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  FormLabel,
-  Select,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
+import { Select } from "../../components";
 import {
   HEADER_HEIGHT,
   LocaleMessages,
   RatingCategory,
-  RatingsSortFields,
   ratingSubcategories,
   SortOrder,
 } from "../../constants";
 import { useLocale, useSmallScreen } from "../../hooks";
-import { LocaleMessage, URLParamValue } from "../../types";
+import {
+  LocaleMessage,
+  RatingsSortableFields,
+  URLParamValue,
+} from "../../types";
 
 interface Props {
   setSortBy: (newValue: URLParamValue) => void;
@@ -32,6 +29,8 @@ function RatingsListHeader({
   setSortBy,
   setSortOrder,
 }: Props): ReactElement {
+  const { localizeMessage, Message } = useLocale();
+
   const isSmallScreen = useSmallScreen();
 
   const listHeaderColors = useColorModeValue(
@@ -39,9 +38,7 @@ function RatingsListHeader({
     ["gray.300", "gray.900"]
   );
 
-  const { localizeMessage, Message } = useLocale();
-  // TODO add sort type
-  const handleSort = (field: string) => {
+  const handleSort = (field: RatingsSortableFields) => {
     if (sortBy === field) {
       setSortOrder(
         sortOrder === SortOrder.ASCENDING
@@ -53,32 +50,36 @@ function RatingsListHeader({
     }
   };
 
-  // TODO add sort type value to value
   function RatingsListHeadItem({
     label,
-    width,
+    w,
     value,
     pl = 0,
     maxW,
-    align,
+    justify,
   }: {
-    align?: "center" | undefined;
+    justify?: "center" | undefined;
     label: LocaleMessage;
     maxW?: string;
-    pl?: number;
-    value: RatingsSortFields;
-    width: string;
+    pl?: number | string;
+    value: RatingsSortableFields;
+    w: string;
   }) {
     return (
       <Flex
-        key={value}
-        w={width}
+        {...{
+          key: value,
+        }}
+        w={w}
         maxW={maxW}
         pl={pl}
-        justifyContent={align}
-        alignItems="center"
+        justify={justify}
+        align="center"
       >
         <Text
+          {...{
+            onClick: () => handleSort(value),
+          }}
           fontWeight="semibold"
           display="flex"
           wordBreak="break-all"
@@ -86,9 +87,8 @@ function RatingsListHeader({
             textDecoration: "underline",
             textDecorationColor: "green",
           }}
-          {...(sortBy === value ? { textDecoration: "underline" } : {})}
+          textDecoration={sortBy === value ? "underline" : undefined}
           cursor="pointer"
-          onClick={() => handleSort(value)}
         >
           {localizeMessage(label)}
         </Text>
@@ -103,36 +103,48 @@ function RatingsListHeader({
     );
   }
 
+  // TODO: move to constants?
+  const sortByOptions = [
+    {
+      label: Message.RATING,
+      value: RatingCategory.TOTAL,
+    },
+    {
+      label: Message.MANUFACTURER_NAME,
+      value: "manufacturer_name",
+    },
+    ...ratingSubcategories.map(({ label, subCategory }) => ({
+      label: localizeMessage(label),
+      value: subCategory,
+    })),
+  ];
+
+  const sortOrderOptions = [
+    {
+      label: Message.ASCENDING,
+      value: SortOrder.ASCENDING,
+    },
+    {
+      label: Message.DESCENDING,
+      value: SortOrder.DESCENDING,
+    },
+  ];
   return isSmallScreen ? (
     /* TODO: refactor for correct labels for accessability, refactor to one Select component */
     <>
-      <FormLabel htmlFor="sortBy">Zoradit podla</FormLabel>
-      <Flex>
-        <Select
-          layerStyle="outline"
+      <Flex justify="space-between">
+        <Select<string>
           name="sortBy"
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-            setSortBy(event.target.value)
-          }
-        >
-          <option value={RatingCategory.TOTAL}>{Message.RATING}</option>
-          <option value="manufacturer_name">{Message.MANUFACTURER_NAME}</option>
-          {ratingSubcategories.map(({ label, subcategory }) => (
-            <option key={subcategory} value={subcategory}>
-              {localizeMessage(label)}
-            </option>
-          ))}
-        </Select>
-        <Select
-          layerStyle="outline"
-          name="sortMode"
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-            setSortOrder(event.target.value)
-          }
-        >
-          <option value={SortOrder.DESCENDING}>Zostupne</option>
-          <option value={SortOrder.ASCENDING}>Vzostupne</option>
-        </Select>
+          options={sortByOptions}
+          onChange={setSortBy}
+          label={Message.SORT_BY}
+        />
+        <Select<SortOrder>
+          name="sortOrder"
+          options={sortOrderOptions}
+          onChange={setSortOrder}
+          label={Message.SORT_ORDER}
+        />
       </Flex>
     </>
   ) : (
@@ -149,25 +161,31 @@ function RatingsListHeader({
       zIndex="1"
     >
       <RatingsListHeadItem
-        label={LocaleMessages.RATING}
-        value={RatingCategory.TOTAL}
-        width="14%"
+        {...{
+          label: LocaleMessages.RATING,
+          value: RatingCategory.TOTAL,
+        }}
+        w="14%"
         maxW="115px"
       />
       <RatingsListHeadItem
-        label={LocaleMessages.MANUFACTURER_NAME}
-        value="manufacturer_name"
-        width="30%"
-        pl={2}
+        {...{
+          label: LocaleMessages.MANUFACTURER_NAME,
+          value: "manufacturer_name",
+        }}
+        w="30%"
+        pl="2"
       />
       <Flex w="56%" justify="space-between">
-        {ratingSubcategories.map(({ label, subcategory }) => (
+        {ratingSubcategories.map(({ label, subCategory: subcategory }) => (
           <RatingsListHeadItem
             key={subcategory}
-            label={label}
-            value={subcategory}
-            width="25%"
-            align="center"
+            {...{
+              label,
+              value: subcategory,
+            }}
+            w="25%"
+            justify="center"
           />
         ))}
       </Flex>

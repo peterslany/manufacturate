@@ -1,7 +1,8 @@
+import { Center } from "@chakra-ui/react";
 import { debounce, isEmpty } from "lodash";
 import React, { ReactElement, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button, TextField } from "../../../../components";
+import { Button, Input } from "../../../../components";
 import { ApiUrl } from "../../../../constants";
 import { useLocale, usePost } from "../../../../hooks";
 
@@ -47,7 +48,7 @@ function CreateUser({ onCreateCallback }: Props): ReactElement {
 
   return (
     <form onSubmit={handleFormSubmit}>
-      <TextField
+      <Input
         ref={register({
           required: Message.ERROR_FORM_REQUIRED_FIELD,
           validate: async (value) =>
@@ -57,8 +58,9 @@ function CreateUser({ onCreateCallback }: Props): ReactElement {
         errors={errors}
         label={Message.USERNAME}
         name="username"
+        type="text"
       />
-      <TextField
+      <Input
         ref={register({
           required: Message.ERROR_FORM_REQUIRED_FIELD,
         })}
@@ -68,7 +70,7 @@ function CreateUser({ onCreateCallback }: Props): ReactElement {
         type="password"
         errors={errors}
       />
-      <TextField
+      <Input
         ref={register({
           validate: (value) =>
             value === watchPassword || Message.ERROR_FORM_PASSWORDS_DONT_MATCH,
@@ -79,9 +81,17 @@ function CreateUser({ onCreateCallback }: Props): ReactElement {
         type="password"
         errors={errors}
       />
-      <Button isDisabled={!isEmpty(errors)} type="submit" layerStyle="outline">
-        {Message.CREATE}
-      </Button>
+      <Center>
+        <Button
+          mt="4"
+          px="8"
+          isDisabled={!isEmpty(errors)}
+          type="submit"
+          layerStyle="outline"
+        >
+          {Message.CREATE}
+        </Button>
+      </Center>
     </form>
   );
 }

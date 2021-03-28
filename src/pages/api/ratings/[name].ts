@@ -10,7 +10,7 @@ import {
   localizeRatingData,
   sendLocalizedError,
 } from "../../../api/utils";
-import { RequestMethod } from "../../../constants";
+import { ChangeRequestType, RequestMethod } from "../../../constants";
 import { RatingFull, RatingLocalized, ResponseError } from "../../../types";
 import { parseString } from "../../../utils";
 
@@ -56,7 +56,7 @@ export default async function handler(
           }
           await reverseToChangeRequest<RatingFull>(
             parsedName,
-            "rating",
+            ChangeRequestType.RATING,
             user.username
           );
           res.status(204).end();
@@ -71,13 +71,23 @@ export default async function handler(
 
     // approves change-requests and creates/updates rating
     case RequestMethod.PUT:
+      /**
+       * BODY:
+       * {
+       *  changeRequestId: string
+       * }
+       */
       if (user?.isAdmin) {
         try {
           if (!parsedName) {
             throw new Error(`${name} is not valid name of manufacturer.`);
           }
 
-          await approveChangeRequest<RatingFull>(body, parsedName, "rating");
+          await approveChangeRequest<RatingFull>(
+            body.changeRequestId,
+            parsedName,
+            ChangeRequestType.RATING
+          );
           res.setHeader("Location", `/ratings/${name}`);
           res.status(201).json({ name: parsedName });
           return;

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createChangeRequest, getChangeRequests } from "../../../api/db";
 import { asLocale, checkToken, sendLocalizedError } from "../../../api/utils";
-import { RequestMethod } from "../../../constants";
+import { ChangeRequestType, RequestMethod } from "../../../constants";
 import { GeneralChangeRequest, ResponseError } from "../../../types";
 
 export default async function handler(
@@ -28,7 +28,9 @@ export default async function handler(
       const getAllRequests = Boolean(all && user.isAdmin);
 
       const parsedType =
-        type === "blogpost" || type === "rating" ? type : undefined;
+        type === ChangeRequestType.BLOGPOST || type === ChangeRequestType.RATING
+          ? type
+          : undefined;
 
       const changeRequests = await getChangeRequests(
         user.username,
@@ -41,6 +43,9 @@ export default async function handler(
     }
 
     case RequestMethod.POST:
+      /**
+       * BODY : GeneralChangeRequest
+       */
       try {
         await createChangeRequest(body);
         res.status(204).end();

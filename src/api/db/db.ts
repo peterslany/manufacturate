@@ -3,7 +3,7 @@ import { Collection } from "../constants";
 import { hashPassword } from "../utils";
 import blogpostsSchema from "./schema/blogposts.json";
 import changeRequestsSchema from "./schema/change_requests";
-import ratingsSchema from "./schema/ratings.json";
+import ratingsSchema from "./schema/ratings";
 import usersSchema from "./schema/users.json";
 
 const uri: string | undefined = process.env.MONGODB_URI;

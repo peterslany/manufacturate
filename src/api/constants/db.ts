@@ -1,4 +1,5 @@
-import { RatingCategory, RatingsSortFields } from "../../constants";
+import { RatingCategory } from "../../constants";
+import { RatingsSortableFields } from "../../types";
 import { getRatingsFieldPath } from "../utils/db";
 
 export enum Collection {
@@ -11,4 +12,4 @@ export enum Collection {
 export const ratingsSortableFields = [
   "manufacturer_name",
   ...Object.values(RatingCategory),
-].map((field) => getRatingsFieldPath(field as RatingsSortFields));
+].map((field) => getRatingsFieldPath(field as RatingsSortableFields));

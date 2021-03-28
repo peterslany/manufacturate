@@ -1,7 +1,7 @@
-import { RatingCategory, RatingsSortFields } from "../../constants";
-import { User, UserDB } from "../../types";
+import { RatingCategory } from "../../constants";
+import { RatingsSortableFields, User, UserDB } from "../../types";
 
-export const getRatingsFieldPath = (field: RatingsSortFields): string => {
+export const getRatingsFieldPath = (field: RatingsSortableFields): string => {
   switch (field) {
     case "manufacturer_name":
       return "name";

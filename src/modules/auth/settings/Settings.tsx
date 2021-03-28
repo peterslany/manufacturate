@@ -3,7 +3,7 @@ import { isEmpty } from "lodash";
 import { useSession } from "next-auth/client";
 import React, { ReactElement, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button, TextField } from "../../../components";
+import { Button, Input } from "../../../components";
 import { ApiUrl } from "../../../constants";
 import { useGet, useLocale, usePut } from "../../../hooks";
 import { User } from "../../../types";
@@ -63,16 +63,16 @@ function Settings({}: Props): ReactElement {
         <Heading>{Message.ACCOUNT_SETTINGS}</Heading>
         <Divider my="2" />
         <form onSubmit={handleChangeSubmit}>
-          <TextField
+          <Input
             label={Message.USERNAME}
             name="username"
             type="text"
-            isDisabled
+            isReadOnly
             defaultValue={session?.user.username}
           />
 
-          <TextField label="Name" name="name" type="text" ref={register} />
-          <TextField
+          <Input label="Name" name="name" type="text" ref={register} />
+          <Input
             ref={register({
               minLength: {
                 value: 8,
@@ -85,7 +85,7 @@ function Settings({}: Props): ReactElement {
             type="password"
             errors={errors}
           />
-          <TextField
+          <Input
             ref={register({
               validate: (value) =>
                 value === watchPassword ||
@@ -97,9 +97,15 @@ function Settings({}: Props): ReactElement {
             type="password"
             errors={errors}
           />
-          <Button layerStyle="outline" isDisabled={!allowSubmit} type="submit">
-            {Message.SAVE_CHANGES}
-          </Button>
+          <Center mt="4">
+            <Button
+              layerStyle="outline"
+              isDisabled={!allowSubmit}
+              type="submit"
+            >
+              {Message.SAVE_CHANGES}
+            </Button>
+          </Center>
         </form>
       </Box>
     </Center>

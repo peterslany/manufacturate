@@ -8,7 +8,7 @@ interface Props {}
 function Footer({}: Props): ReactElement {
   const [session] = useSession();
   return (
-    <Flex p="8" bg="yellow.200">
+    <Flex as="footer" p="8" bg="yellow.200">
       FOOTER
       {session?.user.username}
       <Link ml="8" href="/auth/login">

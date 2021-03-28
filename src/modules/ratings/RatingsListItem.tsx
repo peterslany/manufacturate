@@ -62,7 +62,7 @@ function RatingsListItem({ name, rating }: Props): ReactElement {
         </Text>
       </Flex>
       <Flex wrap="wrap" p="2" pt="0">
-        {ratingSubcategories.map(({ subcategory, label }) => (
+        {ratingSubcategories.map(({ subCategory: subcategory, label }) => (
           <Center
             key={subcategory}
             w="25%"
@@ -102,7 +102,7 @@ function RatingsListItem({ name, rating }: Props): ReactElement {
         {name}
       </Text>
       <Flex w="56%" justify="space-between">
-        {ratingSubcategories.map(({ subcategory }) => (
+        {ratingSubcategories.map(({ subCategory: subcategory }) => (
           <Center key={subcategory} w="25%">
             <RatingBox category={subcategory} value={rating?.[subcategory]} />
           </Center>

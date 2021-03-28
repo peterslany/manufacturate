@@ -45,7 +45,8 @@ export default async function handler(
       try {
         await updateChangeRequest(parsedId, body);
         res.status(204).end();
-      } catch {
+      } catch (e) {
+        console.log(e);
         sendLocalizedError(res, 422, locale);
       }
       break;

@@ -1,4 +1,6 @@
+import { flatten } from "lodash";
 import { LocaleMessage } from "../types/locale";
+import { Locale } from "./locale";
 
 /* eslint-disable import/prefer-default-export */
 enum ProductSupercategory {
@@ -7,6 +9,26 @@ enum ProductSupercategory {
   HAIR = "HAIR",
   SKIN = "SKIN",
 }
+
+export enum ProductCategory {
+  BEAUTY_EYES = "beauty_eyes",
+  BEAUTY_FACE = "beauty_face",
+  BEAUTY_LIPS = "beauty_lips",
+  BEAUTY_NAILS = "beauty_nails",
+  BEAUTY_OTHER = "beauty_other",
+  FRAGRANCE_DEODORANT = "fragrance_deodorant",
+  FRAGRANCE_PARFUME = "fragrance_parfume",
+  HAIR_CLEANSING = "hair_cleansing",
+  HAIR_FACIAL = "hair_facial",
+  HAIR_STYLING = "hair_styling",
+  SKIN_BABY = "skin_baby",
+  SKIN_CLEANSING = "skin_cleansing",
+  SKIN_NOURISHING = "skin_nourishing",
+  SKIN_SUN_PROTECTION = "skin_sunProtection",
+  SKIN_TREATEMENT = "skin_treatment",
+}
+
+export const productCategoryValues = Object.values(ProductCategory);
 
 export const allProductCategories: {
   categories: {
@@ -28,15 +50,15 @@ export const allProductCategories: {
           sk: "Úprava",
           en: "Styling",
         },
-        value: "hair_styling",
+        value: ProductCategory.HAIR_STYLING,
       },
       {
         label: { sk: "Čistiace", en: "Cleansing" },
-        value: "hair_cleansing",
+        value: ProductCategory.HAIR_CLEANSING,
       },
       {
         label: { sk: "Ochlpenie tváre", en: "Facial hair" },
-        value: "hair_facial",
+        value: ProductCategory.HAIR_FACIAL,
       },
     ],
   },
@@ -46,23 +68,23 @@ export const allProductCategories: {
     categories: [
       {
         label: { sk: "Ochrana proti slnku", en: "Sun protection" },
-        value: "skin_sunProtection",
+        value: ProductCategory.SKIN_SUN_PROTECTION,
       },
       {
         label: { sk: "Čistiace", en: "Cleansing" },
-        value: "skin_cleansing",
+        value: ProductCategory.SKIN_CLEANSING,
       },
       {
         label: { sk: "Vyživujúce", en: "Nourishing" },
-        value: "skin_nourishing",
+        value: ProductCategory.SKIN_NOURISHING,
       },
       {
         label: { sk: "Liečivé", en: "Treatment" },
-        value: "skin_treatment",
+        value: ProductCategory.SKIN_TREATEMENT,
       },
       {
         label: { sk: "Detské", en: "Baby" },
-        value: "skin_baby",
+        value: ProductCategory.SKIN_BABY,
       },
     ],
   },
@@ -72,23 +94,23 @@ export const allProductCategories: {
     categories: [
       {
         label: { sk: "Nechty", en: "Nails" },
-        value: "beauty_nails",
+        value: ProductCategory.BEAUTY_NAILS,
       },
       {
         label: { sk: "Tvár / make-up", en: "Face / make-up" },
-        value: "beauty_face",
+        value: ProductCategory.BEAUTY_FACE,
       },
       {
         label: { sk: "Pery", en: "Lips" },
-        value: "beauty_lips",
+        value: ProductCategory.BEAUTY_LIPS,
       },
       {
         label: { sk: "Oči", en: "Eyes" },
-        value: "beauty_eyes",
+        value: ProductCategory.BEAUTY_EYES,
       },
       {
         label: { sk: "Ostatné", en: "Other" },
-        value: "beauty_other",
+        value: ProductCategory.BEAUTY_OTHER,
       },
     ],
   },
@@ -98,15 +120,32 @@ export const allProductCategories: {
     categories: [
       {
         label: { sk: "Deodoranty", en: "Deodorants" },
-        value: "fragrance_deodorant",
+        value: ProductCategory.FRAGRANCE_DEODORANT,
       },
       {
         label: { sk: "Parfumy", en: "Parfumes" },
-        value: "fragrance_parfume",
+        value: ProductCategory.FRAGRANCE_PARFUME,
       },
     ],
   },
 ];
+
+export const allProductCategoriesFlattened = flatten(
+  allProductCategories.map(({ categories, label: mainCategoryLabel }) =>
+    categories.map(({ value, label }) => ({
+      value,
+      label: Object.keys(label).reduce(
+        (res, locale) => ({
+          ...res,
+          [locale]: `${mainCategoryLabel[locale as Locale]} - ${
+            label[locale as Locale]
+          }`,
+        }),
+        {} as LocaleMessage
+      ),
+    }))
+  )
+);
 
 export enum RatingCategory {
   ANIMALS = "animals",
@@ -118,18 +157,16 @@ export enum RatingCategory {
 
 export const ratingSubcategories = [
   {
-    subcategory: RatingCategory.HEALTH,
+    subCategory: RatingCategory.HEALTH,
     label: { sk: "Zdravie", en: "Health" },
   },
   {
-    subcategory: RatingCategory.ECOLOGY,
+    subCategory: RatingCategory.ECOLOGY,
     label: { sk: "Ekológia", en: "Ecology" },
   },
   {
-    subcategory: RatingCategory.ANIMALS,
+    subCategory: RatingCategory.ANIMALS,
     label: { sk: "Zvieratá", en: "Animals" },
   },
-  { subcategory: RatingCategory.ETHICS, label: { sk: "Etika", en: "Ethics" } },
+  { subCategory: RatingCategory.ETHICS, label: { sk: "Etika", en: "Ethics" } },
 ];
-
-export type RatingsSortFields = "manufacturer_name" | RatingCategory;

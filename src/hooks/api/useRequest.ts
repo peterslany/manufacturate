@@ -11,6 +11,7 @@ export interface UseRequestOptions<T> {
   disableDefaultErrorMessage?: boolean;
   errorLabelMapper?: (err: ResponseError) => string;
   initialValue?: T;
+  onSuccessCallback?: () => void;
   successMessage?: string;
 }
 export type UseRequestResult<T> = {
@@ -58,7 +59,10 @@ const useRequest = <T>(
     if (options?.successMessage) {
       successAlert(options.successMessage);
     }
-  }, [options?.successMessage, successAlert]);
+    if (options?.onSuccessCallback) {
+      options.onSuccessCallback();
+    }
+  }, [options?.onSuccessCallback, options?.successMessage, successAlert]);
 
   const send = useCallback(
     async (body?: CommonObject) => {

@@ -1,23 +1,19 @@
 import { ObjectId } from "mongodb";
+import { ChangeRequestType } from "../constants";
 import { Blogpost } from "./blogposts";
 import { RatingFull } from "./ratings";
 
 export interface ChangeRequest<T extends RatingFull | Blogpost> {
   _id: ObjectId;
   author: string;
+  content: T;
   date: string;
-  newValue: T;
   note?: string;
   type: T extends RatingFull
-    ? "rating"
+    ? ChangeRequestType.RATING
     : T extends Blogpost
-    ? "blogpost"
-    : "rating" | "blogpost";
+    ? ChangeRequestType.BLOGPOST
+    : ChangeRequestType;
 }
 
 export type GeneralChangeRequest = ChangeRequest<RatingFull | Blogpost>;
-
-export interface ChangeRequestApproveObject<T> {
-  changeRequestId: ObjectId;
-  newValue: T;
-}

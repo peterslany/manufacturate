@@ -59,7 +59,7 @@ function HeaderItemSubMenu({
                   pl: 6,
                 },
               })}
-          key={JSON.stringify(localizeMessage(label))}
+          key={localizeMessage(bodyItemLabel)}
         >
           <Heading
             whiteSpace="nowrap"

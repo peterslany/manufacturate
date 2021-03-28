@@ -1,12 +1,17 @@
-import { Divider, Flex } from "@chakra-ui/react";
+import { Box, Divider, Flex } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
 import { DeepMap, FieldError } from "react-hook-form";
-import { TextField } from "../../../components";
-import { LocaleMessages, ratingSubcategories } from "../../../constants";
+import { Input } from "../../../components";
+import {
+  Locale,
+  LocaleMessages,
+  ratingSubcategories,
+} from "../../../constants";
 import { useLocale } from "../../../hooks";
+import { RatingFull } from "../../../types";
 
 interface Props {
-  errors: DeepMap<Record<string, unknown>, FieldError>;
+  errors: DeepMap<RatingFull, FieldError>;
   label: string;
   name: string;
   register: any;
@@ -21,21 +26,25 @@ function RatingUnitForm({
   const { Message, localizeMessage } = useLocale();
 
   const ratingTypes = [
-    { subcategory: "total", label: LocaleMessages.TOTAL },
+    { subCategory: "total", label: LocaleMessages.TOTAL },
     ...ratingSubcategories,
   ];
+
   return (
-    <>
-      <strong>{label}</strong>
-      <Divider />
-      <Flex wrap="wrap" justify="space-between">
-        {ratingTypes.map(({ subcategory, label: ratingLabel }) => (
-          <TextField
+    <Box p={["8", "16"]}>
+      <strong>
+        {Message.RATING}: {label}
+      </strong>
+      <Divider mb="4" />
+      <Flex wrap="wrap">
+        {ratingTypes.map(({ subCategory, label: ratingLabel }) => (
+          <Input
             w={["120px", "180px"]}
             mr={["2", "8"]}
-            key={`${name}.${subcategory}`}
-            name={`${name}.${subcategory}`}
+            key={`${name}.${subCategory}`}
+            name={`${name}.${subCategory}`}
             ref={register({
+              valueAsNumber: true,
               required: Message.ERROR_FORM_REQUIRED_FIELD,
               min: { value: 0, message: Message.ERROR_FORM_MIN_VALUE_0 },
               max: { value: 10, message: Message.ERROR_FORM_MAX_VALUE_10 },
@@ -46,17 +55,20 @@ function RatingUnitForm({
           />
         ))}
       </Flex>
-      {/* TODO: put MD editor in here */}
-      <TextField
-        name={`${name}.description`}
-        ref={register({
-          required: Message.ERROR_FORM_REQUIRED_FIELD,
-        })}
-        type="text"
-        label={Message.DESCRIPTION}
-        errors={errors}
-      />
-    </>
+      {/* TODO: put MD editor in here, put both locales */}
+      {Object.keys(Locale).map((locale) => (
+        <Input
+          key={locale}
+          name={`${name}.description.${locale}`}
+          ref={register({
+            required: Message.ERROR_FORM_REQUIRED_FIELD,
+          })}
+          type="text"
+          label={Message.DESCRIPTION}
+          errors={errors}
+        />
+      ))}
+    </Box>
   );
 }
 

@@ -14,7 +14,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import React, { ReactElement, useRef, useState } from "react";
-import { Pagination, TextField } from "../../../../components";
+import { Input, Pagination } from "../../../../components";
 import { ApiUrl, PAGE_SIZE } from "../../../../constants";
 import { useGet, useLocale, usePut } from "../../../../hooks";
 import { User } from "../../../../types";
@@ -56,9 +56,9 @@ function UsersAdministration({}: Props): ReactElement {
     <Flex mx="4" mb="8" mt="4" wrap="wrap" justifyContent="space-between">
       <Box p="4" border="1px dashed gray" w={["full", "full", "60%"]}>
         <Heading size="md" pb="2" mb="2" borderBottom="1px solid">
-          {Message.DIALOG_PROMOTE_TO_ADMINISTRATOR_HEADER}
+          {Message.PROMOTE_TO_ADMINISTRATOR}
         </Heading>
-        <TextField
+        <Input
           label={Message.SEARCH_BY_USERNAME}
           onChange={setUserSearch}
           name="usernames"
@@ -102,7 +102,12 @@ function UsersAdministration({}: Props): ReactElement {
         </Box>
       </Box>
 
-      <Box p="4" border="1px dashed gray" w={["full", "full", "35%"]}>
+      <Box
+        h="fit-content"
+        p="4"
+        border="1px dashed gray"
+        w={["full", "full", "35%"]}
+      >
         <Heading size="md" pb="2" mb="2" borderBottom="1px solid">
           {Message.NEW_USER_ACCOUNT}
         </Heading>
@@ -116,13 +121,13 @@ function UsersAdministration({}: Props): ReactElement {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              {Message.DIALOG_PROMOTE_TO_ADMINISTRATOR_HEADER}
+              {Message.PROMOTE_TO_ADMINISTRATOR}
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              {Message.DIALOG_PROMOTE_TO_ADMINISTRATOR_BODY.split("^")[0]}{" "}
+              {Message.DIALOG_PROMOTE_TO_ADMINISTRATOR.split("^")[0]}{" "}
               <strong>{selectedUser}</strong>
-              {Message.DIALOG_PROMOTE_TO_ADMINISTRATOR_BODY.split("^")[1]}
+              {Message.DIALOG_PROMOTE_TO_ADMINISTRATOR.split("^")[1]}
             </AlertDialogBody>
 
             <AlertDialogFooter>

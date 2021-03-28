@@ -2,7 +2,7 @@ import { Alert, AlertIcon, Center, Heading } from "@chakra-ui/react";
 import { isEmpty, isString } from "lodash";
 import { signIn, useSession } from "next-auth/client";
 import React, { ReactElement, useState } from "react";
-import { Button, LogoutButton, TextField } from "../../../components";
+import { Button, Input, LogoutButton } from "../../../components";
 import { useUrlParam } from "../../../hooks";
 
 function Login(): ReactElement {
@@ -43,7 +43,7 @@ function Login(): ReactElement {
         }}
         onSubmit={() => handleLoginSubmit()}
       >
-        <TextField
+        <Input
           name="username"
           isRequired
           isInvalid={isEmpty(username)}
@@ -53,7 +53,7 @@ function Login(): ReactElement {
           label="Užívateľské meno"
           layerStyle="outline"
         />
-        <TextField
+        <Input
           name="password"
           isRequired
           isInvalid={isEmpty(password)}

@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getRatingsList } from "../../../api/db";
 import { asLocale, sendLocalizedError } from "../../../api/utils";
+import { RequestMethod, SortOrder } from "../../../constants";
 import {
-  RatingsSortFields,
-  RequestMethod,
-  SortOrder,
-} from "../../../constants";
-import { RatingsListData, ResponseError } from "../../../types";
+  RatingsListData,
+  RatingsSortableFields,
+  ResponseError,
+} from "../../../types";
 import { parseInteger, parseString } from "../../../utils";
 
 export default async function handler(
@@ -22,7 +22,7 @@ export default async function handler(
     case RequestMethod.GET: {
       const data = await getRatingsList(
         parseString(search),
-        parseString(sortBy) as RatingsSortFields,
+        parseString(sortBy) as RatingsSortableFields,
         parseString(sortOrder) as SortOrder,
         category,
         parseInteger(parseString(page))

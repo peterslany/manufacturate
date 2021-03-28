@@ -19,6 +19,56 @@ export const LocaleMessages = asLocaleMessages({
     en: "Administrator",
     sk: "Správca",
   },
+  ALERT_SAVING_CHANGES_WILL_DELETE_CATEGORY: {
+    en: "Saving changes will delete rating data for category: ",
+    sk: "Uložením zmien sa vymažú dáta pre hodnotenie kategórie: ",
+  },
+  ALERT_CHANGE_REQUESTS_WAITING: {
+    en: "There are change requests waiting for approval",
+    sk: "V systéme sú zmeny čakajúce na schválenie",
+  },
+  DELETE_SUBCATEGORY: {
+    en: "Delete subcategory",
+    sk: "Odstránenie podkategórie",
+  },
+  DIALOG_DELETE_SUBCATEGORY: {
+    en:
+      "Are you sure you want to delete subcategory ^?^ Doing so will ^ permanently delete ^ all of its data.",
+    sk:
+      "Si si istý, že chceš odstrániť podkategóriu ^?^ Týmto úkonom sa ^ permanentne vymažú ^ všetky súvisiace dáta.",
+  },
+  DELETE: {
+    en: "Delete",
+    sk: "Odstrániť",
+  },
+  BASIC_INFORMATION: {
+    en: "Basic information",
+    sk: "Základné informácie",
+  },
+  ID_URI_PATH_SEGMENT: {
+    en: "ID (URI path segment)",
+    sk: "ID (URI segment prístupovej cesty)",
+  },
+  NOTE: {
+    en: "Note",
+    sk: "Poznámka",
+  },
+  ASCENDING: {
+    sk: "Vzostupne",
+    en: "Ascending",
+  },
+  SORT_ORDER: {
+    en: "Order",
+    sk: "Poradie",
+  },
+  SORT_BY: {
+    en: "Sort by",
+    sk: "Zoradiť podľa",
+  },
+  DESCENDING: {
+    sk: "Zostupne",
+    en: "Descending",
+  },
   CANCEL: {
     en: "Cancel",
     sk: "Zrušiť",
@@ -47,11 +97,11 @@ export const LocaleMessages = asLocaleMessages({
     en: "Description",
     sk: "Popis",
   },
-  DIALOG_PROMOTE_TO_ADMINISTRATOR_BODY: {
+  DIALOG_PROMOTE_TO_ADMINISTRATOR: {
     en: "Are you sure you want to make user ^ an administrator?",
     sk: "Si si istý, že chceš užívateľa ^ povýšiť na správcu?",
   },
-  DIALOG_PROMOTE_TO_ADMINISTRATOR_HEADER: {
+  PROMOTE_TO_ADMINISTRATOR: {
     en: "Promote to administrator",
     sk: "Povýšiť na správcu",
   },
@@ -151,6 +201,10 @@ export const LocaleMessages = asLocaleMessages({
   SEARCH_BY_USERNAME: {
     en: "Search by username",
     sk: "Hľadať podľa užívateľského mena",
+  },
+  CHOOSE_SUBCATEGORIES: {
+    en: "Choose subcategories",
+    sk: "Vyber podkategórie",
   },
   SETTINGS: {
     en: "Settings",

@@ -23,7 +23,8 @@
         "react/require-default-props": "off",
         "react/jsx-props-no-spreading": ["off"],
         "@typescript-eslint/no-empty-interface": ["warn"],
-        "no-empty-pattern": ["warn"]
+        "no-empty-pattern": ["warn"],
+        "no-underscore-dangle": "off"
     },
     "globals": {
         "React": "writable"
