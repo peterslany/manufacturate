@@ -11,5 +11,6 @@ export enum Collection {
 
 export const ratingsSortableFields = [
   "manufacturer_name",
+  "date",
   ...Object.values(RatingCategory),
 ].map((field) => getRatingsFieldPath(field as RatingsSortableFields));

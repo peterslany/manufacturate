@@ -1,16 +1,16 @@
-import { ObjectId } from "mongodb";
 import { Locale } from "../constants";
+import { ListData } from "./common";
 
-export type BlogpostsData = { blogposts: BlogpostBase[]; count: number };
+export type BlogpostsData = ListData<BlogpostBase>;
 
 export interface BlogpostBase {
-  _id: ObjectId;
+  _id: string;
   author: string;
   date: string;
   locale: Locale;
+  name: string;
   subTitle: string;
   thumbnailUrl: string;
-  title: string;
   urlPathSegment: string;
 }
 export interface Blogpost extends BlogpostBase {

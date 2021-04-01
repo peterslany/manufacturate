@@ -37,9 +37,12 @@ export const publicHeaderItems: HeaderItemType[] = [
   },
 ];
 
-export const authHeaderItems: HeaderItemType[] = [
+export const authHeaderItems = (isAdmin: boolean): HeaderItemType[] => [
   { label: LocaleMessages.DASHBOARD, path: Path.AUTH_DASHBOARD },
-  { label: LocaleMessages.SETTINGS, path: Path.AUTH_SETTINGS },
+  { label: LocaleMessages.MY_ACCOUNT, path: Path.AUTH_MY_ACCOUNT },
+  ...(isAdmin
+    ? [{ label: LocaleMessages.ADMINISTRATION, path: Path.AUTH_ADMINISTRATION }]
+    : []),
 ];
 
 export const HEADER_HEIGHT = [16, 16, 24];

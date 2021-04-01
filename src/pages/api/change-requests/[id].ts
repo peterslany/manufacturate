@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getChangeRequest, updateChangeRequest } from "../../../api/db";
+import {
+  deleteChangeRequest,
+  getChangeRequest,
+  updateChangeRequest,
+} from "../../../api/db";
 import { asLocale, checkToken, sendLocalizedError } from "../../../api/utils";
 import { RequestMethod } from "../../../constants";
 import { GeneralChangeRequest, ResponseError } from "../../../types";
@@ -45,14 +49,18 @@ export default async function handler(
       try {
         await updateChangeRequest(parsedId, body);
         res.status(204).end();
-      } catch (e) {
-        console.log(e);
+      } catch {
         sendLocalizedError(res, 422, locale);
       }
       break;
 
     case RequestMethod.DELETE:
-      res.status(204).end();
+      try {
+        await deleteChangeRequest(parsedId);
+        res.status(204).end();
+      } catch {
+        sendLocalizedError(res, 422, locale);
+      }
       break;
 
     default:

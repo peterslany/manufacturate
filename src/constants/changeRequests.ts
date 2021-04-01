@@ -1,4 +1,4 @@
-export enum ChangeRequestType {
+export enum ContentType {
   BLOGPOST = "blogpost",
   RATING = "rating",
 }

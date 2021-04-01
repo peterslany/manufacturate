@@ -5,9 +5,10 @@ import { useForm } from "react-hook-form";
 import { Button, Input } from "../../../../components";
 import { ApiUrl } from "../../../../constants";
 import { useLocale, usePost } from "../../../../hooks";
+import { User } from "../../../../types";
 
 interface Props {
-  onCreateCallback?: () => void;
+  onCreateCallback?: (newUser: User) => void;
 }
 
 function CreateUser({ onCreateCallback }: Props): ReactElement {
@@ -36,13 +37,13 @@ function CreateUser({ onCreateCallback }: Props): ReactElement {
   );
 
   const { send } = usePost(ApiUrl.USERS, {
-    successMessage: Message.INFO_USER_ACCOUNT_SUCCESSFULLY_CREATED,
+    successMessage: Message.INFO_USER_ACCOUNT_CREATED,
   });
 
   const handleFormSubmit = handleSubmit(({ username, password }) => {
     send({ username, password });
     if (onCreateCallback) {
-      onCreateCallback();
+      onCreateCallback({ username, name: "", isAdmin: false });
     }
   });
 

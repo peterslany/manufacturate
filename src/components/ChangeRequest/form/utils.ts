@@ -4,32 +4,30 @@ import { uniq } from "lodash";
 import {
   ApiUrl,
   ChangeRequestFormMode,
-  ChangeRequestType,
+  ContentType,
   ProductCategory,
   RequestMethod,
 } from "../../../constants";
 import { RatingFull } from "../../../types";
 
-export const changeRequestTypeApiUrl = (
-  contentType: ChangeRequestType
-): ApiUrl => {
+export const contentTypeApiUrl = (contentType: ContentType): ApiUrl => {
   switch (contentType) {
-    case ChangeRequestType.RATING:
+    case ContentType.RATING:
       return ApiUrl.RATINGS;
-    case ChangeRequestType.BLOGPOST:
+    case ContentType.BLOGPOST:
       return ApiUrl.BLOGPOSTS;
   }
 };
 
 export const getDataUrl = (
   mode: ChangeRequestFormMode,
-  contentType: ChangeRequestType,
+  contentType: ContentType,
   changeRequestId?: string,
   contentId?: string
 ): string | undefined => {
   switch (mode) {
     case ChangeRequestFormMode.CREATE_FROM_CONTENT:
-      return `${changeRequestTypeApiUrl(contentType)}/${contentId}`;
+      return `${contentTypeApiUrl(contentType)}/${contentId}`;
     case ChangeRequestFormMode.EDIT:
       return `${ApiUrl.CHANGE_REQUESTS}/${changeRequestId}`;
     case ChangeRequestFormMode.CREATE_NEW:

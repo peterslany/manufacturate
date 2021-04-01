@@ -8,11 +8,12 @@ import { ReactElement, ReactNode } from "react";
 import { isString } from "util";
 import theme from ".";
 import Fonts from "./Fonts";
+import Markdown from "./Markdown";
 import Scrollbar from "./Scrollbar";
 
 interface ChakraWrapperProps {
-  cookies: unknown;
   children: ReactNode;
+  cookies: unknown;
 }
 
 export function ChakraWrapper({
@@ -27,6 +28,7 @@ export function ChakraWrapper({
     <ChakraProvider resetCSS theme={theme} colorModeManager={colorModeManager}>
       <Fonts />
       <Scrollbar />
+      <Markdown />
       {children}
     </ChakraProvider>
   );

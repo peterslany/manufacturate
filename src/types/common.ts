@@ -7,6 +7,8 @@ export interface Option<T = unknown> {
   value: T;
 }
 
+export type ListData<T> = { count: number; items: T[] };
+
 export type sizeType =
   | "sm"
   | (string & unknown)

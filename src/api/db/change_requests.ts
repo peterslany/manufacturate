@@ -1,6 +1,12 @@
 import { ObjectId } from "mongodb";
-import { ChangeRequestType } from "../../constants";
-import { Blogpost, GeneralChangeRequest, RatingFull } from "../../types";
+import { ContentType, PAGE_SIZE, SortOrder } from "../../constants";
+import {
+  Blogpost,
+  ChangeRequestsListData,
+  GeneralChangeRequest,
+  RatingFull,
+} from "../../types";
+import { parseInteger } from "../../utils";
 import { Collection } from "../constants";
 import database from "./db";
 
@@ -39,24 +45,57 @@ export const getChangeRequest = async (
 export const getChangeRequests = async (
   username: string,
   getAll: boolean,
-  type?: ChangeRequestType
-): Promise<GeneralChangeRequest[]> => {
+  type?: ContentType,
+  search?: string,
+  pageNumber?: number,
+  sortOrder?: SortOrder
+): Promise<ChangeRequestsListData> => {
   const { db } = await database();
 
-  const query = { ...(getAll && { author: username }), ...(type && { type }) };
+  const query = {
+    ...(!getAll && { author: username }),
+    ...(type && { type }),
+    ...(search && {
+      $or: [
+        { "content.name": { $regex: `(?i)(?:$|^| )${search}` } },
+        { "content._id": { $regex: `(?i)(?:$|^| )${search}` } },
+        { _id: { $regex: `(?i)(?:$|^| )${search}` } },
+      ],
+    }),
+  };
 
-  return db
+  const projections = [
+    "content._id",
+    "content.name",
+    "type",
+    "date",
+    "author",
+  ].reduce((result, field) => ({ ...result, [field]: 1 }), {});
+
+  const sort = { date: parseInteger(sortOrder || SortOrder.DESCENDING) };
+
+  const items = await db
     .collection(Collection.CHANGE_REQUESTS)
     .find(query)
-    .limit(0)
+    .project(projections)
+    .sort(sort)
+    .limit(PAGE_SIZE)
+    .skip(((pageNumber || 1) - 1) * PAGE_SIZE)
     .toArray();
+
+  const count = await db
+    .collection(Collection.CHANGE_REQUESTS)
+    .find(query)
+    .count();
+
+  return { items, count };
 };
 
 export const createChangeRequest = async (
   newChangeRequest: GeneralChangeRequest
 ): Promise<void> => {
   const { db } = await database();
-  console.log(newChangeRequest);
+
   await db.collection(Collection.CHANGE_REQUESTS).insertOne(newChangeRequest);
 };
 
@@ -65,14 +104,10 @@ export const createChangeRequest = async (
 export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
   changeRequestId: string,
   id: T extends Blogpost ? ObjectId : string,
-  type: T extends Blogpost
-    ? ChangeRequestType.BLOGPOST
-    : ChangeRequestType.RATING
+  type: T extends Blogpost ? ContentType.BLOGPOST : ContentType.RATING
 ): Promise<void> => {
   const collectionName =
-    type === ChangeRequestType.BLOGPOST
-      ? Collection.BLOGPOSTS
-      : Collection.RATINGS;
+    type === ContentType.BLOGPOST ? Collection.BLOGPOSTS : Collection.RATINGS;
 
   const { db, client } = await database();
 
@@ -80,11 +115,14 @@ export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
 
   try {
     await session.withTransaction(async () => {
-      const { content } = await db
+      const changeRequest = await db
         .collection(Collection.CHANGE_REQUESTS)
         .findOne({ _id: new ObjectId(changeRequestId) });
 
-      if (type === ChangeRequestType.BLOGPOST) {
+      console.log(changeRequest, changeRequestId);
+      const { content } = changeRequest;
+
+      if (type === ContentType.BLOGPOST) {
         content._id = new ObjectId(content._id);
       }
 
@@ -100,6 +138,7 @@ export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
 
     session.endSession();
   } catch (error) {
+    console.log(error);
     await session.abortTransaction();
     session.endSession();
     throw error;
@@ -108,15 +147,11 @@ export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
 
 export const reverseToChangeRequest = async <T extends Blogpost | RatingFull>(
   id: T extends Blogpost ? ObjectId : string,
-  type: T extends Blogpost
-    ? ChangeRequestType.BLOGPOST
-    : ChangeRequestType.RATING,
+  type: T extends Blogpost ? ContentType.BLOGPOST : ContentType.RATING,
   username: string
 ): Promise<void> => {
   const collectionName =
-    type === ChangeRequestType.BLOGPOST
-      ? Collection.BLOGPOSTS
-      : Collection.RATINGS;
+    type === ContentType.BLOGPOST ? Collection.BLOGPOSTS : Collection.RATINGS;
 
   const { db, client } = await database();
 
@@ -152,4 +187,8 @@ export const reverseToChangeRequest = async <T extends Blogpost | RatingFull>(
     session.endSession();
     throw error;
   }
+  // !! TODO: send GET request to URL of new content to force static
+  // regeneration with updated data
+  // LATER: when on-demand regeneration through API is available in Next.js, use that
+  // setTimeout(() => request([proccess.ENV.domain,type,id].join("/")), 500);
 };

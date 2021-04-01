@@ -130,6 +130,10 @@ const theme = extendTheme({
       backdropFilter: "blur(15px)",
       backgroundColor: "gray.50A05",
     },
+    dashed: {
+      p: 4,
+      border: "1px dashed gray",
+    },
   },
   styles: {
     global: {

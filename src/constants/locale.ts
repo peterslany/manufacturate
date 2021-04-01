@@ -19,55 +19,29 @@ export const LocaleMessages = asLocaleMessages({
     en: "Administrator",
     sk: "Správca",
   },
-  ALERT_SAVING_CHANGES_WILL_DELETE_CATEGORY: {
-    en: "Saving changes will delete rating data for category: ",
-    sk: "Uložením zmien sa vymažú dáta pre hodnotenie kategórie: ",
-  },
   ALERT_CHANGE_REQUESTS_WAITING: {
     en: "There are change requests waiting for approval",
     sk: "V systéme sú zmeny čakajúce na schválenie",
   },
-  DELETE_SUBCATEGORY: {
-    en: "Delete subcategory",
-    sk: "Odstránenie podkategórie",
+  ALERT_SAVING_CHANGES_WILL_DELETE_CATEGORY: {
+    en: "Saving changes will delete rating data for category: ",
+    sk: "Uložením zmien sa vymažú dáta pre hodnotenie kategórie: ",
   },
-  DIALOG_DELETE_SUBCATEGORY: {
-    en:
-      "Are you sure you want to delete subcategory ^?^ Doing so will ^ permanently delete ^ all of its data.",
-    sk:
-      "Si si istý, že chceš odstrániť podkategóriu ^?^ Týmto úkonom sa ^ permanentne vymažú ^ všetky súvisiace dáta.",
-  },
-  DELETE: {
-    en: "Delete",
-    sk: "Odstrániť",
+  ASCENDING: {
+    en: "Ascending",
+    sk: "Vzostupne",
   },
   BASIC_INFORMATION: {
     en: "Basic information",
     sk: "Základné informácie",
   },
-  ID_URI_PATH_SEGMENT: {
-    en: "ID (URI path segment)",
-    sk: "ID (URI segment prístupovej cesty)",
+  BLOG: {
+    en: "Blog",
+    sk: "Blog",
   },
-  NOTE: {
-    en: "Note",
-    sk: "Poznámka",
-  },
-  ASCENDING: {
-    sk: "Vzostupne",
-    en: "Ascending",
-  },
-  SORT_ORDER: {
-    en: "Order",
-    sk: "Poradie",
-  },
-  SORT_BY: {
-    en: "Sort by",
-    sk: "Zoradiť podľa",
-  },
-  DESCENDING: {
-    sk: "Zostupne",
-    en: "Descending",
+  BLOGPOST: {
+    en: "Blogpost",
+    sk: "Príspevok na blogu",
   },
   CANCEL: {
     en: "Cancel",
@@ -77,9 +51,9 @@ export const LocaleMessages = asLocaleMessages({
     en: "Categories",
     sk: "Kategórie",
   },
-  OVERALL: {
-    en: "Overall",
-    sk: "Spolu",
+  CHOOSE_SUBCATEGORIES: {
+    en: "Choose subcategories",
+    sk: "Vybrať podkategórie",
   },
   CONFIRM: {
     en: "Confirm",
@@ -93,17 +67,37 @@ export const LocaleMessages = asLocaleMessages({
     en: "Dashboard",
     sk: "Ovládací panel",
   },
+  DELETE: {
+    en: "Delete",
+    sk: "Odstrániť",
+  },
+  DELETE_SUBCATEGORY: {
+    en: "Delete subcategory",
+    sk: "Odstránenie podkategórie",
+  },
+  DESCENDING: {
+    en: "Descending",
+    sk: "Zostupne",
+  },
   DESCRIPTION: {
     en: "Description",
     sk: "Popis",
+  },
+  DIALOG_DELETE_SUBCATEGORY: {
+    en:
+      "Are you sure you want to delete subcategory ^?^ Doing so will ^ permanently delete ^ all of its data.",
+    sk:
+      "Si si istý, že chceš odstrániť podkategóriu ^?^ Týmto úkonom sa ^ permanentne vymažú ^ všetky súvisiace dáta.",
   },
   DIALOG_PROMOTE_TO_ADMINISTRATOR: {
     en: "Are you sure you want to make user ^ an administrator?",
     sk: "Si si istý, že chceš užívateľa ^ povýšiť na správcu?",
   },
-  PROMOTE_TO_ADMINISTRATOR: {
-    en: "Promote to administrator",
-    sk: "Povýšiť na správcu",
+  DIALOG_DELETE_CONTENT: {
+    en:
+      "Are you sure you want to delete ^ ?^ Doing so will ^delete publicly available page^ with this ^ and it will be reverted into change request stage.",
+    sk:
+      "Si si istý, že chceš vymazať ^ ?^ Týmto úkonom sa ^vymaže verejne dostupná stránka^ a ^ bude vrátený do fázy požiadavky na zmenu.",
   },
   ERROR_DEFAULT_MESSAGE: {
     en: "Oops, something went wrong.",
@@ -142,12 +136,28 @@ export const LocaleMessages = asLocaleMessages({
     sk:
       "Fair about care je neziskový projekt, ktorý poskytuje objektívne hodnotenia výrobcov kozmetiky pre všetkých.",
   },
+  ID_URI_PATH_SEGMENT: {
+    en: "ID (URI path segment)",
+    sk: "ID (URI segment prístupovej cesty)",
+  },
   INFO_ACCOUNT_CHANGES_SAVED: {
     en: "Account changes saved.",
     sk: "Zmeny v účte boli uložené.",
   },
-  INFO_USER_ACCOUNT_SUCCESSFULLY_CREATED: {
-    en: "User accoutn successfully created.",
+  INFO_CHANGE_REQUEST_APPROVED: {
+    en: "Change request was approved.",
+    sk: "Požiadavka na zmenu bola schválená.",
+  },
+  INFO_CHANGE_REQUEST_DELETED: {
+    en: "Change request was deleted.",
+    sk: "Požiadavka na zmenu bola vymazaná.",
+  },
+  INFO_CONTENT_REVERTED: {
+    en: "Content was deleted and reverted to change request.",
+    sk: "Obsah bol vymazaný a vrátený do fázy požiadavky na zmenu.",
+  },
+  INFO_USER_ACCOUNT_CREATED: {
+    en: "User account successfully created.",
     sk: "Užívateľský účet bol úspešne vytvorený.",
   },
   LOG_IN: {
@@ -178,6 +188,14 @@ export const LocaleMessages = asLocaleMessages({
     en: "New user account",
     sk: "Nový užívateľský účet",
   },
+  NOTE: {
+    en: "Note",
+    sk: "Poznámka",
+  },
+  OVERALL: {
+    en: "Overall",
+    sk: "Spolu",
+  },
   PASSWORD: {
     en: "Password",
     sk: "Heslo",
@@ -185,6 +203,26 @@ export const LocaleMessages = asLocaleMessages({
   PASSWORD_AGAIN: {
     en: "Password again",
     sk: "Heslo znova",
+  },
+  PROMOTE: {
+    en: "Promote",
+    sk: "Povýšiť",
+  },
+  ADMINISTRATION: {
+    en: "Administration",
+    sk: "Administratíva",
+  },
+  PROMOTE_TO_ADMINISTRATOR: {
+    en: "Promote to administrator",
+    sk: "Povýšiť na správcu",
+  },
+  VIEW: {
+    en: "View",
+    sk: "Zobraziť",
+  },
+  SORTED_BY_DATE: {
+    en: "Sorted by date",
+    sk: "Zoradené podľa dátumu",
   },
   RATING: {
     en: "Rating",
@@ -202,13 +240,37 @@ export const LocaleMessages = asLocaleMessages({
     en: "Search by username",
     sk: "Hľadať podľa užívateľského mena",
   },
-  CHOOSE_SUBCATEGORIES: {
-    en: "Choose subcategories",
-    sk: "Vyber podkategórie",
+  SEARCH_BY_NAME: {
+    en: "Search by name",
+    sk: "Hľadať podľa názvu",
   },
-  SETTINGS: {
-    en: "Settings",
-    sk: "Nastavenia",
+  SEARCH_BY_NAME_OR_CONTENT: {
+    en: "Search by name or content",
+    sk: "Hľadať podľa názvu alebo obsahu",
+  },
+  SEARCH_BY_NAME_OR_ID: {
+    en: "Search by name or ID",
+    sk: "Hľadať podľa názvu alebo ID",
+  },
+  MY_ACCOUNT: {
+    sk: "Môj účet",
+    en: "My account",
+  },
+  MY_CHANGE_REQUESTS: {
+    en: "My change requests",
+    sk: "Moje požiadavky na zmenu",
+  },
+  WAITING_CHANGE_REQUESTS: {
+    en: "Change requests waiting for approval",
+    sk: "Zmeny čakajúce na schválenie",
+  },
+  SORT_BY: {
+    en: "Sort by",
+    sk: "Zoradiť podľa",
+  },
+  SORT_ORDER: {
+    en: "Order",
+    sk: "Poradie",
   },
   TOTAL: {
     en: "Total",

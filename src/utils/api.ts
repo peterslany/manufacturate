@@ -30,7 +30,6 @@ export const makeRequest = async <T extends unknown>(
       return null;
     }
     if (onSuccessCallback) onSuccessCallback();
-    console.log(response);
 
     if (response.status === 204) {
       return null;
@@ -38,14 +37,7 @@ export const makeRequest = async <T extends unknown>(
 
     return await response.json();
   } catch (error) {
-    // TODO maybe replace with some generic error message 'something went wrong..'
     onErrorCallback({ status: 0, message: error.message });
     return null;
   }
 };
-
-// export const post = (
-//   url: string,
-//   body: CommonObject,
-//   onErrorCallback: (err: ResponseError) => void
-// ) => {};

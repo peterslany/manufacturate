@@ -15,7 +15,7 @@ export const getBlogposts = async (
     locale,
     ...(search && {
       $or: [
-        { title: { $regex: `(?i)(?:$|^| )${search}` } },
+        { name: { $regex: `(?i)(?:$|^| )${search}` } },
         { content: { $regex: `(?i)(?:$|^| )${search}` } },
         { subTitle: { $regex: `(?i)(?:$|^| )${search}` } },
       ],
@@ -37,7 +37,7 @@ export const getBlogposts = async (
 
   const count = await db.collection(Collection.BLOGPOSTS).find(query).count();
 
-  return { blogposts, count };
+  return { items: blogposts, count };
 };
 
 export const getBlogpost = async (id?: string): Promise<Blogpost | null> => {

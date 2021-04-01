@@ -46,7 +46,7 @@ function Header(): ReactElement {
       flex="1 auto"
       direction={["column", "column", "row"]}
     >
-      {(session ? authHeaderItems : publicHeaderItems)
+      {(session ? authHeaderItems(session.user.isAdmin) : publicHeaderItems)
         .filter(({ onlyInDrawer }) => !onlyInDrawer || isSmallScreen)
         .map(({ path, subMenu, ...props }) => {
           const Component = subMenu ? HeaderItemSubMenu : HeaderItem;

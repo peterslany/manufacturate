@@ -1,4 +1,5 @@
 export { default as Button } from "./Button";
+export { default as CollapsibleSection } from "./CollapsibleSection";
 export { default as DarkModeSwitch } from "./DarkModeSwitch";
 export { default as Footer } from "./Footer";
 export { default as Header } from "./Header";

@@ -44,7 +44,7 @@ export const getRatingsList = async (
         ),
       }
     : {};
-
+  console.log(sort, sortBy, sortOrder);
   const { db } = await database();
 
   const ratings = await db
@@ -58,7 +58,7 @@ export const getRatingsList = async (
 
   const count = await db.collection(Collection.RATINGS).find(query).count();
 
-  return { ratings, count };
+  return { items: ratings, count };
 };
 
 export const getRatingDetail = async (

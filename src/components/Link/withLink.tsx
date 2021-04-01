@@ -5,25 +5,27 @@ import { ReactElement } from "react";
 interface WithLinkProps {
   href: string;
   linkText: string; // invisible text to be placed inside <a> tag for SEO
+  target?: string;
 }
 
 export default function withLink<ComponentProps>(
   Component: React.FC<
     Pick<
       WithLinkProps & ComponentProps,
-      Exclude<keyof ComponentProps, "href" | "linkText">
+      Exclude<keyof ComponentProps, "href" | "linkText" | "target">
     >
   >
 ): React.FC<WithLinkProps & ComponentProps> {
   function WithLink({
     href,
     linkText,
+    target,
     ...props
   }: WithLinkProps & ComponentProps): ReactElement {
     return (
       <LinkBox role="group">
         <NextLink href={href} passHref>
-          <LinkOverlay>
+          <LinkOverlay target={target}>
             <VisuallyHidden>{linkText}</VisuallyHidden>
           </LinkOverlay>
         </NextLink>

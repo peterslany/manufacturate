@@ -1,3 +1,5 @@
+import { ListData } from "./common";
+
 export interface User {
   isAdmin: boolean;
   name: string;
@@ -11,7 +13,8 @@ export interface UserDB {
   passwordHash: string;
 }
 
-export type UsersListData = { count: number; users: UserDB[] };
+export type UsersListData = ListData<UserDB>;
+
 export interface Token {
   user: User;
 }

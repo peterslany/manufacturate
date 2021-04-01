@@ -1,22 +1,26 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 import {
   Alert,
   AlertIcon,
   Box,
-  Collapse,
   Divider,
   Flex,
   Heading,
   Text,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
-import React, { ReactElement, useState } from "react";
-import { Button } from "../../../components";
-import { ChangeRequestType } from "../../../constants";
-import { useLocale } from "../../../hooks";
+import React, { ReactElement, useEffect, useState } from "react";
+import { CollapsibleSection } from "../../../components";
+import { withLink } from "../../../components/Link";
+import { ApiUrl, ContentType, Path } from "../../../constants";
+import { useGet, useLocale } from "../../../hooks";
+import {
+  BasicRating,
+  BlogpostBase,
+  ChangeRequestsListData,
+} from "../../../types";
 import withAuth from "../withAuth";
-import useChangeRequestFormModal from "./useChangeRequestFormModal";
-import UsersAdministration from "./usersAdministration/UsersAdministration";
+import Content from "./Content";
 
 interface Props {}
 
@@ -26,78 +30,61 @@ function Dashboard({}: Props): ReactElement {
 
   const isAdmin = session?.user.isAdmin;
 
-  const [showUsersAdministration, setShowUsersAdministration] = useState(false);
-  const [showChangeRequestApproval, setShowChangeRequestApproval] = useState(
-    false
+  const { data } = useGet<ChangeRequestsListData>(
+    isAdmin ? `${ApiUrl.CHANGE_REQUESTS}?all=true` : undefined
   );
 
-  const {
-    edit,
-    createFromContent,
-    createNew,
-    Component,
-  } = useChangeRequestFormModal();
+  const [changeRequestCount, setChangeRequestCount] = useState<number>();
+
+  useEffect(() => {
+    if (data) {
+      setChangeRequestCount(data.count);
+    }
+  }, [data]);
+
+  const ViewNow = withLink(() => (
+    <Flex
+      textDecoration="underline"
+      fontWeight="600"
+      ml="2"
+      role="group"
+      align="center"
+    >
+      {" "}
+      {Message.VIEW}
+      <ArrowForwardIcon
+        transition="all 300ms ease-in-out"
+        _groupHover={{ translate: "5px" }}
+      />{" "}
+    </Flex>
+  ));
 
   return (
     <Box mx={[2, 4, 8]} mt={[2, 4, 6]}>
-      <Alert my="4" status="warning" fontSize="lg">
-        <AlertIcon />
-        {Message.ALERT_CHANGE_REQUESTS_WAITING}( 7 ).
-      </Alert>
+      {changeRequestCount && changeRequestCount !== 0 ? (
+        <Alert my="4" status="warning" fontSize="lg">
+          <AlertIcon />
+          {Message.ALERT_CHANGE_REQUESTS_WAITING}( {changeRequestCount} ).{" "}
+          <ViewNow href={Path.AUTH_ADMINISTRATION} linkText={Message.VIEW} />
+        </Alert>
+      ) : null}
       <Heading>
         {Message.WELCOME}, {session?.user.username}
       </Heading>
       <Divider />
-      <Text>
-        Tu môžeš vytvárať a upravovať hodnotenia a blogy
-        {isAdmin && ", spravovať užívateľov a schvaľovať zmeny"}.
-      </Text>
-      Moje zmeny ...
-      <Button onClick={() => createNew(ChangeRequestType.RATING)}>
-        NOVY CHANGE REQUEST
-      </Button>
-      <Button
-        onClick={() =>
-          edit("6060f86d6a6c91b598846b4f", ChangeRequestType.RATING)
-        }
-      >
-        UPRAVIT CHANGE REQUEST
-      </Button>
-      <br /> {/* todo: remove br later */}
-      {/* TODO: put into it's own component and complete  */}
-      {isAdmin && (
-        <>
-          <Box w="full" layerStyle="outline">
-            <Flex
-              justifyContent="space-between"
-              cursor="pointer"
-              p="4"
-              _hover={{ fontWeight: 600, textDecoration: "underline" }}
-              onClick={() => setShowUsersAdministration((prev) => !prev)}
-            >
-              {Message.USERS_ADMINISTRATION}
-              <ChevronDownIcon
-                fontSize="xl"
-                {...(showUsersAdministration && {
-                  transform: "rotate(180deg)",
-                })}
-              />
-            </Flex>
-
-            <Collapse in={showUsersAdministration} animateOpacity>
-              <Divider />
-              <UsersAdministration />
-            </Collapse>
-          </Box>
-        </>
-      )}
-      {/* <ChangeRequestForm
-        contentType={ChangeRequestType.RATING}
-        mode={ChangeRequestFormMode.EDIT}
-        changeRequestId="606095f3739490e89038590f"
-      /> */}
-      {/* <Modal /> */}
-      <Component />
+      <Text>Tu môžeš vytvárať a upravovať hodnotenia a blogy</Text>
+      <CollapsibleSection title={Message.RATINGS}>
+        <Content<BasicRating>
+          setChangeRequestsCount={setChangeRequestCount}
+          type={ContentType.RATING}
+        />
+      </CollapsibleSection>
+      <CollapsibleSection title={Message.BLOG}>
+        <Content<BlogpostBase>
+          setChangeRequestsCount={setChangeRequestCount}
+          type={ContentType.BLOGPOST}
+        />
+      </CollapsibleSection>
     </Box>
   );
 }

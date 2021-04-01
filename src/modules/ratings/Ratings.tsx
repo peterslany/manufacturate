@@ -47,7 +47,7 @@ function Ratings({}: Props): ReactElement {
 
   // TODO: change data assignment to initialvalue from props
   const {
-    data: { ratings, count } = { ratings: [], count: 0 },
+    data: { items: ratings, count } = { ratings: [], count: 0 },
   } = useGet<RatingsListData>(ApiUrl.RATINGS, { includeQueryString: true });
 
   const { Message, localizeMessage } = useLocale();

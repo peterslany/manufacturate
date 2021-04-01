@@ -1,16 +1,16 @@
 import { useSession } from "next-auth/client";
-import { ReactElement, useEffect } from "react";
+import { ReactElement, RefObject, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input } from "../../../components";
-import { ChangeRequestFormMode, ChangeRequestType } from "../../../constants";
+import { ChangeRequestFormMode, ContentType } from "../../../constants";
 import { useGet, useLocale, useRequest } from "../../../hooks";
 import { Blogpost, GeneralChangeRequest, RatingFull } from "../../../types";
+import Input from "../../Input";
+import RatingForm from "./rating/RatingForm";
 import {
   generateRatingMetadata,
   getDataUrl,
   getSendUrlAndMethod,
-} from "./formUtils";
-import RatingForm from "./RatingForm";
+} from "./utils";
 
 type ChangeRequestFormBase =
   | {
@@ -31,13 +31,17 @@ type ChangeRequestFormBase =
 
 export type ChangeRequestFormProps<T> = ChangeRequestFormBase & {
   contentType: T;
+  onSuccessCallback?: () => void;
+  submitRef?: RefObject<HTMLButtonElement>;
 };
 
-function ChangeRequestForm<T extends ChangeRequestType>({
+function ChangeRequestForm<T extends ContentType>({
   contentType,
   changeRequestId,
   contentId,
   mode,
+  submitRef,
+  onSuccessCallback,
 }: ChangeRequestFormProps<T>): ReactElement {
   const [session] = useSession();
 
@@ -59,10 +63,10 @@ function ChangeRequestForm<T extends ChangeRequestType>({
   const [sendUrl, sendMethod] = getSendUrlAndMethod(mode, changeRequestId);
 
   const { send } = useRequest(sendUrl, sendMethod, {
-    onSuccessCallback: () => alert("close modal"),
+    onSuccessCallback: () => onSuccessCallback && onSuccessCallback(),
   });
 
-  const { register, errors, setValue, handleSubmit } = useForm();
+  const { register, errors, setValue, handleSubmit, control } = useForm();
 
   // sets initial values
   useEffect(() => {
@@ -92,8 +96,7 @@ function ChangeRequestForm<T extends ChangeRequestType>({
       content: { ...values.content, date },
     };
 
-    if (contentType === ChangeRequestType.RATING) {
-      console.log(values);
+    if (contentType === ContentType.RATING) {
       const metadata = generateRatingMetadata(
         content as RatingFull,
         values.content as RatingFull,
@@ -105,26 +108,29 @@ function ChangeRequestForm<T extends ChangeRequestType>({
         content: { ...requestBodyBase.content, ...metadata },
       };
     }
-    if (contentType === ChangeRequestType.BLOGPOST) {
+    if (contentType === ContentType.BLOGPOST) {
       // TODO: add metadata for blogpost
     }
 
-    console.log(requestBodyBase);
     send(requestBodyBase);
   };
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
-      {contentType === ChangeRequestType.RATING ? (
+      {contentType === ContentType.RATING ? (
         <RatingForm
           initialValues={content as RatingFull | undefined}
-          {...{ register, errors }}
+          {...{
+            register: register as never,
+            errors,
+          }}
+          control={control}
         />
       ) : (
         <></>
       )}
       <Input name="note" ref={register} label={Message.NOTE} />
-      <Button type="submit">SUBMIT</Button>
+      <button hidden type="submit" ref={submitRef} />
     </form>
   );
 }

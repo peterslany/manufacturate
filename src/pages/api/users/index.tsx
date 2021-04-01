@@ -31,14 +31,12 @@ export default async function handler(
 
   switch (method) {
     case RequestMethod.GET: {
-      const [searchParsed, pageParsed] = [
+      const { count, items } = await getUsersList(
         parseString(search),
-        parseInteger(parseString(page)),
-      ];
+        parseInteger(parseString(page))
+      );
 
-      const { count, users } = await getUsersList(searchParsed, pageParsed);
-
-      const result = { count, users: users.map(dbUserToUser) };
+      const result = { count, items: items.map(dbUserToUser) };
 
       res.status(200).json(result);
       break;

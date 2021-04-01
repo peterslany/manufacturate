@@ -1,6 +1,7 @@
 // interface RatingUnit {}
 
 import { ProductCategory, RatingCategory } from "../constants";
+import { ListData } from "./common";
 import { SimpleLocaleMessage } from "./locale";
 
 interface BasicRatingUnit {
@@ -21,6 +22,7 @@ export type SubCategoriesRating<T> = {
 
 export interface BasicRating {
   _id: string;
+  date: string;
   name: string;
   rating: {
     overall: BasicRatingUnit;
@@ -43,6 +45,9 @@ export type RatingLocalized = Rating<string>;
 
 export type RatingFull = Rating<SimpleLocaleMessage>;
 
-export type RatingsListData = { count: number; ratings: BasicRating[] };
+export type RatingsListData = ListData<BasicRating>;
 
-export type RatingsSortableFields = "manufacturer_name" | RatingCategory;
+export type RatingsSortableFields =
+  | "manufacturer_name"
+  | "date"
+  | RatingCategory;

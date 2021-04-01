@@ -10,7 +10,7 @@ import {
   localizeRatingData,
   sendLocalizedError,
 } from "../../../api/utils";
-import { ChangeRequestType, RequestMethod } from "../../../constants";
+import { ContentType, RequestMethod } from "../../../constants";
 import { RatingFull, RatingLocalized, ResponseError } from "../../../types";
 import { parseString } from "../../../utils";
 
@@ -56,7 +56,7 @@ export default async function handler(
           }
           await reverseToChangeRequest<RatingFull>(
             parsedName,
-            ChangeRequestType.RATING,
+            ContentType.RATING,
             user.username
           );
           res.status(204).end();
@@ -86,7 +86,7 @@ export default async function handler(
           await approveChangeRequest<RatingFull>(
             body.changeRequestId,
             parsedName,
-            ChangeRequestType.RATING
+            ContentType.RATING
           );
           res.setHeader("Location", `/ratings/${name}`);
           res.status(201).json({ name: parsedName });

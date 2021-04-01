@@ -3,11 +3,16 @@ import { ReactElement } from "react";
 import UnauthorizedAccess from "./UnauthorizedAccess";
 
 export default function withAuth<ComponentProps>(
-  Component: React.FC<ComponentProps>
+  Component: React.FC<ComponentProps>,
+  admin?: boolean
 ): React.FC<ComponentProps> {
   function WithAuth(props: ComponentProps): ReactElement {
     const [session] = useSession();
-    return session ? <Component {...props} /> : <UnauthorizedAccess />;
+    return (admin && session?.user.isAdmin) || session ? (
+      <Component {...props} />
+    ) : (
+      <UnauthorizedAccess />
+    );
   }
 
   const componentName = Component.displayName || Component.name || "Component";

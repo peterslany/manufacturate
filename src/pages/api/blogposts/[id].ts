@@ -6,7 +6,7 @@ import {
   reverseToChangeRequest,
 } from "../../../api/db";
 import { asLocale, checkToken, sendLocalizedError } from "../../../api/utils";
-import { ChangeRequestType, RequestMethod } from "../../../constants";
+import { ContentType, RequestMethod } from "../../../constants";
 import { Blogpost, ResponseError } from "../../../types";
 import { parseString } from "../../../utils";
 
@@ -41,7 +41,7 @@ export default async function handler(
           }
           await reverseToChangeRequest<Blogpost>(
             new ObjectId(parsedId),
-            ChangeRequestType.BLOGPOST,
+            ContentType.BLOGPOST,
             user.username
           );
           res.status(204).end();
@@ -79,7 +79,7 @@ export default async function handler(
           await approveChangeRequest<Blogpost>(
             body.changeRequestId,
             new ObjectId(parsedId),
-            ChangeRequestType.BLOGPOST
+            ContentType.BLOGPOST
           );
           res.status(204).end();
           return;

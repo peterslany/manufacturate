@@ -1,6 +1,6 @@
 {
     "bsonType": "object",
-    "required": ["author", "content", "date", "locale", "title", "urlPathSegment"],
+    "required": ["author", "content", "date", "locale", "name", "urlPathSegment"],
     "properties": {
         "author": {
             "bsonType": "string",
@@ -22,7 +22,11 @@
             "bsonType": "string",
             "description": "must be a string and is required"
         },
-        "title": {
+        "name": {
+            "bsonType": "string",
+            "description": "must be a string and is required"
+        },
+        "subTitle": {
             "bsonType": "string",
             "description": "must be a string and is required"
         },

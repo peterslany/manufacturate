@@ -3,6 +3,8 @@ import { RatingsSortableFields, User, UserDB } from "../../types";
 
 export const getRatingsFieldPath = (field: RatingsSortableFields): string => {
   switch (field) {
+    case "date":
+      return "date";
     case "manufacturer_name":
       return "name";
     case RatingCategory.ANIMALS:

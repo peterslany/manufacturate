@@ -1,9 +1,10 @@
-import { Box, Center, Divider, Heading } from "@chakra-ui/react";
+import { Box, Center, Divider, Flex, Heading } from "@chakra-ui/react";
 import { isEmpty } from "lodash";
 import { useSession } from "next-auth/client";
 import React, { ReactElement, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input } from "../../../components";
+import ChangeRequestsList from "../../../components/ChangeRequest/ChangeRequestsList";
 import { ApiUrl } from "../../../constants";
 import { useGet, useLocale, usePut } from "../../../hooks";
 import { User } from "../../../types";
@@ -11,7 +12,7 @@ import withAuth from "../withAuth";
 
 interface Props {}
 
-function Settings({}: Props): ReactElement {
+function MyAccount({}: Props): ReactElement {
   const { Message } = useLocale();
 
   const [session] = useSession();
@@ -52,14 +53,15 @@ function Settings({}: Props): ReactElement {
     isEmpty(errors) && (!isEmpty(watchPassword) || watchName !== user?.name);
 
   return (
-    <Center>
-      <Box
-        p="4"
-        border="1px dashed gray"
-        maxW="420px"
-        mx={[2, 4, 8]}
-        my={[2, 4, 6]}
-      >
+    <Flex
+      direction={["column", "column", "row"]}
+      align="center"
+      justify="space-between"
+      m={[2, 4, 8]}
+    >
+      <ChangeRequestsList header={Message.MY_CHANGE_REQUESTS} />
+
+      <Box layerStyle="dashed" w="full" maxW="420px" m="4">
         <Heading>{Message.ACCOUNT_SETTINGS}</Heading>
         <Divider my="2" />
         <form onSubmit={handleChangeSubmit}>
@@ -108,8 +110,8 @@ function Settings({}: Props): ReactElement {
           </Center>
         </form>
       </Box>
-    </Center>
+    </Flex>
   );
 }
 
-export default withAuth(Settings);
+export default withAuth(MyAccount);

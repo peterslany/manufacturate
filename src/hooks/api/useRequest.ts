@@ -76,10 +76,12 @@ const useRequest = <T>(
         onSuccess,
         options?.disableCache
       );
-      if (response) setData(response);
+      if (response) {
+        setData(response);
+      }
       setLoading(false);
     },
-    [url, method, onError, locale, onSuccess]
+    [url, method, onError, locale, onSuccess, options?.disableCache]
   );
 
   return { data, loading, error, send };

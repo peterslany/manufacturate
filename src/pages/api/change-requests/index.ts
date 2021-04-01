@@ -1,16 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createChangeRequest, getChangeRequests } from "../../../api/db";
 import { asLocale, checkToken, sendLocalizedError } from "../../../api/utils";
-import { ChangeRequestType, RequestMethod } from "../../../constants";
-import { GeneralChangeRequest, ResponseError } from "../../../types";
+import { ContentType, RequestMethod, SortOrder } from "../../../constants";
+import { ChangeRequestsListData, ResponseError } from "../../../types";
+import { parseInteger, parseString } from "../../../utils";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<GeneralChangeRequest[] | ResponseError>
+  res: NextApiResponse<ChangeRequestsListData | ResponseError>
 ): Promise<void> {
   const locale = asLocale(req.headers["accept-language"]);
   const {
-    query: { all, type },
+    query: { all, type, sortOrder, search, page },
     method,
     body,
   } = req;
@@ -24,18 +25,21 @@ export default async function handler(
   switch (method) {
     case RequestMethod.GET: {
       // returns all change requests / requests of the user that can be
-      // filtered by type given in query string
+      // filtered by type or search query given in query string
       const getAllRequests = Boolean(all && user.isAdmin);
 
       const parsedType =
-        type === ChangeRequestType.BLOGPOST || type === ChangeRequestType.RATING
+        type === ContentType.BLOGPOST || type === ContentType.RATING
           ? type
           : undefined;
 
       const changeRequests = await getChangeRequests(
         user.username,
         getAllRequests,
-        parsedType
+        parsedType,
+        parseString(search),
+        parseInteger(parseString(page)),
+        parseString(sortOrder) as SortOrder
       );
       res.status(200).json(changeRequests);
 

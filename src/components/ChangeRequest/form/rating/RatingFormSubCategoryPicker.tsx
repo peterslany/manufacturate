@@ -1,10 +1,4 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Button,
   Flex,
   Menu,
@@ -17,10 +11,12 @@ import {
   TagLabel,
 } from "@chakra-ui/react";
 import { isString } from "lodash";
-import React, { ReactElement, useRef, useState } from "react";
-import { allProductCategoriesFlattened } from "../../../constants";
-import { useLocale } from "../../../hooks";
-import { getProductCategoryLabel } from "../../../utils";
+import React, { ReactElement, useState } from "react";
+import { allProductCategoriesFlattened } from "../../../../constants";
+import { useLocale } from "../../../../hooks";
+import { getProductCategoryLabel } from "../../../../utils";
+import ConfirmationDialog from "../../../ConfirmationDialog";
+import { ConfirmationDialogAction } from "../../../ConfirmationDialog/ConfirmationDialog";
 
 interface Props {
   setSubCategories: React.Dispatch<React.SetStateAction<string[]>>;
@@ -37,8 +33,6 @@ function RatingFormSubCategoryPicker({
 
   const closeDeleteDialog = () => setDeleteDialogItem(null);
 
-  const cancelRef = useRef(null);
-
   const handleSubCategoriesSelectionChange = (
     newValue: string | string[] | undefined
   ) => {
@@ -49,9 +43,9 @@ function RatingFormSubCategoryPicker({
     }
   };
 
-  const handleDeleteConfirm = (categoryName: string) => {
+  const handleDeleteConfirm = () => {
     setSubCategories((previous) =>
-      previous.filter((category) => categoryName !== category)
+      previous.filter((category) => deleteDialogItem !== category)
     );
     setDeleteDialogItem(null);
   };
@@ -86,47 +80,25 @@ function RatingFormSubCategoryPicker({
           </MenuOptionGroup>
         </MenuList>
       </Menu>
-      <AlertDialog
-        isOpen={Boolean(deleteDialogItem)}
-        leastDestructiveRef={cancelRef}
+      <ConfirmationDialog
+        onConfirm={handleDeleteConfirm}
         onClose={closeDeleteDialog}
+        isOpen={Boolean(deleteDialogItem)}
+        header={Message.DELETE_SUBCATEGORY}
+        action={ConfirmationDialogAction.DELETE}
       >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              {Message.DELETE_SUBCATEGORY}
-            </AlertDialogHeader>
+        {Message.DIALOG_DELETE_SUBCATEGORY.split("^")[0]}{" "}
+        <strong>
+          {deleteDialogItem &&
+            localizeMessage(getProductCategoryLabel(deleteDialogItem))}
+        </strong>{" "}
+        {Message.DIALOG_DELETE_SUBCATEGORY.split("^")[1]}
+        <br /> <br />
+        {Message.DIALOG_DELETE_SUBCATEGORY.split("^")[2]}
+        <strong>{Message.DIALOG_DELETE_SUBCATEGORY.split("^")[3]}</strong>
+        {Message.DIALOG_DELETE_SUBCATEGORY.split("^")[4]}
+      </ConfirmationDialog>
 
-            <AlertDialogBody>
-              {Message.DIALOG_DELETE_SUBCATEGORY.split("^")[0]}{" "}
-              <strong>
-                {deleteDialogItem &&
-                  localizeMessage(getProductCategoryLabel(deleteDialogItem))}
-              </strong>{" "}
-              {Message.DIALOG_DELETE_SUBCATEGORY.split("^")[1]}
-              <br /> <br />
-              {Message.DIALOG_DELETE_SUBCATEGORY.split("^")[2]}
-              <strong>{Message.DIALOG_DELETE_SUBCATEGORY.split("^")[3]}</strong>
-              {Message.DIALOG_DELETE_SUBCATEGORY.split("^")[4]}
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={closeDeleteDialog}>
-                {Message.CANCEL}
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={() =>
-                  deleteDialogItem && handleDeleteConfirm(deleteDialogItem)
-                }
-                ml={3}
-              >
-                {Message.DELETE}
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
       {subCategories.map((categoryName) => (
         <Tag
           key={categoryName}

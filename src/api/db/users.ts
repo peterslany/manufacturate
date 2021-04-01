@@ -32,7 +32,11 @@ export const getUsersList = async (
 ): Promise<UsersListData> => {
   const { db } = await database();
 
-  const query = { ...(searchUsername && { _id: { $regex: searchUsername } }) };
+  const query = {
+    ...(searchUsername && {
+      _id: { $regex: `(?i)(?:$|^| )${searchUsername}` },
+    }),
+  };
 
   const count = await db.collection(Collection.USERS).find(query).count();
   const users = await db
@@ -42,7 +46,8 @@ export const getUsersList = async (
     .limit(PAGE_SIZE)
     .skip(((pageNumber || 1) - 1) * PAGE_SIZE)
     .toArray();
-  return { count, users };
+
+  return { count, items: users };
 };
 
 export const modifyUser = async (newUserData: {

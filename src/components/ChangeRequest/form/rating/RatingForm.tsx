@@ -1,20 +1,32 @@
 import { Alert, AlertIcon, Box, Heading } from "@chakra-ui/react";
-import React, { ReactElement, useEffect, useMemo, useState } from "react";
+import React, {
+  ReactElement,
+  RefObject,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { DeepMap, FieldError } from "react-hook-form";
-import { Input } from "../../../components";
-import { useLocale } from "../../../hooks";
-import { RatingFull } from "../../../types";
-import { getProductCategoryLabel } from "../../../utils";
+import { useLocale } from "../../../../hooks";
+import { RatingFull } from "../../../../types";
+import { getProductCategoryLabel } from "../../../../utils";
+import Input from "../../../Input";
 import RatingFormSubCategoryPicker from "./RatingFormSubCategoryPicker";
 import RatingUnitForm from "./RatingUnitForm";
 
 interface Props {
+  control: any;
   errors: DeepMap<RatingFull, FieldError>;
   initialValues: RatingFull | undefined;
-  register: any;
+  register: (values: Record<string, unknown>) => RefObject<HTMLInputElement>;
 }
 
-function RatingForm({ initialValues, register, errors }: Props): ReactElement {
+function RatingForm({
+  initialValues,
+  register,
+  errors,
+  control,
+}: Props): ReactElement {
   const { Message, localizeMessage } = useLocale();
 
   const initialSubCategories = useMemo(
@@ -32,7 +44,7 @@ function RatingForm({ initialValues, register, errors }: Props): ReactElement {
 
   return (
     <>
-      <Box p="4" border="1px dashed gray">
+      <Box layerStyle="dashed">
         <Heading p="4">{Message.BASIC_INFORMATION}</Heading>
         <Box px={["8", "16"]}>
           <Input
@@ -58,9 +70,10 @@ function RatingForm({ initialValues, register, errors }: Props): ReactElement {
           name="content.rating.overall"
           errors={errors}
           register={register}
+          control={control}
         />
       </Box>
-      <Box p="4" border="1px dashed gray">
+      <Box layerStyle="dashed">
         <Heading p="4" pb="0">
           {Message.CATEGORIES}
         </Heading>
@@ -77,6 +90,7 @@ function RatingForm({ initialValues, register, errors }: Props): ReactElement {
               label={localizeMessage(getProductCategoryLabel(categoryName))}
               errors={errors}
               register={register}
+              control={control}
             />
           </Box>
         ))}
