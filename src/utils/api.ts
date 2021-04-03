@@ -1,5 +1,5 @@
 import { Locale, RequestMethod } from "../constants";
-import { CommonObject } from "../types";
+import { Blogpost, CommonObject } from "../types";
 import { ResponseError } from "../types/api";
 
 export const makeRequest = async <T extends unknown>(
@@ -41,3 +41,6 @@ export const makeRequest = async <T extends unknown>(
     return null;
   }
 };
+
+export const generateBlogpostId = (content: Blogpost): string =>
+  `${content.locale}~${content.urlPathSegment}`;

@@ -44,7 +44,7 @@ export const getRatingsList = async (
         ),
       }
     : {};
-  console.log(sort, sortBy, sortOrder);
+
   const { db } = await database();
 
   const ratings = await db
@@ -67,4 +67,15 @@ export const getRatingDetail = async (
   const { db } = await database();
 
   return db.collection(Collection.RATINGS).findOne({ _id: name });
+};
+
+export const getAllRatingsIds = async (): Promise<{ _id: string }[]> => {
+  const { db } = await database();
+
+  return db
+    .collection(Collection.RATINGS)
+    .find()
+    .project({ _id: 1 })
+    .limit(0)
+    .toArray();
 };

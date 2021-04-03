@@ -98,7 +98,7 @@ export default async function database(): Promise<{
     useUnifiedTopology: true,
   });
 
-  const db = await client.db(dbName);
+  const db = client.db(dbName);
 
   if (!initialized) {
     initializeDb(db);

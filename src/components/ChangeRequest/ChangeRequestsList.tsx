@@ -1,6 +1,5 @@
 import { Box, Divider, Heading, useDisclosure } from "@chakra-ui/react";
 import React, { ReactElement, useRef, useState } from "react";
-import { Modal } from "..";
 import { ApiUrl, ContentType } from "../../constants";
 import { useDelete, useLocale, usePut } from "../../hooks";
 import { GeneralChangeRequest } from "../../types";
@@ -26,17 +25,9 @@ function ChangeRequestsList({ admin, header }: Props): ReactElement {
 
   const modifyItems = itemsRef?.current?.modifyItems;
 
-  const {
-    isOpen: isOpenApprovalModal,
-    onClose: onCloseApprovalModal,
-    onOpen: onOpenApprovalModal,
-  } = useDisclosure();
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
-  const {
-    isOpen: isOpenDeleteDialog,
-    onClose: onCloseDeleteDialog,
-    onOpen: onOpenDeleteDialog,
-  } = useDisclosure();
+  const [dialogAction, setDialogAction] = useState<ConfirmationDialogAction>();
 
   const [
     selectedChangeRequest,
@@ -46,7 +37,7 @@ function ChangeRequestsList({ admin, header }: Props): ReactElement {
   const putUrl =
     selectedChangeRequest?.type === ContentType.RATING
       ? ApiUrl.RATINGS
-      : ApiUrl.USERS;
+      : ApiUrl.BLOGPOSTS;
 
   const { send: put } = usePut(
     `${putUrl}/${selectedChangeRequest?.content._id}`,
@@ -60,21 +51,14 @@ function ChangeRequestsList({ admin, header }: Props): ReactElement {
     }
   );
 
-  const handleOpenApprovalModal = (changeRequest: GeneralChangeRequest) => {
-    setSelectedChangeRequest(changeRequest);
-    onOpenApprovalModal();
-  };
-
-  const handleConfirmApproval = () => {
-    onCloseApprovalModal();
-    put({ changeRequestId: selectedChangeRequest?._id });
-  };
-
   const { edit, Component: EditModal } = useChangeRequestFormModal();
 
-  const handleOpenDeleteDialog = (changeRequest: GeneralChangeRequest) => {
+  const handleOpenDialog = (action: ConfirmationDialogAction) => (
+    changeRequest: GeneralChangeRequest
+  ) => {
+    setDialogAction(action);
     setSelectedChangeRequest(changeRequest);
-    onOpenDeleteDialog();
+    onOpen();
   };
 
   const { send: sendDelete } = useDelete(
@@ -89,10 +73,18 @@ function ChangeRequestsList({ admin, header }: Props): ReactElement {
     }
   );
 
+  const handleConfirm = () => {
+    if (dialogAction === ConfirmationDialogAction.DELETE) {
+      sendDelete();
+    } else {
+      put({ changeRequestId: selectedChangeRequest?._id });
+    }
+  };
+
   const ChangeRequestItem = generateChangeRequestListItem(
     Boolean(admin),
-    handleOpenDeleteDialog,
-    handleOpenApprovalModal,
+    handleOpenDialog(ConfirmationDialogAction.DELETE),
+    handleOpenDialog(ConfirmationDialogAction.CONFIRM),
     edit
   );
 
@@ -101,7 +93,8 @@ function ChangeRequestsList({ admin, header }: Props): ReactElement {
       <Heading>{header}</Heading>
       <Divider my="2" />
       <ItemsList<GeneralChangeRequest>
-        itemsEndpoint={`${ApiUrl.CHANGE_REQUESTS}${admin ? "?all=true" : ""}`}
+        itemsEndpoint={ApiUrl.CHANGE_REQUESTS}
+        all={admin}
         Item={ChangeRequestItem}
         keyField="_id"
         inputRef={itemsRef}
@@ -112,24 +105,39 @@ function ChangeRequestsList({ admin, header }: Props): ReactElement {
         dateSort
       />
       <ConfirmationDialog
-        isOpen={isOpenDeleteDialog}
-        onClose={onCloseDeleteDialog}
-        onConfirm={sendDelete}
-        action={ConfirmationDialogAction.DELETE}
-        header="DELete?"
+        isOpen={isOpen}
+        onClose={onClose}
+        onConfirm={handleConfirm}
+        action={dialogAction}
+        header={
+          dialogAction === ConfirmationDialogAction.DELETE
+            ? Message.DELETE
+            : Message.APPROVE_CHANGE_REQUEST
+        }
       >
-        DELETE? {selectedChangeRequest?._id}
+        {dialogAction === ConfirmationDialogAction.DELETE ? (
+          <>
+            {Message.DIALOG_DELETE_CHANGE_REQUEST.split("^")[0]}{" "}
+            {(selectedChangeRequest?.type === ContentType.RATING
+              ? Message.RATING
+              : Message.BLOGPOST
+            ).toLowerCase()}{" "}
+            <strong>{selectedChangeRequest?.content.name}</strong>
+            {Message.DIALOG_DELETE_CHANGE_REQUEST.split("^")[1]}{" "}
+            {selectedChangeRequest?._id}{" "}
+            {Message.DIALOG_DELETE_CHANGE_REQUEST.split("^")[2]}
+          </>
+        ) : (
+          <>
+            {Message.DIALOG_APPROVE_CHANGE_REQUEST.split("^")[0]}
+
+            <strong>{selectedChangeRequest?.content.name}</strong>
+            {Message.DIALOG_APPROVE_CHANGE_REQUEST.split("^")[1]}
+            <br />
+            {Message.DIALOG_APPROVE_CHANGE_REQUEST.split("^")[2]}
+          </>
+        )}
       </ConfirmationDialog>
-      <Modal
-        {...{
-          onClose: onCloseApprovalModal,
-          onConfirm: handleConfirmApproval,
-          isOpen: isOpenApprovalModal,
-          headerContent: "potvrdit",
-        }}
-      >
-        potvridt change request s id {selectedChangeRequest?._id}
-      </Modal>
       <EditModal />
     </Box>
   );

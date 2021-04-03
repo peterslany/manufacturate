@@ -109,7 +109,6 @@ function Header(): ReactElement {
             </Heading>
           </Link>
           {items}
-          <DarkModeSwitch />
         </>
       )}
       {session ? (
@@ -119,10 +118,20 @@ function Header(): ReactElement {
           onShowTextFieldCallback={() => setShowSearchbar((prev) => !prev)}
         />
       )}
+      {!isSmallScreen && (
+        <Flex
+          align="center"
+          w="120px"
+          justify="space-between"
+          marginLeft="10px"
+        >
+          <LocaleChange isHiddenLabel />
+          <DarkModeSwitch />
+        </Flex>
+      )}
       <HeaderDrawer
         {...{ items, isOpen: isDrawerOpen, onClose: closeDrawer }}
       />
-      <LocaleChange />
     </Flex>
   );
 }

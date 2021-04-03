@@ -105,13 +105,23 @@ const theme = extendTheme({
       borderRadius: 24,
       background: "transparent",
     },
-    focus: {
-      boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
+    outline16: {
+      border: "1px solid",
+      borderColor: "initial",
+      borderRadius: 16,
+      background: "transparent",
     },
     outlineFocused: {
       border: "1px solid",
       borderColor: "initial",
       borderRadius: 24,
+      background: "transparent",
+      boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
+    },
+    outline16Focused: {
+      border: "1px solid",
+      borderColor: "initial",
+      borderRadius: 16,
       background: "transparent",
       boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
     },
@@ -121,6 +131,16 @@ const theme = extendTheme({
       borderRadius: 24,
       background: "transparent",
       boxShadow: "0 0 0 3px rgba(246, 72, 72, 0.8)",
+    },
+    outline16Error: {
+      border: "1px solid",
+      borderColor: "initial",
+      borderRadius: 16,
+      background: "transparent",
+      boxShadow: "0 0 0 3px rgba(246, 72, 72, 0.8)",
+    },
+    focus: {
+      boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
     },
     glassLight: {
       backdropFilter: "blur(15px)",
@@ -136,12 +156,47 @@ const theme = extendTheme({
     },
   },
   styles: {
-    global: {
-      "::--webkit-scrollbar": {
-        width: "80px",
-        scrollbarColor: "red yellow",
+    global: ({ colorMode }) => ({
+      ".markdown": {
+        ".chakra-link, .chakra-link > span": {
+          textDecoration: "underline",
+          color: colorMode === "dark" ? "blue.200" : "blue.600",
+          "&:hover": {
+            color: colorMode === "dark" ? "teal.200" : "teal.600",
+          },
+          "&:visited, &:visited > span": {
+            color: colorMode === "dark" ? "purple.200" : "purple.600",
+          },
+        },
+        h1: {
+          fontSize: "5xl",
+          fontWeight: "600",
+        },
+        h2: {
+          fontSize: "4xl",
+          fontWeight: "600",
+        },
+        h3: {
+          fontSize: "3xl",
+          fontWeight: "600",
+        },
+        h4: {
+          fontSize: "2xl",
+          fontWeight: "600",
+        },
+        h5: {
+          fontSize: "xl",
+          fontWeight: "600",
+        },
+        h6: {
+          fontSize: "lg",
+          fontWeight: "600",
+        },
       },
-    },
+      ".editor-toolbar": {
+        borderTopRadius: "16px",
+      },
+    }),
   },
   breakpoints,
 });

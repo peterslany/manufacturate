@@ -27,6 +27,10 @@ export const LocaleMessages = asLocaleMessages({
     en: "Saving changes will delete rating data for category: ",
     sk: "Uložením zmien sa vymažú dáta pre hodnotenie kategórie: ",
   },
+  APPROVE_CHANGE_REQUEST: {
+    en: "Approve change request",
+    sk: "Schváliť požiadavku na zmenu",
+  },
   ASCENDING: {
     en: "Ascending",
     sk: "Vzostupne",
@@ -83,6 +87,71 @@ export const LocaleMessages = asLocaleMessages({
     en: "Description",
     sk: "Popis",
   },
+  BLOGPOST_NAME: {
+    en: "Blogpost name",
+    sk: "Názov príspevku",
+  },
+  BLOGPOST_URL_PATH_SEGMENT: {
+    en: "URL path segment",
+    sk: "URL segment prístupovej cesty",
+  },
+  BLOGPOST_THUMBNAIL_URL: {
+    en: "Thumbnail URL",
+    sk: "URL titulnej fotky",
+  },
+  SUB_TITLE: {
+    en: "Subtitle",
+    sk: "Podnadpis",
+  },
+  NO_ITEMS: {
+    en: "No items",
+    sk: "Žiadne položky",
+  },
+  LOGGING_IN_FAILED: {
+    sk:
+      "Prihlásenie sa nepodarilo, zadali ste nesprávnu kombináciu mena a hesla.",
+    en:
+      "Logging in failed, you entered wrong combination of username and password.",
+  },
+  TOGGLE_COLOR_MODE: {
+    en: "Toggle color mode",
+    sk: "Prepnúť farebný mód",
+  },
+  LOGIN_TEAM_MEMBER: {
+    sk: "Prihlásenie člena tímu",
+    en: "Team member log-in",
+  },
+  CURENTLY_LOGGED_IN_AS: {
+    en: "You are currently logged in as:",
+    sk: "Momentálne si prihlásený/á pod účtom:",
+  },
+  LANGUAGE: {
+    en: "Language",
+    sk: "Jazyk",
+  },
+  CHANGE_REQUEST: {
+    en: "Change request",
+    sk: "Požiadavka na zmenu",
+  },
+  CONTENT: {
+    en: "Content",
+    sk: "Obsah",
+  },
+
+  DIALOG_APPROVE_CHANGE_REQUEST: {
+    en:
+      "Do you want to approve change request for ^?^ It will update public page with corresponding content.",
+    sk:
+      "Praješ si schváliť požiadavku na zmenu ^?^ Týmto úkonom sa zmení verejne dostupná stránka so súvisiacim obsahom.",
+  },
+  DASHBOARD_DESCRIPTION: {
+    sk: "Tu môžeš vytvárať a upravovať hodnotenia a blogy",
+    en: "You can create and edit ratings and blogpost here",
+  },
+  LOADING: {
+    en: "Loading",
+    sk: "Načítavanie",
+  },
   DIALOG_DELETE_SUBCATEGORY: {
     en:
       "Are you sure you want to delete subcategory ^?^ Doing so will ^ permanently delete ^ all of its data.",
@@ -97,7 +166,11 @@ export const LocaleMessages = asLocaleMessages({
     en:
       "Are you sure you want to delete ^ ?^ Doing so will ^delete publicly available page^ with this ^ and it will be reverted into change request stage.",
     sk:
-      "Si si istý, že chceš vymazať ^ ?^ Týmto úkonom sa ^vymaže verejne dostupná stránka^ a ^ bude vrátený do fázy požiadavky na zmenu.",
+      "Si si istý, že chceš odstrániť ^ ?^ Týmto úkonom sa ^vymaže verejne dostupná stránka^ a ^ bude vrátený do fázy požiadavky na zmenu.",
+  },
+  DIALOG_DELETE_CHANGE_REQUEST: {
+    en: "Are you sure you want to delete change request for ^ with id ^ ?",
+    sk: "Si si istý, že chceš odstrániť požiadavku na zmenu pre ^ s id ^?",
   },
   ERROR_DEFAULT_MESSAGE: {
     en: "Oops, something went wrong.",
@@ -136,9 +209,9 @@ export const LocaleMessages = asLocaleMessages({
     sk:
       "Fair about care je neziskový projekt, ktorý poskytuje objektívne hodnotenia výrobcov kozmetiky pre všetkých.",
   },
-  ID_URI_PATH_SEGMENT: {
-    en: "ID (URI path segment)",
-    sk: "ID (URI segment prístupovej cesty)",
+  ID_URL_PATH_SEGMENT: {
+    en: "ID (URL path segment)",
+    sk: "ID (URL segment prístupovej cesty)",
   },
   INFO_ACCOUNT_CHANGES_SAVED: {
     en: "Account changes saved.",
@@ -150,11 +223,19 @@ export const LocaleMessages = asLocaleMessages({
   },
   INFO_CHANGE_REQUEST_DELETED: {
     en: "Change request was deleted.",
-    sk: "Požiadavka na zmenu bola vymazaná.",
+    sk: "Požiadavka na zmenu bola odstránená.",
   },
   INFO_CONTENT_REVERTED: {
     en: "Content was deleted and reverted to change request.",
-    sk: "Obsah bol vymazaný a vrátený do fázy požiadavky na zmenu.",
+    sk: "Obsah bol odstránený a vrátený do fázy požiadavky na zmenu.",
+  },
+  INFO_CHANGE_REQUEST_CREATED: {
+    en: "Change request created.",
+    sk: "Požiadavka na zmenu bola vytvorená.",
+  },
+  INFO_CHANGE_REQUEST_SAVED: {
+    en: "Change request saved.",
+    sk: "Požiadavka na zmenu bola uložená.",
   },
   INFO_USER_ACCOUNT_CREATED: {
     en: "User account successfully created.",

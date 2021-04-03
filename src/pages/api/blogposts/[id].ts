@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
   approveChangeRequest,
@@ -40,7 +39,7 @@ export default async function handler(
             throw new Error(`${id} is not valid id of blogpost.`);
           }
           await reverseToChangeRequest<Blogpost>(
-            new ObjectId(parsedId),
+            parsedId,
             ContentType.BLOGPOST,
             user.username
           );
@@ -78,7 +77,7 @@ export default async function handler(
 
           await approveChangeRequest<Blogpost>(
             body.changeRequestId,
-            new ObjectId(parsedId),
+            parsedId,
             ContentType.BLOGPOST
           );
           res.status(204).end();

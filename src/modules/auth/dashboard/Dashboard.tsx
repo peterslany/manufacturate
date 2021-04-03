@@ -6,6 +6,7 @@ import {
   Divider,
   Flex,
   Heading,
+  ScaleFade,
   Text,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
@@ -26,7 +27,7 @@ interface Props {}
 
 function Dashboard({}: Props): ReactElement {
   const { Message } = useLocale();
-  const [session, loading] = useSession();
+  const [session] = useSession();
 
   const isAdmin = session?.user.isAdmin;
 
@@ -60,25 +61,30 @@ function Dashboard({}: Props): ReactElement {
   ));
 
   return (
-    <Box mx={[2, 4, 8]} mt={[2, 4, 6]}>
-      {changeRequestCount && changeRequestCount !== 0 ? (
+    <Box m={[2, 4, 8]}>
+      <ScaleFade
+        unmountOnExit
+        in={Boolean(changeRequestCount && changeRequestCount !== 0)}
+      >
         <Alert my="4" status="warning" fontSize="lg">
           <AlertIcon />
           {Message.ALERT_CHANGE_REQUESTS_WAITING}( {changeRequestCount} ).{" "}
           <ViewNow href={Path.AUTH_ADMINISTRATION} linkText={Message.VIEW} />
         </Alert>
-      ) : null}
+      </ScaleFade>
+
       <Heading>
         {Message.WELCOME}, {session?.user.username}
       </Heading>
       <Divider />
-      <Text>Tu môžeš vytvárať a upravovať hodnotenia a blogy</Text>
+      <Text mb="4">{Message.DASHBOARD_DESCRIPTION}</Text>
       <CollapsibleSection title={Message.RATINGS}>
         <Content<BasicRating>
           setChangeRequestsCount={setChangeRequestCount}
           type={ContentType.RATING}
         />
       </CollapsibleSection>
+      <Divider my="4" />
       <CollapsibleSection title={Message.BLOG}>
         <Content<BlogpostBase>
           setChangeRequestsCount={setChangeRequestCount}

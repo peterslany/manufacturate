@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import { ChangeRequestFormMode, ContentType } from "../../../constants";
+import { useLocale } from "../../../hooks";
 import Modal from "../../Modal";
 import ChangeRequestForm, { ChangeRequestFormProps } from "./ChangeRequestForm";
 
@@ -11,6 +12,8 @@ export default function useChangeRequestFormModal(
   createNew: (type: ContentType) => void;
   edit: (changeRequestId: string, contentType: ContentType) => void;
 } {
+  const { Message } = useLocale();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const submitRef = useRef<HTMLButtonElement>(null);
@@ -37,7 +40,7 @@ export default function useChangeRequestFormModal(
         {...{
           onClose,
           isOpen: isModalOpen,
-          headerContent: "Formular pre vytvorenie zmeny",
+          headerContent: Message.CHANGE_REQUEST,
           onConfirm: () => submitRef?.current?.click(),
         }}
         size="full"
@@ -49,7 +52,7 @@ export default function useChangeRequestFormModal(
         />
       </Modal>
     ),
-    [formProps, isModalOpen, onSuccessCallback]
+    [Message.CHANGE_REQUEST, formProps, isModalOpen, onSuccessCallback]
   );
 
   const createNew = useCallback((type: ContentType) => {

@@ -1,14 +1,23 @@
+import { GetStaticProps } from "next";
 import { ReactElement } from "react";
-import RatingsModule from "../../modules/ratings";
+import { getRatingsList } from "../../api/db";
+import Ratings from "../../modules/ratings";
+import { BasicRating, ListData } from "../../types";
 
-interface Props {}
-// export const getStaticProps: GetStaticProps = async (context) => ({
-//   props: {},
-// });
-
-function Ratings({}: Props): ReactElement {
-  // TODO get initial data in getstatic props
-  return <RatingsModule initialRatingsData={[]} />;
+interface Props {
+  initialRatingsData: ListData<BasicRating>;
 }
 
-export default Ratings;
+function RatingsPage({ initialRatingsData }: Props): ReactElement {
+  return <Ratings initialRatingsData={initialRatingsData} />;
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const ratings = await getRatingsList();
+
+  return {
+    props: { initialRatingsData: ratings },
+    revalidate: 60 * 60 * 2, // 2 hours
+  };
+};
+export default RatingsPage;

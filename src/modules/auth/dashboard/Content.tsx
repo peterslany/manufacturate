@@ -167,7 +167,11 @@ function OverviewRatings<T extends BasicRating | BlogpostBase>({
             <EditIcon />
           </IconButton>
           <LinkButton
-            href={`${isRating ? Path.RATINGS : Path.BLOG}/${_id}`}
+            href={
+              isRating
+                ? `${Path.RATINGS}/${_id}`
+                : `${Path.BLOG}/${(props as BlogpostBase).urlPathSegment}`
+            }
             linkText="Redirect to content"
             target="_blank"
           />
@@ -179,7 +183,7 @@ function OverviewRatings<T extends BasicRating | BlogpostBase>({
     <Box p="4">
       <Flex justifyContent="space-between" align="center" mb="2">
         <Heading>{isRating ? Message.RATINGS : Message.BLOG}</Heading>
-        <Button onClick={() => createNew(type)}>
+        <Button layerStyle="outline" onClick={() => createNew(type)}>
           <AddIcon mr="2" /> {Message.CREATE}
         </Button>
       </Flex>

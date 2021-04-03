@@ -103,7 +103,7 @@ export const createChangeRequest = async (
 // and deletes corresponding change request from change_requests collection
 export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
   changeRequestId: string,
-  id: T extends Blogpost ? ObjectId : string,
+  id: string,
   type: T extends Blogpost ? ContentType.BLOGPOST : ContentType.RATING
 ): Promise<void> => {
   const collectionName =
@@ -121,10 +121,6 @@ export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
 
       console.log(changeRequest, changeRequestId);
       const { content } = changeRequest;
-
-      if (type === ContentType.BLOGPOST) {
-        content._id = new ObjectId(content._id);
-      }
 
       await db.collection(collectionName).replaceOne({ _id: id }, content, {
         upsert: true,
@@ -146,7 +142,7 @@ export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
 };
 
 export const reverseToChangeRequest = async <T extends Blogpost | RatingFull>(
-  id: T extends Blogpost ? ObjectId : string,
+  id: string,
   type: T extends Blogpost ? ContentType.BLOGPOST : ContentType.RATING,
   username: string
 ): Promise<void> => {

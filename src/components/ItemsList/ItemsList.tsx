@@ -1,16 +1,18 @@
-import { Box, Divider, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, Progress, Text } from "@chakra-ui/react";
 import { debounce } from "lodash";
 import React, {
   ReactElement,
   useCallback,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useState,
 } from "react";
 import { Input, Pagination } from "..";
 import { ApiUrl, PAGE_SIZE, SortOrder } from "../../constants";
 import { useGet, useLocale } from "../../hooks";
 import Select from "../Select";
+import { getUrlEndpoint } from "./utils";
 
 interface InputConfig {
   label: string;
@@ -23,11 +25,12 @@ export type ItemsListRef<T> = React.RefObject<{
 
 interface Props<T> {
   Item: React.FC<T>;
+  all?: boolean;
   dateSort?: boolean;
   heading?: string;
   inputConfig?: InputConfig;
   inputRef: ItemsListRef<T>;
-  itemsEndpoint: ApiUrl | string;
+  itemsEndpoint: ApiUrl;
   keyField: string;
 }
 function ItemsList<T>({
@@ -38,17 +41,25 @@ function ItemsList<T>({
   inputRef,
   keyField,
   dateSort,
+  all,
 }: Props<T>): ReactElement {
   const { Message } = useLocale();
   const [searchQuery, setSearchQuery] = useState<string>();
   const [selectedPage, setSelectedPage] = useState<number>(1);
   const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.DESCENDING);
 
-  const url = `${itemsEndpoint}?${
-    searchQuery ? `search=${searchQuery}&` : ""
-  }page=${selectedPage}&${
-    dateSort ? `sortBy=date&sortOrder=${sortOrder}` : ""
-  }`;
+  const url = useMemo(
+    () =>
+      getUrlEndpoint(
+        itemsEndpoint,
+        searchQuery,
+        selectedPage,
+        dateSort,
+        sortOrder,
+        all
+      ),
+    [all, dateSort, itemsEndpoint, searchQuery, selectedPage, sortOrder]
+  );
 
   const { data, loading } = useGet<{ count: number; items: T[] }>(url);
 
@@ -101,7 +112,7 @@ function ItemsList<T>({
         </>
       )}
       {dateSort && (
-        <Flex mb="4" align="center" justify="flex-end">
+        <Flex mb="4" align="center" justify="flex-start">
           <Text fontWeight="600" mr="2">
             {Message.SORTED_BY_DATE}
           </Text>
@@ -116,6 +127,14 @@ function ItemsList<T>({
           />{" "}
         </Flex>
       )}
+      {loading && (
+        <Progress
+          size="xs"
+          colorScheme="blue"
+          isIndeterminate
+          bg="transparent"
+        />
+      )}
       <Box opacity={loading ? 0.6 : 1}>
         {items.map((props: T) => (
           <Item
@@ -123,7 +142,7 @@ function ItemsList<T>({
             {...props}
           />
         ))}
-
+        <em>{items.length < 1 && Message.NO_ITEMS}</em>
         <Pagination
           mt="2"
           totalPages={Math.ceil((data?.count || 0) / PAGE_SIZE)}

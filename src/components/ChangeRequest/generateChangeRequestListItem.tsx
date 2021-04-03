@@ -1,4 +1,4 @@
-import { ArrowRightIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { CheckIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { Flex, IconButton, Text } from "@chakra-ui/react";
 import { ContentType } from "../../constants";
 import { useColorVariations, useLocale } from "../../hooks";
@@ -20,6 +20,7 @@ export default function generateChangeRequestListItem(
       "green",
       "gray",
     ]);
+
     const {
       _id,
       content: { name },
@@ -33,7 +34,7 @@ export default function generateChangeRequestListItem(
         layerStyle="outline"
         justifyContent="space-between"
         align="center"
-        direction={["column", "row"]}
+        direction={["column", "column", "row"]}
         mb="2"
       >
         {" "}
@@ -42,7 +43,7 @@ export default function generateChangeRequestListItem(
           px="2"
           w="full"
           justifyContent="space-between"
-          wrap={["wrap", "nowrap"]}
+          wrap={["wrap", "wrap", "nowrap"]}
           align="center"
         >
           <Text fontWeight="600" w={["full", "50%"]} my="2">
@@ -97,7 +98,7 @@ export default function generateChangeRequestListItem(
                 borderColor: green.fg,
               }}
             >
-              <ArrowRightIcon />
+              <CheckIcon />
             </IconButton>
           )}
         </Flex>

@@ -34,7 +34,6 @@ const useGet = <T>(
   );
 
   useEffect(() => {
-    console.log("GET EFF", url);
     if (url) send();
   }, [send, url]);
 

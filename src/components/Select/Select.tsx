@@ -4,6 +4,8 @@ import { Option } from "../../types";
 
 interface Props<T> {
   className?: string;
+  isDisabled?: boolean;
+  isHiddenLabel?: boolean;
   label?: string;
   name: string;
   onChange: (value: T) => void;
@@ -18,10 +20,16 @@ function Select<T>({
   label,
   className,
   value,
+  isDisabled,
+  isHiddenLabel,
 }: Props<T>): ReactElement {
   return (
     <div className={className}>
-      {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
+      {label && (
+        <FormLabel hidden={isHiddenLabel} htmlFor={name}>
+          {label}
+        </FormLabel>
+      )}
       <ChakraSelect
         {...{
           name,
@@ -29,9 +37,10 @@ function Select<T>({
             onChange(JSON.parse(event.target.value)),
           value: JSON.stringify(value),
         }}
-        layerStyle="outline"
-        _focus={{ layerStyle: "outlineFocused" }}
+        layerStyle="outline16"
+        _focus={{ layerStyle: "outline16Focused" }}
         _hover={{ boxShadow: "0 0 0 1px" }}
+        isDisabled={isDisabled}
       >
         {options.map(({ value: optionValue, label: optionLabel }) => (
           <option key={optionLabel} {...{ value: JSON.stringify(optionValue) }}>

@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import { Locale, PAGE_SIZE, SortOrder } from "../../constants";
 import { Blogpost, BlogpostsData } from "../../types";
 import { parseInteger } from "../../utils";
@@ -40,8 +39,8 @@ export const getBlogposts = async (
   return { items: blogposts, count };
 };
 
-export const getBlogpost = async (id?: string): Promise<Blogpost | null> => {
+export const getBlogpost = async (_id?: string): Promise<Blogpost | null> => {
   const { db } = await database();
 
-  return db.collection(Collection.BLOGPOSTS).findOne({ _id: new ObjectId(id) });
+  return db.collection(Collection.BLOGPOSTS).findOne({ _id });
 };

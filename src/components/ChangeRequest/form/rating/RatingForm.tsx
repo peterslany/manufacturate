@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { DeepMap, FieldError } from "react-hook-form";
+import { Control, DeepMap, FieldError } from "react-hook-form";
 import { useLocale } from "../../../../hooks";
 import { RatingFull } from "../../../../types";
 import { getProductCategoryLabel } from "../../../../utils";
@@ -15,7 +15,7 @@ import RatingFormSubCategoryPicker from "./RatingFormSubCategoryPicker";
 import RatingUnitForm from "./RatingUnitForm";
 
 interface Props {
-  control: any;
+  control: Control<Record<string, unknown>>;
   errors: DeepMap<RatingFull, FieldError>;
   initialValues: RatingFull | undefined;
   register: (values: Record<string, unknown>) => RefObject<HTMLInputElement>;
@@ -50,7 +50,7 @@ function RatingForm({
           <Input
             type="text"
             name="content._id"
-            label={Message.ID_URI_PATH_SEGMENT}
+            label={Message.ID_URL_PATH_SEGMENT}
             ref={register({ required: Message.ERROR_FORM_REQUIRED_FIELD })}
             {...(initialValues && { isReadOnly: true })}
             errors={errors}

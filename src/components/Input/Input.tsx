@@ -43,11 +43,11 @@ function Input(
       <ChakraInput
         ref={ref}
         _hover={{ boxShadow: "0 0 0 1px" }}
-        _focus={{ layerStyle: !error ? "outlineFocused" : "outlineError" }}
+        _focus={{ layerStyle: !error ? "outline16Focused" : "outline16Error" }}
         _invalid={{ border: "2px solid red" }}
         _readOnly={{ color: readOnlyColor, cursor: "not-allowed" }}
         isInvalid={Boolean(error)}
-        layerStyle="outline"
+        layerStyle="outline16"
         step="any"
         {...{ onChange: handleInputChange, name, ...props }}
       />

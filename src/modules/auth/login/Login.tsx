@@ -3,9 +3,10 @@ import { isEmpty, isString } from "lodash";
 import { signIn, useSession } from "next-auth/client";
 import React, { ReactElement, useState } from "react";
 import { Button, Input, LogoutButton } from "../../../components";
-import { useUrlParam } from "../../../hooks";
+import { useLocale, useUrlParam } from "../../../hooks";
 
 function Login(): ReactElement {
+  const { Message } = useLocale();
   const [session] = useSession();
 
   const [callbackUrl] = useUrlParam("callbackUrl");
@@ -25,16 +26,16 @@ function Login(): ReactElement {
     });
 
   return session ? (
-    <Center p="16">
-      Momentálne ste prihlásený/á pod účtom:
+    <Center flexDirection={["column", "column", "row"]} p={["4", "8", "16"]}>
+      {Message.CURENTLY_LOGGED_IN_AS}
       <strong style={{ marginLeft: 4, marginRight: 24 }}>
         {session.user.username}
       </strong>
       <LogoutButton />
     </Center>
   ) : (
-    <Center as="form" flexDirection="column" p="16">
-      <Heading pb="8">Prihlásenie hodnotiteľa</Heading>
+    <Center flexDirection="column" p={["4", "8", "16"]}>
+      <Heading pb="8">{Message.LOGIN_TEAM_MEMBER}</Heading>
       <form
         style={{
           display: "flex",
@@ -50,8 +51,9 @@ function Login(): ReactElement {
           value={username}
           onChange={setUsername}
           type="text"
-          label="Užívateľské meno"
+          label={Message.USERNAME}
           layerStyle="outline"
+          mb="2"
         />
         <Input
           name="password"
@@ -60,8 +62,9 @@ function Login(): ReactElement {
           value={password}
           onChange={setPassword}
           type="password"
-          label="Heslo"
+          label={Message.PASSWORD}
           layerStyle="outline"
+          mb="2"
         />
         <Button
           my="4"
@@ -70,14 +73,13 @@ function Login(): ReactElement {
           type="submit"
           onClick={() => handleLoginSubmit()}
         >
-          Prihlásiť sa
+          {Message.LOG_IN}
         </Button>
       </form>
       {error && (
         <Alert w="fit-content" status="error">
           <AlertIcon />
-          Prihlásenie sa nepodarilo, zadali ste nesprávnu kombináciu mena a
-          hesla.
+          {Message.LOGGING_IN_FAILED}
         </Alert>
       )}
     </Center>

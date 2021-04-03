@@ -1,10 +1,14 @@
+import { Box, Center, Spinner } from "@chakra-ui/react";
+import { isEmpty } from "lodash";
 import { useSession } from "next-auth/client";
-import { ReactElement, RefObject, useEffect } from "react";
+import { ReactElement, RefObject, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ChangeRequestFormMode, ContentType } from "../../../constants";
 import { useGet, useLocale, useRequest } from "../../../hooks";
 import { Blogpost, GeneralChangeRequest, RatingFull } from "../../../types";
+import { generateBlogpostId } from "../../../utils";
 import Input from "../../Input";
+import BlogpostForm from "./blogpost/BlogpostForm";
 import RatingForm from "./rating/RatingForm";
 import {
   generateRatingMetadata,
@@ -51,9 +55,14 @@ function ChangeRequestForm<T extends ContentType>({
 
   const url = getDataUrl(mode, contentType, changeRequestId, contentId);
 
-  const { data, loading } = useGet<
-    GeneralChangeRequest | RatingFull | Blogpost
-  >(url);
+  const { data } = useGet<GeneralChangeRequest | RatingFull | Blogpost>(url);
+
+  const [renderChildren, setRenderChildren] = useState(
+    mode === ChangeRequestFormMode.CREATE_NEW
+  );
+  const [initializingValues, setInitializingValues] = useState(
+    mode !== ChangeRequestFormMode.CREATE_NEW
+  );
 
   const content =
     mode === ChangeRequestFormMode.EDIT
@@ -62,22 +71,35 @@ function ChangeRequestForm<T extends ContentType>({
 
   const [sendUrl, sendMethod] = getSendUrlAndMethod(mode, changeRequestId);
 
+  const successMessage =
+    mode === ChangeRequestFormMode.EDIT
+      ? Message.INFO_CHANGE_REQUEST_SAVED
+      : Message.INFO_CHANGE_REQUEST_CREATED;
+
   const { send } = useRequest(sendUrl, sendMethod, {
     onSuccessCallback: () => onSuccessCallback && onSuccessCallback(),
+    successMessage,
   });
 
   const { register, errors, setValue, handleSubmit, control } = useForm();
 
-  // sets initial values
+  // for setting initial values
   useEffect(() => {
     if (mode !== ChangeRequestFormMode.CREATE_NEW && content) {
-      setTimeout(() =>
-        setValue(
-          "content",
-          mode === ChangeRequestFormMode.CREATE_FROM_CONTENT ? content : content
-        )
+      // renders children after modal is shown, so itransitionn is not lagging
+      setTimeout(() => setRenderChildren(true), 200);
+      // sets initial values after all children and corresponding values are mounted into DOM
+      setTimeout(
+        () =>
+          setValue(
+            "content",
+            mode === ChangeRequestFormMode.CREATE_FROM_CONTENT
+              ? content
+              : content
+          ),
+        700
       );
-
+      setTimeout(() => setInitializingValues(false), 1000);
       if (mode === ChangeRequestFormMode.EDIT) {
         setTimeout(() => setValue("note", (data as GeneralChangeRequest).note));
       }
@@ -109,7 +131,18 @@ function ChangeRequestForm<T extends ContentType>({
       };
     }
     if (contentType === ContentType.BLOGPOST) {
-      // TODO: add metadata for blogpost
+      const _id = isEmpty(values.content._id)
+        ? generateBlogpostId(values.content as Blogpost)
+        : values.content._id;
+
+      requestBodyBase = {
+        ...requestBodyBase,
+        content: {
+          ...requestBodyBase.content,
+          _id,
+          author: author || "",
+        },
+      };
     }
 
     send(requestBodyBase);
@@ -117,19 +150,41 @@ function ChangeRequestForm<T extends ContentType>({
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
-      {contentType === ContentType.RATING ? (
-        <RatingForm
-          initialValues={content as RatingFull | undefined}
-          {...{
-            register: register as never,
-            errors,
-          }}
-          control={control}
-        />
-      ) : (
-        <></>
+      {initializingValues && (
+        <Center
+          h="full"
+          w="full"
+          position="absolute"
+          top="50%"
+          transform="translateY(-50%)"
+          flexDirection="column"
+        >
+          <Spinner size="xl" />
+          {Message.LOADING}
+        </Center>
       )}
-      <Input name="note" ref={register} label={Message.NOTE} />
+      <Box
+        opacity={initializingValues ? 0 : 1}
+        transition="500ms all ease-in-out"
+      >
+        {renderChildren &&
+          (contentType === ContentType.RATING ? (
+            <RatingForm
+              initialValues={content as RatingFull | undefined}
+              {...{
+                register: register as never,
+                errors,
+              }}
+              control={control}
+            />
+          ) : (
+            <BlogpostForm
+              {...{ mode, control, errors, register: register as never }}
+            />
+          ))}
+        <Input name="note" ref={register} label={Message.NOTE} />
+      </Box>
+
       <button hidden type="submit" ref={submitRef} />
     </form>
   );

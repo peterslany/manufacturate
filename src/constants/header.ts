@@ -32,8 +32,8 @@ export const publicHeaderItems: HeaderItemType[] = [
     path: Path.ABOUT,
   },
   {
-    label: LocaleMessages.METHODOLOGY,
-    path: Path.METHODOLOGY,
+    label: LocaleMessages.BLOG,
+    path: Path.BLOG,
   },
 ];
 

@@ -27,8 +27,8 @@ function Pagination({
 
   function Page({ value }: PageProps) {
     const hoverColor = useColorModeValue(
-      ["black", "white"],
-      ["white", "black"]
+      ["gray.700", "gray.50"],
+      ["gray.300", "gray.900"]
     );
     return (
       <Button

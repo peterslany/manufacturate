@@ -1,5 +1,5 @@
 import { Box, Center, Flex, Heading, useDisclosure } from "@chakra-ui/react";
-import React, { ReactElement, useRef, useState } from "react";
+import React, { ReactElement, useCallback, useRef, useState } from "react";
 import { Button } from "../../../../components";
 import ConfirmationDialog from "../../../../components/ConfirmationDialog";
 import ItemsList from "../../../../components/ItemsList";
@@ -46,6 +46,12 @@ function UsersAdministration({}: Props): ReactElement {
       );
     }
   };
+
+  const onCreateCallback = useCallback(
+    (newUser: User) =>
+      modifyItems && modifyItems((items) => [...items, newUser]),
+    []
+  );
 
   return (
     <Flex mx="4" mb="8" mt="4" wrap="wrap" justifyContent="space-between">
@@ -106,11 +112,7 @@ function UsersAdministration({}: Props): ReactElement {
         <Heading size="md" pb="2" mb="2" borderBottom="1px solid">
           {Message.NEW_USER_ACCOUNT}
         </Heading>
-        <CreateUser
-          onCreateCallback={(newUser: User) =>
-            modifyItems && modifyItems((items) => [...items, newUser])
-          }
-        />
+        <CreateUser onCreateCallback={onCreateCallback} />
       </Box>
       <ConfirmationDialog
         isOpen={isConfirmDialogOpen}

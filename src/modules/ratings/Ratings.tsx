@@ -111,9 +111,7 @@ function Ratings({}: Props): ReactElement {
         <Box mb={5}>
           {Message.CATEGORIES}
           <Box
-            border="1px solid"
-            borderColor="initial"
-            borderRadius={24}
+            layerStyle="outline"
             p="1"
             w="fit-content"
             display="flex"

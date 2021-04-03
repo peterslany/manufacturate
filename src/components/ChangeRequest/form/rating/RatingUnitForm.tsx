@@ -1,8 +1,6 @@
 import { Box, Divider, Flex } from "@chakra-ui/react";
-import "easymde/dist/easymde.min.css";
 import React, { ReactElement, RefObject } from "react";
-import { Controller, DeepMap, FieldError } from "react-hook-form";
-import MDEditor from "react-simplemde-editor";
+import { Control, DeepMap, FieldError } from "react-hook-form";
 import {
   Locale,
   LocaleMessages,
@@ -11,15 +9,14 @@ import {
 import { useLocale } from "../../../../hooks";
 import { RatingFull } from "../../../../types";
 import Input from "../../../Input";
+import MDEditor from "../../../MDEditor";
 
 interface Props {
-  control: any;
+  control: Control<Record<string, unknown>>;
   errors: DeepMap<RatingFull, FieldError>;
   label: string;
   name: string;
-  register: (
-    values: Record<string, unknown>
-  ) => RefObject<HTMLInputElement | SimpleMDEEditor>;
+  register: (values: Record<string, unknown>) => RefObject<HTMLInputElement>;
 }
 
 function RatingUnitForm({
@@ -42,7 +39,7 @@ function RatingUnitForm({
         {Message.RATING}: {label}
       </strong>
       <Divider mb="4" />
-      <Flex wrap="wrap">
+      <Flex wrap="wrap" mb="2">
         {ratingTypes.map(({ subCategory, label: ratingLabel }) => (
           <Input
             w={["120px", "180px"]}
@@ -61,31 +58,14 @@ function RatingUnitForm({
           />
         ))}
       </Flex>
-      {/* TODO: put MD editor in here, put both locales */}
+      <strong>{Message.DESCRIPTION}</strong>
       {Object.keys(Locale).map((locale) => (
-        <Controller
-          key={locale}
-          control={control}
+        <MDEditor
+          key={`${name}.description.${locale}`}
+          label={locale}
           name={`${name}.description.${locale}`}
-          rules={{
-            required: Message.ERROR_FORM_REQUIRED_FIELD,
-          }}
-          render={(
-            { onChange, onBlur, value, name, ref },
-            { invalid, isTouched, isDirty }
-          ) => <MDEditor onChange={onChange} ref={ref} value={value} />}
+          {...{ control, errors }}
         />
-        // TODO: render errors
-        // <Input
-        //   key={locale}
-        //   name={`${name}.description.${locale}`}
-        //   ref={register({
-        //     required: Message.ERROR_FORM_REQUIRED_FIELD,
-        //   })}
-        //   type="text"
-        //   label={Message.DESCRIPTION}
-        //   errors={errors}
-        // />
       ))}
     </Box>
   );
