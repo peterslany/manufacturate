@@ -1,9 +1,12 @@
-import { useColorModeValue } from "@chakra-ui/react";
+import { theme, useColorModeValue } from "@chakra-ui/react";
 import { Global } from "@emotion/react";
 import * as React from "react";
 
-const MDEditor = () => {
-  const [fg, bg] = useColorModeValue(["black", "white"], ["white", "black"]);
+const MDEditor = (): JSX.Element => {
+  const [fg, bg] = useColorModeValue(
+    [theme.colors.gray[800], theme.colors.gray[100]],
+    [theme.colors.gray[100], theme.colors.gray[800]]
+  );
 
   const color = { fg, bg, middle: "#999999" };
   const dark = `

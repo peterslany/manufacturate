@@ -1,71 +1,59 @@
-import { SearchIcon } from "@chakra-ui/icons";
-import { chakra, Flex, Input, useBreakpointValue } from "@chakra-ui/react";
+import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
+import { chakra, Fade, Flex, IconButton, Input } from "@chakra-ui/react";
 import { isEmpty } from "lodash";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { Button } from "..";
-import { Path } from "../../constants";
-import { useSmallScreen, useUrlParam } from "../../hooks";
+import { useColorVariations, useLocale } from "../../hooks";
 
-interface SearchbarProps {
-  onShowTextFieldCallback?: () => void;
-  totalWidth?: (number | string)[];
-  showFullSearchbar?: boolean;
-  variant?: "dashed";
+export interface SearchbarProps {
   className?: string;
-  scrollOnSearch?: boolean;
+  onSearch: (query: string | undefined) => void;
+  placeholder?: string;
+  searchImmediately?: true;
+  value?: string;
+  variant?: "dashed";
 }
 
 function Searchbar({
-  onShowTextFieldCallback,
-  totalWidth,
-  showFullSearchbar,
   variant,
   className,
-  scrollOnSearch = true,
+  placeholder,
+  value,
+  onSearch,
+  searchImmediately,
 }: SearchbarProps): ReactElement {
+  const { Message } = useLocale();
+
+  const [red] = useColorVariations(["red"]);
+
   const [isFocused, setIsFocused] = useState(false);
 
-  const [show, setShowSearchbar] = useState(false);
+  const [inputText, setInputText] = useState<string | undefined>(value);
 
-  const [query, setQuery] = useUrlParam("search", Path.RATINGS, scrollOnSearch);
-
-  const [inputText, setInputText] = useState<string | undefined>(
-    typeof query === "string" ? query : undefined
-  );
   useEffect(() => {
-    setInputText(typeof query === "string" ? query : undefined);
-  }, [query]);
+    setInputText(value);
+  }, [value]);
 
   const searchbarRef = useRef<HTMLInputElement>(null);
 
-  const isSmallScreen = useSmallScreen();
-
-  const showInput = showFullSearchbar || !isSmallScreen || show;
-
-  const inputWidth = useBreakpointValue({
-    base: "140px",
-    sm: "170px",
-    md: "200px",
-  });
-
-  const buttonDashed = variant === "dashed" && {
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-    borderStyle: "dashed",
-    borderWidth: 2,
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputText(event.target.value);
+    if (searchImmediately) {
+      onSearch(event.target.value);
+    }
   };
 
   const handleSearchIconClick = () => {
-    setShowSearchbar((prev) => !prev);
-    if (showInput) setQuery(isEmpty(inputText) ? undefined : inputText);
-
-    // sets focus
-    if (searchbarRef.current && !showInput) {
+    if (isEmpty(inputText) && searchbarRef.current) {
+      // sets focus if the query is empty
       searchbarRef.current.focus();
     }
-    if (onShowTextFieldCallback) {
-      onShowTextFieldCallback();
-    }
+    onSearch(inputText);
+  };
+
+  const handleClearInput = () => {
+    onSearch(undefined);
+    setInputText(undefined);
   };
 
   return (
@@ -74,45 +62,52 @@ function Searchbar({
         e.preventDefault();
         handleSearchIconClick();
       }}
-      name="Vyhľadávanie"
     >
       <Flex
-        borderWidth={1}
-        layerStyle={`${showInput ? "outline" : ""}${
-          isFocused ? "Focused" : ""
-        }`}
-        transition="border 500ms ease-in-out"
+        layerStyle={`outline16${isFocused ? "Focused" : ""}`}
         className={className}
-        borderRadius="16px"
+        borderStyle={variant || "solid"}
+        borderWidth="2px"
+        align="center"
         w="fit-content"
       >
         <Input
-          w={showInput ? totalWidth || inputWidth : 0}
-          pl={showInput ? "12px" : 0}
-          pr={showInput ? "4px" : 0}
+          w={["240px", "420px"]}
+          pl="12px"
+          pr="4px"
+          bg="none"
           border="none"
           _focus={{}}
           ref={searchbarRef}
           onBlur={() => setIsFocused(false)}
           onFocus={() => setIsFocused(true)}
           role="textbox"
-          placeholder="Nazov výrobcu"
+          placeholder={placeholder}
+          _placeholder={{ color: "inherit", opacity: 0.6 }}
           value={inputText || ""}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setInputText(event.target.value)
-          }
+          onChange={handleInputChange}
         />
+        <Fade in={!isEmpty(inputText)} unmountOnExit>
+          <IconButton
+            color={red.bg}
+            _hover={{ bg: "transparent", color: red.fg }}
+            size="xs"
+            bg="transparent"
+            aria-label={Message.CLEAR_QUERY}
+            onClick={handleClearInput}
+          >
+            <CloseIcon fontSize="xs" />
+          </IconButton>
+        </Fade>
         <Button
           type="submit"
-          layerStyle="outline"
           borderRadius="16px"
-          p={0}
+          borderLeftRadius="0"
+          background="transparent"
           onClick={handleSearchIconClick}
-          {...buttonDashed}
-          {...(showInput
-            ? { borderTop: "none", borderBottom: "none", borderRight: "none" }
-            : {})}
-          {...(showFullSearchbar && { borderWidth: 2 })}
+          w="40px"
+          isDisabled={searchImmediately}
+          {...(variant === "dashed" && { borderLeft: "2px dashed" })}
         >
           <SearchIcon />
         </Button>

@@ -4,7 +4,7 @@ import { ProductCategory, RatingCategory } from "../constants";
 import { ListData } from "./common";
 import { SimpleLocaleMessage } from "./locale";
 
-interface BasicRatingUnit {
+export interface BasicRatingUnit {
   animals: number;
   ecology: number;
   ethics: number;

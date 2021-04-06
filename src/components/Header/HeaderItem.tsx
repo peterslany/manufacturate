@@ -7,6 +7,7 @@ import { useLocale } from "../../hooks";
 import { LocaleMessage } from "../../types";
 
 interface Props {
+  dontRedirect?: boolean;
   isOpen?: boolean;
   isSmallScreen: boolean;
   label: LocaleMessage;
@@ -23,6 +24,7 @@ function HeaderItem({
   isSmallScreen,
   onItemClick,
   withChevron,
+  dontRedirect,
   isOpen,
 }: Props): ReactElement {
   const { colorMode } = useColorMode();
@@ -46,38 +48,44 @@ function HeaderItem({
     }
   })();
 
-  return (
+  const item = (
+    <Link
+      p={4}
+      background={color}
+      borderRadius={24}
+      _hover={{ background: hoverColor }}
+      role="group"
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      onClick={onItemClick}
+      borderWidth={1}
+      borderColor="initial"
+      {...{
+        textStyle: selected ? "600" : "",
+        w: isSmallScreen ? "full" : "initial",
+        mb: isSmallScreen ? 2 : 0,
+      }}
+    >
+      {localizeMessage(label)}
+      {withChevron && (
+        <ChevronDownIcon
+          transition="transform 300ms ease-in-out"
+          transform={isOpen ? "rotate(180deg)" : "rotate(0deg)"}
+          _groupHover={{
+            transform: "rotate(180deg)",
+            transition: "transform 300ms ease-in-out",
+          }}
+        />
+      )}
+    </Link>
+  );
+
+  return dontRedirect ? (
+    item
+  ) : (
     <NextLink href={path} passHref>
-      <Link
-        p={4}
-        background={color}
-        borderRadius={24}
-        _hover={{ background: hoverColor }}
-        role="group"
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        onClick={onItemClick}
-        borderWidth={1}
-        borderColor="initial"
-        {...{
-          textStyle: selected ? "600" : "",
-          w: isSmallScreen ? "full" : "initial",
-          mb: isSmallScreen ? 2 : 0,
-        }}
-      >
-        {localizeMessage(label)}
-        {withChevron && (
-          <ChevronDownIcon
-            transition="transform 300ms ease-in-out"
-            transform={isOpen ? "rotate(180deg)" : "rotate(0deg)"}
-            _groupHover={{
-              transform: "rotate(180deg)",
-              transition: "transform 300ms ease-in-out",
-            }}
-          />
-        )}
-      </Link>
+      {item}
     </NextLink>
   );
 }

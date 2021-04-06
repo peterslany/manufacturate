@@ -32,7 +32,7 @@ function Modal({
 }: Props): ReactElement {
   const { Message } = useLocale();
 
-  const modalContentBg = useColorModeValue("gray.900A10", "gray.50A10");
+  const glass = useColorModeValue("glassLight", "glassDark");
   const modalOverlayBg = useColorModeValue("gray.50A99", "gray.900A99");
   const cancelButtonColor = useColorModeValue("red.500", "red.300");
 
@@ -46,7 +46,7 @@ function Modal({
       isCentered
     >
       <ModalOverlay bg={modalOverlayBg} />
-      <ModalContent mx={8} layerStyle="glassLight" bgColor={modalContentBg}>
+      <ModalContent mx={8} layerStyle={glass} bgColor="none">
         <ModalHeader>{headerContent}</ModalHeader>
         <ModalCloseButton />
         <ModalBody borderY="1px solid" borderColor="initial">

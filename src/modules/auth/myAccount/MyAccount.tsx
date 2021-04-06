@@ -57,7 +57,7 @@ function MyAccount({}: Props): ReactElement {
       direction={["column", "column", "row"]}
       align="center"
       justify="space-between"
-      m={[2, 4, 8]}
+      layerStyle="layout"
     >
       <ChangeRequestsList header={Message.MY_CHANGE_REQUESTS} />
 

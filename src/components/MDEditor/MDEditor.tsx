@@ -1,5 +1,6 @@
 import { Box, FormLabel, Text } from "@chakra-ui/react";
 import ChakraUIRenderer from "chakra-ui-markdown-renderer";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import "easymde/dist/easymde.min.css";
 import { get } from "lodash";
 import React, { ReactElement } from "react";

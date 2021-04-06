@@ -132,7 +132,7 @@ function RatingsListHeader({
   return isSmallScreen ? (
     /* TODO: refactor for correct labels for accessability, refactor to one Select component */
     <>
-      <Flex justify="space-between">
+      <Flex justify="space-between" mb="4" wrap="wrap">
         <Select<string>
           name="sortBy"
           options={sortByOptions}

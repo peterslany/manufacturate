@@ -3,7 +3,7 @@ import { IconButton, useColorMode } from "@chakra-ui/react";
 import { ReactElement } from "react";
 import { useLocale } from "../../hooks";
 
-export function DarkModeSwitch(): ReactElement {
+export function ColorModeToggle(): ReactElement {
   const { Message } = useLocale();
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
@@ -17,4 +17,4 @@ export function DarkModeSwitch(): ReactElement {
     </IconButton>
   );
 }
-export default DarkModeSwitch;
+export default ColorModeToggle;

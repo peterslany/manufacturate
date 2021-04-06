@@ -17,6 +17,10 @@ interface Props {
 function ChangeRequestsList({ admin, header }: Props): ReactElement {
   const { Message } = useLocale();
 
+  const [itemsEndpoint, setItemsEndpoint] = useState<ApiUrl | undefined>(
+    ApiUrl.CHANGE_REQUESTS
+  );
+
   const itemsRef = useRef<{
     modifyItems: (
       modification: (current: GeneralChangeRequest[]) => GeneralChangeRequest[]
@@ -51,7 +55,13 @@ function ChangeRequestsList({ admin, header }: Props): ReactElement {
     }
   );
 
-  const { edit, Component: EditModal } = useChangeRequestFormModal();
+  const { edit, Component: EditModal } = useChangeRequestFormModal(
+    undefined,
+    () => {
+      setItemsEndpoint(undefined);
+      setItemsEndpoint(ApiUrl.CHANGE_REQUESTS);
+    }
+  );
 
   const handleOpenDialog = (action: ConfirmationDialogAction) => (
     changeRequest: GeneralChangeRequest
@@ -93,7 +103,7 @@ function ChangeRequestsList({ admin, header }: Props): ReactElement {
       <Heading>{header}</Heading>
       <Divider my="2" />
       <ItemsList<GeneralChangeRequest>
-        itemsEndpoint={ApiUrl.CHANGE_REQUESTS}
+        itemsEndpoint={itemsEndpoint}
         all={admin}
         Item={ChangeRequestItem}
         keyField="_id"
@@ -124,7 +134,7 @@ function ChangeRequestsList({ admin, header }: Props): ReactElement {
             ).toLowerCase()}{" "}
             <strong>{selectedChangeRequest?.content.name}</strong>
             {Message.DIALOG_DELETE_CHANGE_REQUEST.split("^")[1]}{" "}
-            {selectedChangeRequest?._id}{" "}
+            {selectedChangeRequest?._id}
             {Message.DIALOG_DELETE_CHANGE_REQUEST.split("^")[2]}
           </>
         ) : (

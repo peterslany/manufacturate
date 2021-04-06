@@ -1,14 +1,16 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Flex,
   Heading,
   useColorModeValue,
   useDisclosure,
+  useToken,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
-import { ReactElement, useState } from "react";
-import { Button, DarkModeSwitch, Link, LogoutButton, Searchbar } from "..";
+import { ReactElement } from "react";
+import { Button, ColorModeToggle, Link, LogoutButton } from "..";
 import {
   authHeaderItems,
   HEADER_HEIGHT,
@@ -18,6 +20,7 @@ import {
 import { useSmallScreen } from "../../hooks";
 import { HeaderItemSubMenuType } from "../../types";
 import LocaleChange from "../LocaleChange/LocaleChange";
+import HeaderSearch from "../Searchbar/HeaderSearchbar";
 import HeaderDrawer from "./HeaderDrawer";
 import HeaderItem from "./HeaderItem";
 import HeaderItemSubMenu from "./HeaderItemSubMenu";
@@ -29,13 +32,15 @@ function Header(): ReactElement {
     onClose: closeDrawer,
   } = useDisclosure();
 
-  const [showSearchbar, setShowSearchbar] = useState(false);
+  const [light, dark] = useToken("colors", ["gray.50A50", "gray.900A50"]);
+
+  const bg = useColorModeValue(light, dark);
 
   const { route } = useRouter();
 
   const isSmallScreen = useSmallScreen();
 
-  const headerStyle = useColorModeValue("glassLight", "glassDark");
+  const glass = useColorModeValue("glassLight", "glassDark");
 
   const [session] = useSession();
 
@@ -77,9 +82,10 @@ function Header(): ReactElement {
       justify="space-between"
       position="fixed"
       width="full"
-      px={[2, 4, 6]}
-      layerStyle={headerStyle}
-      zIndex="1"
+      px={[2, 3, 4, 5]}
+      layerStyle={glass}
+      style={{ background: bg }}
+      zIndex="10"
     >
       {isSmallScreen ? (
         <>
@@ -88,13 +94,10 @@ function Header(): ReactElement {
             borderRadius="16px"
             p={0}
             onClick={openDrawer}
-            {...(showSearchbar ? { mr: 4 } : {})}
           >
             <HamburgerIcon />
           </Button>
-          <Heading size="md" {...(showSearchbar ? { lineHeight: 0.8 } : {})}>
-            FAIR ABOUT CARE
-          </Heading>
+          <Heading size="md">FAIR ABOUT CARE</Heading>
         </>
       ) : (
         <>
@@ -111,22 +114,13 @@ function Header(): ReactElement {
           {items}
         </>
       )}
-      {session ? (
-        <LogoutButton />
-      ) : (
-        <Searchbar
-          onShowTextFieldCallback={() => setShowSearchbar((prev) => !prev)}
-        />
-      )}
+      {session ? <LogoutButton /> : <HeaderSearch />}
       {!isSmallScreen && (
-        <Flex
-          align="center"
-          w="120px"
-          justify="space-between"
-          marginLeft="10px"
-        >
+        <Flex align="center" justify="space-between" ml="2">
           <LocaleChange isHiddenLabel />
-          <DarkModeSwitch />
+          <Box ml="2">
+            <ColorModeToggle />
+          </Box>
         </Flex>
       )}
       <HeaderDrawer

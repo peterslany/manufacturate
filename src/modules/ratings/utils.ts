@@ -1,7 +1,7 @@
 import { RatingCategory } from "../../constants";
 
 /* eslint-disable import/prefer-default-export */
-export const getListItemRatingColor = (
+export const getRatingCategoryColor = (
   dark: boolean,
   category: RatingCategory
 ): string => {
@@ -16,6 +16,6 @@ export const getListItemRatingColor = (
       return !dark ? "yellow.700" : "yellow.300";
     case RatingCategory.TOTAL:
     default:
-      return !dark ? "gray.700" : "gray.100";
+      return !dark ? "gray.700" : "gray.300";
   }
 };

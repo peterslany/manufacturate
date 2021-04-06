@@ -61,12 +61,12 @@ function Dashboard({}: Props): ReactElement {
   ));
 
   return (
-    <Box m={[2, 4, 8]}>
+    <Box layerStyle="layout">
       <ScaleFade
         unmountOnExit
         in={Boolean(changeRequestCount && changeRequestCount !== 0)}
       >
-        <Alert my="4" status="warning" fontSize="lg">
+        <Alert mb="4" status="warning" fontSize="lg">
           <AlertIcon />
           {Message.ALERT_CHANGE_REQUESTS_WAITING}( {changeRequestCount} ).{" "}
           <ViewNow href={Path.AUTH_ADMINISTRATION} linkText={Message.VIEW} />

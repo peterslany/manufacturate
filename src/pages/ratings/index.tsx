@@ -14,10 +14,11 @@ function RatingsPage({ initialRatingsData }: Props): ReactElement {
 
 export const getStaticProps: GetStaticProps = async () => {
   const ratings = await getRatingsList();
-
+  // generate static page with initial data, so ratings data are already present on first render
   return {
     props: { initialRatingsData: ratings },
-    revalidate: 60 * 60 * 2, // 2 hours
+    revalidate: 60 * 60 * 2, // 2 hours,
   };
 };
+
 export default RatingsPage;

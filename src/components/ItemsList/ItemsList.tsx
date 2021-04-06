@@ -30,7 +30,7 @@ interface Props<T> {
   heading?: string;
   inputConfig?: InputConfig;
   inputRef: ItemsListRef<T>;
-  itemsEndpoint: ApiUrl;
+  itemsEndpoint?: ApiUrl;
   keyField: string;
 }
 function ItemsList<T>({
@@ -50,6 +50,7 @@ function ItemsList<T>({
 
   const url = useMemo(
     () =>
+      itemsEndpoint &&
       getUrlEndpoint(
         itemsEndpoint,
         searchQuery,

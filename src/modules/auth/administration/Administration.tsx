@@ -11,7 +11,7 @@ interface Props {}
 function Administration({}: Props): ReactElement {
   const { Message } = useLocale();
   return (
-    <Box p={["4", "8", "12"]}>
+    <Box layerStyle="layout">
       <ChangeRequestsList header={Message.WAITING_CHANGE_REQUESTS} admin />
       <Divider my="4" />
       <CollapsibleSection title={Message.USERS_ADMINISTRATION}>

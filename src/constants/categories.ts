@@ -1,9 +1,8 @@
 import { flatten } from "lodash";
 import { LocaleMessage } from "../types/locale";
-import { Locale } from "./locale";
+import { Locale, LocaleMessages } from "./locale";
 
-/* eslint-disable import/prefer-default-export */
-enum ProductSupercategory {
+export enum ProductSuperCategory {
   BEAUTY = "BEAUTY",
   FRAGRANCE = "FRAGRANCE",
   HAIR = "HAIR",
@@ -33,13 +32,13 @@ export const productCategoryValues = Object.values(ProductCategory);
 export const allProductCategories: {
   categories: {
     label: LocaleMessage;
-    value: string;
+    value: ProductCategory;
   }[];
   label: LocaleMessage;
-  mainCategory: ProductSupercategory;
+  mainCategory: ProductSuperCategory;
 }[] = [
   {
-    mainCategory: ProductSupercategory.HAIR,
+    mainCategory: ProductSuperCategory.HAIR,
     label: {
       sk: "Vlasy a ochlpenie",
       en: "Hair",
@@ -63,7 +62,7 @@ export const allProductCategories: {
     ],
   },
   {
-    mainCategory: ProductSupercategory.SKIN,
+    mainCategory: ProductSuperCategory.SKIN,
     label: { sk: "Koža", en: "Skin" },
     categories: [
       {
@@ -89,7 +88,7 @@ export const allProductCategories: {
     ],
   },
   {
-    mainCategory: ProductSupercategory.BEAUTY,
+    mainCategory: ProductSuperCategory.BEAUTY,
     label: { sk: "Krása", en: "Beauty" },
     categories: [
       {
@@ -115,7 +114,7 @@ export const allProductCategories: {
     ],
   },
   {
-    mainCategory: ProductSupercategory.FRAGRANCE,
+    mainCategory: ProductSuperCategory.FRAGRANCE,
     label: { sk: "Vône", en: "Fragrance" },
     categories: [
       {
@@ -169,4 +168,9 @@ export const ratingSubcategories = [
     label: { sk: "Zvieratá", en: "Animals" },
   },
   { subCategory: RatingCategory.ETHICS, label: { sk: "Etika", en: "Ethics" } },
+];
+
+export const allRatingCategories = [
+  { subCategory: RatingCategory.TOTAL, label: LocaleMessages.TOTAL },
+  ...ratingSubcategories,
 ];

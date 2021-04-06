@@ -1,7 +1,7 @@
 import { Global } from "@emotion/react";
 import * as React from "react";
 
-const Fonts = () => (
+const Fonts = (): JSX.Element => (
   <Global
     styles={`
     /* cyrillic-ext */

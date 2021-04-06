@@ -1,7 +1,7 @@
 import { Locale } from "../constants";
 import { ListData } from "./common";
 
-export type BlogpostsData = ListData<BlogpostBase>;
+export type BlogpostsListData = ListData<BlogpostBase>;
 
 export interface BlogpostBase {
   _id: string;

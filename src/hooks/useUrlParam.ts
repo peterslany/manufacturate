@@ -4,8 +4,7 @@ import { URLParamValue } from "../types";
 
 const useUrlParam = (
   paramName: string,
-  redirectPath?: Path,
-  scroll = false
+  redirectPath?: Path
 ): [URLParamValue, (newValue: URLParamValue) => void] => {
   const {
     query: { [paramName]: parameter, ...otherParams },
@@ -23,7 +22,7 @@ const useUrlParam = (
         },
       },
       undefined,
-      { scroll }
+      { scroll: Boolean(redirectPath) }
     );
 
   return [parameter, setValue];

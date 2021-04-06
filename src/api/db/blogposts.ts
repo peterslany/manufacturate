@@ -1,5 +1,5 @@
 import { Locale, PAGE_SIZE, SortOrder } from "../../constants";
-import { Blogpost, BlogpostsData } from "../../types";
+import { Blogpost, BlogpostsListData } from "../../types";
 import { parseInteger } from "../../utils";
 import { Collection } from "../constants";
 import database from "./db";
@@ -9,7 +9,7 @@ export const getBlogposts = async (
   search?: string,
   sortOrder?: SortOrder,
   pageNumber?: number
-): Promise<BlogpostsData> => {
+): Promise<BlogpostsListData> => {
   const query = {
     locale,
     ...(search && {

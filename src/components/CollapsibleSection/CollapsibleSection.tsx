@@ -22,6 +22,8 @@ function CollapsibleSection({
         p="4"
         _hover={{ fontWeight: 600, textDecoration: "underline" }}
         onClick={() => setIsOpen((prev) => !prev)}
+        tabIndex={0}
+        _focus={{ layerStyle: "outlineFocused", outline: "none" }}
       >
         {title}
         <ChevronDownIcon

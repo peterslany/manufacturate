@@ -3,39 +3,40 @@ import {
   Center,
   Flex,
   Heading,
+  ScaleFade,
   Tag,
   TagCloseButton,
   TagLabel,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
+import { isEmpty } from "lodash";
 import React, { ReactElement } from "react";
 import {
   Button,
   Pagination,
   ProductCategories,
-  Searchbar,
+  UrlParamSearchbar,
 } from "../../components";
 import { ApiUrl, PAGE_SIZE } from "../../constants";
 import { useGet, useLocale, useSmallScreen, useUrlParam } from "../../hooks";
 import { URLParamValue } from "../../types";
 import { RatingsListData } from "../../types/ratings";
 import {
+  arrayify,
   getProductCategoryLabel,
   parseInteger,
   parseString,
-  urlParamToArray,
 } from "../../utils";
 import RatingsCategoryModal from "./RatingsCategoryModal";
 import RatingsListHeader from "./RatingsListHeader";
 import RatingsListItem from "./RatingsListItem";
 
 interface Props {
-  // TODO:add Ratings type
   initialRatingsData: RatingsListData;
 }
 
-function Ratings({}: Props): ReactElement {
+function Ratings({ initialRatingsData }: Props): ReactElement {
   const isSmallScreen = useSmallScreen();
 
   const [categories, setCategories] = useUrlParam("category");
@@ -45,10 +46,10 @@ function Ratings({}: Props): ReactElement {
 
   const contentBg = useColorModeValue("gray.900A10", "gray.50A10");
 
-  // TODO: change data assignment to initialvalue from props
-  const {
-    data: { items: ratings, count } = { ratings: [], count: 0 },
-  } = useGet<RatingsListData>(ApiUrl.RATINGS, { includeQueryString: true });
+  const { data, loading } = useGet<RatingsListData>(ApiUrl.RATINGS, {
+    includeQueryString: true,
+    initialValue: initialRatingsData,
+  });
 
   const { Message, localizeMessage } = useLocale();
 
@@ -65,12 +66,12 @@ function Ratings({}: Props): ReactElement {
 
   const handleRemoveCategory = (categoryValue: string) => {
     setCategories(
-      urlParamToArray(categories).filter((value) => value !== categoryValue)
+      arrayify(categories).filter((value) => value !== categoryValue)
     );
   };
 
   const items = (
-    ratings || []
+    data?.items || []
   ).map(({ _id, name, rating: { overall: rating } }) => (
     <RatingsListItem
       href={`/ratings/${_id}`}
@@ -78,11 +79,13 @@ function Ratings({}: Props): ReactElement {
       linkText={name}
       name={name}
       rating={rating}
+      loading={loading}
     />
   ));
 
   return (
     <Flex direction={["column", "column", "row"]}>
+      {/* left panel */}
       {!isSmallScreen && (
         <Box
           p={2}
@@ -100,59 +103,55 @@ function Ratings({}: Props): ReactElement {
         <Heading my={[2, 5]} size="lg">
           {Message.RATINGS}
         </Heading>
-        <Searchbar
-          mb={5}
-          showFullSearchbar
-          borderWidth={2}
-          totalWidth={["240px", "420px"]}
-          scrollOnSearch={false}
-        />
-
-        <Box mb={5}>
-          {Message.CATEGORIES}
-          <Box
-            layerStyle="outline"
-            p="1"
-            w="fit-content"
-            display="flex"
-            flexWrap="wrap"
-          >
-            {isSmallScreen && (
-              <>
-                <Button layerStyle="outline" onClick={onCategoryModalOpen}>
-                  Vybrať
-                </Button>
-                <RatingsCategoryModal
-                  {...{
-                    isOpen: isCategoryModalOpen,
-                    onClose: onCategoryModalClose,
-                    categories,
-                    onConfirm: handleModalConfirm,
-                  }}
-                />
-              </>
-            )}
-            {urlParamToArray(categories).map((value) => (
-              <Tag
-                key={value}
-                size="md"
-                bg="transparent"
-                color="inherit"
-                variant="outline"
-                borderRadius="16px"
-                m="1"
-              >
-                <TagLabel>
-                  {localizeMessage(getProductCategoryLabel(value))}
-                </TagLabel>
-                <TagCloseButton onClick={() => handleRemoveCategory(value)} />
-              </Tag>
-            ))}
+        <UrlParamSearchbar mb={5} placeholder={Message.MANUFACTURER_NAME} />
+        <ScaleFade in={!isEmpty(categories) || isSmallScreen} unmountOnExit>
+          <Box mb={5}>
+            {Message.CATEGORIES}
+            <Box
+              layerStyle="outline"
+              p="1"
+              w="fit-content"
+              display="flex"
+              flexWrap="wrap"
+            >
+              {isSmallScreen && (
+                <>
+                  <Button layerStyle="outline" onClick={onCategoryModalOpen}>
+                    Vybrať
+                  </Button>
+                  <RatingsCategoryModal
+                    {...{
+                      isOpen: isCategoryModalOpen,
+                      onClose: onCategoryModalClose,
+                      categories,
+                      onConfirm: handleModalConfirm,
+                    }}
+                  />
+                </>
+              )}
+              {arrayify<string>(categories).map((value) => (
+                <Tag
+                  key={value}
+                  size="md"
+                  bg="transparent"
+                  color="inherit"
+                  variant="outline"
+                  borderRadius="16px"
+                  m="1"
+                >
+                  <TagLabel>
+                    {localizeMessage(getProductCategoryLabel(value))}
+                  </TagLabel>
+                  <TagCloseButton onClick={() => handleRemoveCategory(value)} />
+                </Tag>
+              ))}
+            </Box>
           </Box>
-        </Box>
+        </ScaleFade>
         <Box
           {...(!isSmallScreen && {
             bg: contentBg,
+            minH: "full",
           })}
         >
           <RatingsListHeader
@@ -163,13 +162,19 @@ function Ratings({}: Props): ReactElement {
               setSortOrder,
             }}
           />
-          {items}
+          {isEmpty(items) ? (
+            <Box m={[0, 0, 4]} fontSize="lg">
+              {Message.NO_ITEMS}
+            </Box>
+          ) : (
+            items
+          )}
           <Center>
             <Pagination
               mb="4"
               selectedPage={parseInteger(parseString(page)) || 1}
               onPageChange={(pageNumber) => setPage(pageNumber.toString())}
-              totalPages={Math.ceil((count || 0) / PAGE_SIZE)}
+              totalPages={Math.ceil((data?.count || 0) / PAGE_SIZE)}
             />
           </Center>
         </Box>

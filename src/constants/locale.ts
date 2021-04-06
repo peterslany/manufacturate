@@ -15,6 +15,10 @@ export const LocaleMessages = asLocaleMessages({
     en: "Account settings",
     sk: "Nastavenia účtu",
   },
+  ADMINISTRATION: {
+    en: "Administration",
+    sk: "Administratíva",
+  },
   ADMINISTRATOR: {
     en: "Administrator",
     sk: "Správca",
@@ -26,6 +30,10 @@ export const LocaleMessages = asLocaleMessages({
   ALERT_SAVING_CHANGES_WILL_DELETE_CATEGORY: {
     en: "Saving changes will delete rating data for category: ",
     sk: "Uložením zmien sa vymažú dáta pre hodnotenie kategórie: ",
+  },
+  ALL_RATINGS: {
+    en: "All ratings",
+    sk: "Všetky hodnotenia",
   },
   APPROVE_CHANGE_REQUEST: {
     en: "Approve change request",
@@ -47,6 +55,18 @@ export const LocaleMessages = asLocaleMessages({
     en: "Blogpost",
     sk: "Príspevok na blogu",
   },
+  BLOGPOST_NAME: {
+    en: "Blogpost name",
+    sk: "Názov príspevku",
+  },
+  BLOGPOST_THUMBNAIL_URL: {
+    en: "Thumbnail URL",
+    sk: "URL titulnej fotky",
+  },
+  BLOGPOST_URL_PATH_SEGMENT: {
+    en: "URL path segment",
+    sk: "URL segment prístupovej cesty",
+  },
   CANCEL: {
     en: "Cancel",
     sk: "Zrušiť",
@@ -55,21 +75,41 @@ export const LocaleMessages = asLocaleMessages({
     en: "Categories",
     sk: "Kategórie",
   },
+  CHANGE_REQUEST: {
+    en: "Change request",
+    sk: "Požiadavka na zmenu",
+  },
   CHOOSE_SUBCATEGORIES: {
     en: "Choose subcategories",
     sk: "Vybrať podkategórie",
+  },
+  CLEAR_QUERY: {
+    en: "Clear query",
+    sk: "Vymazať hľadaný výraz",
   },
   CONFIRM: {
     en: "Confirm",
     sk: "Potvrdiť",
   },
+  CONTENT: {
+    en: "Content",
+    sk: "Obsah",
+  },
   CREATE: {
     en: "Create",
     sk: "Vytvoriť",
   },
+  CURENTLY_LOGGED_IN_AS: {
+    en: "You are currently logged in as:",
+    sk: "Momentálne si prihlásený/á pod účtom:",
+  },
   DASHBOARD: {
     en: "Dashboard",
     sk: "Ovládací panel",
+  },
+  DASHBOARD_DESCRIPTION: {
+    en: "You can create and edit ratings and blogpost here",
+    sk: "Tu môžeš vytvárať a upravovať hodnotenia a blogy",
   },
   DELETE: {
     en: "Delete",
@@ -87,70 +127,21 @@ export const LocaleMessages = asLocaleMessages({
     en: "Description",
     sk: "Popis",
   },
-  BLOGPOST_NAME: {
-    en: "Blogpost name",
-    sk: "Názov príspevku",
-  },
-  BLOGPOST_URL_PATH_SEGMENT: {
-    en: "URL path segment",
-    sk: "URL segment prístupovej cesty",
-  },
-  BLOGPOST_THUMBNAIL_URL: {
-    en: "Thumbnail URL",
-    sk: "URL titulnej fotky",
-  },
-  SUB_TITLE: {
-    en: "Subtitle",
-    sk: "Podnadpis",
-  },
-  NO_ITEMS: {
-    en: "No items",
-    sk: "Žiadne položky",
-  },
-  LOGGING_IN_FAILED: {
-    sk:
-      "Prihlásenie sa nepodarilo, zadali ste nesprávnu kombináciu mena a hesla.",
-    en:
-      "Logging in failed, you entered wrong combination of username and password.",
-  },
-  TOGGLE_COLOR_MODE: {
-    en: "Toggle color mode",
-    sk: "Prepnúť farebný mód",
-  },
-  LOGIN_TEAM_MEMBER: {
-    sk: "Prihlásenie člena tímu",
-    en: "Team member log-in",
-  },
-  CURENTLY_LOGGED_IN_AS: {
-    en: "You are currently logged in as:",
-    sk: "Momentálne si prihlásený/á pod účtom:",
-  },
-  LANGUAGE: {
-    en: "Language",
-    sk: "Jazyk",
-  },
-  CHANGE_REQUEST: {
-    en: "Change request",
-    sk: "Požiadavka na zmenu",
-  },
-  CONTENT: {
-    en: "Content",
-    sk: "Obsah",
-  },
-
   DIALOG_APPROVE_CHANGE_REQUEST: {
     en:
       "Do you want to approve change request for ^?^ It will update public page with corresponding content.",
     sk:
       "Praješ si schváliť požiadavku na zmenu ^?^ Týmto úkonom sa zmení verejne dostupná stránka so súvisiacim obsahom.",
   },
-  DASHBOARD_DESCRIPTION: {
-    sk: "Tu môžeš vytvárať a upravovať hodnotenia a blogy",
-    en: "You can create and edit ratings and blogpost here",
+  DIALOG_DELETE_CHANGE_REQUEST: {
+    en: "Are you sure you want to delete change request for ^ with id ^?",
+    sk: "Si si istý, že chceš odstrániť požiadavku na zmenu pre ^ s id ^?",
   },
-  LOADING: {
-    en: "Loading",
-    sk: "Načítavanie",
+  DIALOG_DELETE_CONTENT: {
+    en:
+      "Are you sure you want to delete ^ ?^ Doing so will ^delete publicly available page^ with this ^ and it will be reverted into change request stage.",
+    sk:
+      "Si si istý, že chceš odstrániť ^ ?^ Týmto úkonom sa ^vymaže verejne dostupná stránka^ a ^ bude vrátený do fázy požiadavky na zmenu.",
   },
   DIALOG_DELETE_SUBCATEGORY: {
     en:
@@ -161,16 +152,6 @@ export const LocaleMessages = asLocaleMessages({
   DIALOG_PROMOTE_TO_ADMINISTRATOR: {
     en: "Are you sure you want to make user ^ an administrator?",
     sk: "Si si istý, že chceš užívateľa ^ povýšiť na správcu?",
-  },
-  DIALOG_DELETE_CONTENT: {
-    en:
-      "Are you sure you want to delete ^ ?^ Doing so will ^delete publicly available page^ with this ^ and it will be reverted into change request stage.",
-    sk:
-      "Si si istý, že chceš odstrániť ^ ?^ Týmto úkonom sa ^vymaže verejne dostupná stránka^ a ^ bude vrátený do fázy požiadavky na zmenu.",
-  },
-  DIALOG_DELETE_CHANGE_REQUEST: {
-    en: "Are you sure you want to delete change request for ^ with id ^ ?",
-    sk: "Si si istý, že chceš odstrániť požiadavku na zmenu pre ^ s id ^?",
   },
   ERROR_DEFAULT_MESSAGE: {
     en: "Oops, something went wrong.",
@@ -221,25 +202,33 @@ export const LocaleMessages = asLocaleMessages({
     en: "Change request was approved.",
     sk: "Požiadavka na zmenu bola schválená.",
   },
-  INFO_CHANGE_REQUEST_DELETED: {
-    en: "Change request was deleted.",
-    sk: "Požiadavka na zmenu bola odstránená.",
-  },
-  INFO_CONTENT_REVERTED: {
-    en: "Content was deleted and reverted to change request.",
-    sk: "Obsah bol odstránený a vrátený do fázy požiadavky na zmenu.",
-  },
   INFO_CHANGE_REQUEST_CREATED: {
     en: "Change request created.",
     sk: "Požiadavka na zmenu bola vytvorená.",
+  },
+  INFO_CHANGE_REQUEST_DELETED: {
+    en: "Change request was deleted.",
+    sk: "Požiadavka na zmenu bola odstránená.",
   },
   INFO_CHANGE_REQUEST_SAVED: {
     en: "Change request saved.",
     sk: "Požiadavka na zmenu bola uložená.",
   },
+  INFO_CONTENT_REVERTED: {
+    en: "Content was deleted and reverted to change request.",
+    sk: "Obsah bol odstránený a vrátený do fázy požiadavky na zmenu.",
+  },
   INFO_USER_ACCOUNT_CREATED: {
     en: "User account successfully created.",
     sk: "Užívateľský účet bol úspešne vytvorený.",
+  },
+  LANGUAGE: {
+    en: "Language",
+    sk: "Jazyk",
+  },
+  LOADING: {
+    en: "Loading",
+    sk: "Načítavanie",
   },
   LOG_IN: {
     en: "Log in",
@@ -249,6 +238,16 @@ export const LocaleMessages = asLocaleMessages({
     en: "Log out",
     sk: "Odhlásiť sa",
   },
+  LOGGING_IN_FAILED: {
+    en:
+      "Logging in failed, you entered wrong combination of username and password.",
+    sk:
+      "Prihlásenie sa nepodarilo, zadali ste nesprávnu kombináciu mena a hesla.",
+  },
+  LOGIN_TEAM_MEMBER: {
+    en: "Team member log-in",
+    sk: "Prihlásenie člena tímu",
+  },
   MANUFACTURER_NAME: {
     en: "Manufacturer's name",
     sk: "Názov výrobcu",
@@ -256,6 +255,14 @@ export const LocaleMessages = asLocaleMessages({
   METHODOLOGY: {
     en: "Methodology",
     sk: "Metodológia",
+  },
+  MY_ACCOUNT: {
+    en: "My account",
+    sk: "Môj účet",
+  },
+  MY_CHANGE_REQUESTS: {
+    en: "My change requests",
+    sk: "Moje požiadavky na zmenu",
   },
   NEW_PASSWORD: {
     en: "New password",
@@ -268,6 +275,10 @@ export const LocaleMessages = asLocaleMessages({
   NEW_USER_ACCOUNT: {
     en: "New user account",
     sk: "Nový užívateľský účet",
+  },
+  NO_ITEMS: {
+    en: "No items were found.",
+    sk: "Žiadne položky neboli nájdené.",
   },
   NOTE: {
     en: "Note",
@@ -285,25 +296,17 @@ export const LocaleMessages = asLocaleMessages({
     en: "Password again",
     sk: "Heslo znova",
   },
+  PRIVACY_POLICY: {
+    en: "Privacy policy",
+    sk: "Zásady ochrany osobných údajov ",
+  },
   PROMOTE: {
     en: "Promote",
     sk: "Povýšiť",
   },
-  ADMINISTRATION: {
-    en: "Administration",
-    sk: "Administratíva",
-  },
   PROMOTE_TO_ADMINISTRATOR: {
     en: "Promote to administrator",
     sk: "Povýšiť na správcu",
-  },
-  VIEW: {
-    en: "View",
-    sk: "Zobraziť",
-  },
-  SORTED_BY_DATE: {
-    en: "Sorted by date",
-    sk: "Zoradené podľa dátumu",
   },
   RATING: {
     en: "Rating",
@@ -317,9 +320,9 @@ export const LocaleMessages = asLocaleMessages({
     en: "Save changes",
     sk: "Uložiť zmeny",
   },
-  SEARCH_BY_USERNAME: {
-    en: "Search by username",
-    sk: "Hľadať podľa užívateľského mena",
+  SEARCH: {
+    en: "Search",
+    sk: "Hľadať",
   },
   SEARCH_BY_NAME: {
     en: "Search by name",
@@ -333,17 +336,9 @@ export const LocaleMessages = asLocaleMessages({
     en: "Search by name or ID",
     sk: "Hľadať podľa názvu alebo ID",
   },
-  MY_ACCOUNT: {
-    sk: "Môj účet",
-    en: "My account",
-  },
-  MY_CHANGE_REQUESTS: {
-    en: "My change requests",
-    sk: "Moje požiadavky na zmenu",
-  },
-  WAITING_CHANGE_REQUESTS: {
-    en: "Change requests waiting for approval",
-    sk: "Zmeny čakajúce na schválenie",
+  SEARCH_BY_USERNAME: {
+    en: "Search by username",
+    sk: "Hľadať podľa užívateľského mena",
   },
   SORT_BY: {
     en: "Sort by",
@@ -352,6 +347,18 @@ export const LocaleMessages = asLocaleMessages({
   SORT_ORDER: {
     en: "Order",
     sk: "Poradie",
+  },
+  SORTED_BY_DATE: {
+    en: "Sorted by date",
+    sk: "Zoradené podľa dátumu",
+  },
+  SUB_TITLE: {
+    en: "Subtitle",
+    sk: "Podnadpis",
+  },
+  TOGGLE_COLOR_MODE: {
+    en: "Toggle color mode",
+    sk: "Prepnúť farebný mód",
   },
   TOTAL: {
     en: "Total",
@@ -364,6 +371,14 @@ export const LocaleMessages = asLocaleMessages({
   USERS_ADMINISTRATION: {
     en: "Users administration",
     sk: "Správa užívateľov",
+  },
+  VIEW: {
+    en: "View",
+    sk: "Zobraziť",
+  },
+  WAITING_CHANGE_REQUESTS: {
+    en: "Change requests waiting for approval",
+    sk: "Zmeny čakajúce na schválenie",
   },
   WELCOME: {
     en: "Welcome",

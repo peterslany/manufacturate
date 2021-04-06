@@ -1,6 +1,6 @@
 export { default as Button } from "./Button";
 export { default as CollapsibleSection } from "./CollapsibleSection";
-export { default as DarkModeSwitch } from "./DarkModeSwitch";
+export { default as ColorModeToggle } from "./ColorModeToggle";
 export { default as Footer } from "./Footer";
 export { default as Header } from "./Header";
 export { default as Input } from "./Input";
@@ -9,5 +9,5 @@ export { default as LogoutButton } from "./LogoutButton";
 export { default as Modal } from "./Modal";
 export { default as Pagination } from "./Pagination";
 export { default as ProductCategories } from "./ProductCategories";
-export { default as Searchbar } from "./Searchbar";
+export { default as Searchbar, UrlParamSearchbar } from "./Searchbar";
 export { default as Select } from "./Select";

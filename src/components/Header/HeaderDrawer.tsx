@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React, { ReactElement, ReactNode } from "react";
 import { useLocale } from "../../hooks";
-import DarkModeSwitch from "../DarkModeSwitch";
+import ColorModeToggle from "../ColorModeToggle";
 import LocaleChange from "../LocaleChange/LocaleChange";
 
 interface Props {
@@ -23,13 +23,14 @@ interface Props {
 function HeaderDrawer({ items, isOpen, onClose }: Props): ReactElement {
   const { Message } = useLocale();
 
-  const drawerContentBg = useColorModeValue("gray.900A10", "gray.50A10");
+  const glass = useColorModeValue("glassLight", "glassDark");
+
   const drawerOverlayBg = useColorModeValue("gray.50A99", "gray.900A99");
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} placement="left">
       <DrawerOverlay bgColor={drawerOverlayBg}>
-        <DrawerContent layerStyle="glassLight" bgColor={drawerContentBg}>
+        <DrawerContent layerStyle={glass} bgColor="none">
           <DrawerHeader
             onClick={onClose}
             borderBottomWidth="1px"
@@ -59,7 +60,7 @@ function HeaderDrawer({ items, isOpen, onClose }: Props): ReactElement {
             />
 
             <Flex justify="space-between" align="center">
-              {Message.TOGGLE_COLOR_MODE} <DarkModeSwitch />
+              {Message.TOGGLE_COLOR_MODE} <ColorModeToggle />
             </Flex>
           </DrawerBody>
         </DrawerContent>

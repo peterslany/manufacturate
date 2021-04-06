@@ -2,7 +2,7 @@ import { useColorModeValue } from "@chakra-ui/react";
 import { Global } from "@emotion/react";
 import * as React from "react";
 
-const Scrollbar = () => {
+const Scrollbar = (): JSX.Element => {
   const [lightColor, darkColor] = ["#CBD5E0", "#2D3748"];
   const light = `
     * {

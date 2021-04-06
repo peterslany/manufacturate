@@ -64,4 +64,5 @@ const mockRouter: NextRouter = {
     emit: jest.fn(),
   },
   isFallback: false,
+  locale: "en",
 };

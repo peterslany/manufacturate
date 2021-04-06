@@ -1,7 +1,8 @@
 import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import Image from "next/image";
 import { ReactElement } from "react";
-import { Searchbar } from "../../components";
+import { UrlParamSearchbar } from "../../components";
+import { Path } from "../../constants";
 import { useLocale } from "../../hooks";
 
 interface Props {}
@@ -42,13 +43,13 @@ function Home({}: Props): ReactElement {
         {Message.HOMEPAGE_MAIN_TEXT}
       </Text>
       Vyhladaj vyrobcu
-      <Searchbar
+      <UrlParamSearchbar
         borderWidth={2}
         layerStyle={glassStyle}
-        borderStyle="dashed"
         variant="dashed"
-        totalWidth={["220px", "420px"]}
-        showFullSearchbar
+        redirectPath={Path.RATINGS}
+        placeholder={Message.MANUFACTURER_NAME}
+        disableEmptyQuery
       />
     </Flex>
   );

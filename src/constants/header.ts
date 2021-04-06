@@ -14,7 +14,7 @@ export const publicHeaderItems: HeaderItemType[] = [
     path: Path.RATINGS,
     subMenu: {
       header: {
-        label: LocaleMessages.RATINGS,
+        label: LocaleMessages.ALL_RATINGS,
         path: Path.RATINGS,
       },
       body: {

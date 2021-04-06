@@ -31,7 +31,7 @@ const theme = extendTheme({
       400: "#f3d429",
       500: "#d9ba11",
       600: "#a99109",
-      700: "#796804",
+      700: "#b88407",
       800: "#483e00",
       900: "#1a1500",
     },
@@ -39,10 +39,12 @@ const theme = extendTheme({
       "50A05": "#f7fcfc05",
       "50A10": "#f7fcfc10",
       "50A20": "#f7fcfc20",
+      "50A50": "#f7fcfc50",
       "50A99": "#f7fcfc99",
       "900A05": "#17192305",
       "900A10": "#17192310",
       "900A20": "#17192320",
+      "900A50": "#17192350",
       "900A99": "#17192399",
     },
     red: {
@@ -99,6 +101,9 @@ const theme = extendTheme({
     },
   },
   layerStyles: {
+    layout: {
+      padding: [4, 8, 16],
+    },
     outline: {
       border: "1px solid",
       borderColor: "initial",
@@ -143,12 +148,18 @@ const theme = extendTheme({
       boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
     },
     glassLight: {
-      backdropFilter: "blur(15px)",
-      backgroundColor: "gray.900A05",
+      backgroundColor: "gray.50",
+      "@supports (backdrop-filter: blur(15px))": {
+        backdropFilter: "blur(15px)",
+        backgroundColor: "gray.900A10",
+      },
     },
     glassDark: {
-      backdropFilter: "blur(15px)",
-      backgroundColor: "gray.50A05",
+      backgroundColor: "gray.900",
+      "@supports (backdrop-filter: blur(15px))": {
+        backdropFilter: "blur(15px)",
+        backgroundColor: "gray.50A10",
+      },
     },
     dashed: {
       p: 4,
@@ -191,6 +202,9 @@ const theme = extendTheme({
         h6: {
           fontSize: "lg",
           fontWeight: "600",
+        },
+        ".chakra-text": {
+          marginBottom: 5,
         },
       },
       ".editor-toolbar": {

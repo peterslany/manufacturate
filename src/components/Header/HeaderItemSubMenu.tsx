@@ -87,7 +87,7 @@ function HeaderItemSubMenu({
       ))}
     </Flex>
   );
-
+  console.log(path);
   return !isSmallScreen ? (
     <Popover
       trigger="hover"
@@ -119,13 +119,14 @@ function HeaderItemSubMenu({
   ) : (
     <>
       <HeaderItem
-        path=""
+        path={path}
         label={label}
         selected={selected}
         isOpen={isOpen}
         isSmallScreen={isSmallScreen}
         onItemClick={() => setIsOpen((prev) => !prev)}
         withChevron
+        dontRedirect
       />
       <Collapse in={isOpen} animateOpacity>
         <Link

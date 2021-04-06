@@ -2,12 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getBlogposts } from "../../../api/db";
 import { asLocale, sendLocalizedError } from "../../../api/utils";
 import { RequestMethod, SortOrder } from "../../../constants";
-import { BlogpostsData, ResponseError } from "../../../types";
+import { BlogpostsListData, ResponseError } from "../../../types";
 import { parseInteger, parseString } from "../../../utils";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<BlogpostsData | ResponseError>
+  res: NextApiResponse<BlogpostsListData | ResponseError>
 ): Promise<void> {
   const locale = asLocale(req.headers["accept-language"]);
   const {

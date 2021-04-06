@@ -7,6 +7,7 @@ export enum Path {
   AUTH_MY_ACCOUNT = "/auth/my-account",
   BLOG = "/blog",
   METHODOLOGY = "/methodology",
+  PRIVACY_POLICY = "/privacy-policy",
   RATINGS = "/ratings",
   ROOT = "/",
 }

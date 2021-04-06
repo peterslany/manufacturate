@@ -5,7 +5,8 @@ import Modal from "../../Modal";
 import ChangeRequestForm, { ChangeRequestFormProps } from "./ChangeRequestForm";
 
 export default function useChangeRequestFormModal(
-  onCreateCallback?: () => void
+  onCreateCallback?: () => void,
+  onEditCallback?: () => void
 ): {
   Component: () => JSX.Element;
   createFromContent: (contentId: string, contentType: ContentType) => void;
@@ -31,8 +32,10 @@ export default function useChangeRequestFormModal(
     onClose();
     if (formProps.mode !== ChangeRequestFormMode.EDIT && onCreateCallback) {
       onCreateCallback();
+    } else if (onEditCallback) {
+      onEditCallback();
     }
-  }, [formProps.mode, onCreateCallback]);
+  }, [formProps.mode, onCreateCallback, onEditCallback]);
 
   const Component = useCallback(
     () => (
