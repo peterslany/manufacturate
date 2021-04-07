@@ -119,7 +119,6 @@ export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
         .collection(Collection.CHANGE_REQUESTS)
         .findOne({ _id: new ObjectId(changeRequestId) });
 
-      console.log(changeRequest, changeRequestId);
       const { content } = changeRequest;
 
       await db.collection(collectionName).replaceOne({ _id: id }, content, {

@@ -87,7 +87,7 @@ function HeaderItemSubMenu({
       ))}
     </Flex>
   );
-  console.log(path);
+
   return !isSmallScreen ? (
     <Popover
       trigger="hover"

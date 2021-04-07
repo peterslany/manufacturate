@@ -1,6 +1,18 @@
-import { useBreakpointValue } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
-const useSmallScreen = (): boolean =>
-  Boolean(useBreakpointValue({ base: true, md: false }) ?? true);
+const useSmallScreen = (): boolean => {
+  const [isSmall, setIsSmall] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setIsSmall(window.innerWidth < 832);
+    };
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, []);
+
+  return isSmall;
+};
 
 export default useSmallScreen;
