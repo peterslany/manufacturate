@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Divider,
   ExpandedIndex,
   Flex,
   Heading,
@@ -53,6 +54,7 @@ function RatingDetailSubCategories({
   return (
     <>
       <Heading mt={[2, 4]}>{Message.CATEGORIES}</Heading>
+      <Divider mb={[2, 4]} />
       <Accordion
         reduceMotion
         allowToggle
@@ -64,7 +66,7 @@ function RatingDetailSubCategories({
       >
         {subCategories.map(({ mainCategory, label, categories }) => (
           <Box mb={[2, 4, 8]} key={mainCategory}>
-            <Heading size="md" mb="2">
+            <Heading size="lg" mb="2">
               {localizeMessage(label)}
             </Heading>
             {categories.map(({ value, label: subCategoryLabel, rating }) => (

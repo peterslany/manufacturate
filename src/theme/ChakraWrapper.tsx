@@ -9,7 +9,6 @@ import { isString } from "util";
 import theme from ".";
 import Fonts from "./Fonts";
 import MDEditor from "./MDEditor";
-import Scrollbar from "./Scrollbar";
 
 interface ChakraWrapperProps {
   children: ReactNode;
@@ -27,7 +26,7 @@ export function ChakraWrapper({
   return (
     <ChakraProvider resetCSS theme={theme} colorModeManager={colorModeManager}>
       <Fonts />
-      <Scrollbar />
+
       <MDEditor />
       {children}
     </ChakraProvider>

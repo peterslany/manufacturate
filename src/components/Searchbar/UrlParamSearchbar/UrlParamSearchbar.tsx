@@ -1,10 +1,10 @@
 import { chakra } from "@chakra-ui/react";
 import { isEmpty } from "lodash";
 import React, { ReactElement } from "react";
-import { Path } from "../../constants";
-import { useUrlParam } from "../../hooks";
-import { parseString } from "../../utils";
-import Searchbar, { SearchbarProps } from "./Searchbar";
+import { Path } from "../../../constants";
+import { useUrlParam } from "../../../hooks";
+import { parseString } from "../../../utils";
+import Searchbar, { SearchbarProps } from "../Searchbar";
 
 interface Props extends Omit<SearchbarProps, "onSearch" | "value"> {
   disableEmptyQuery?: boolean;

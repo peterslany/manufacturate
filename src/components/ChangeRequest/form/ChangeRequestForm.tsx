@@ -182,7 +182,9 @@ function ChangeRequestForm<T extends ContentType>({
               {...{ mode, control, errors, register: register as never }}
             />
           ))}
-        <Input name="note" ref={register} label={Message.NOTE} />
+        <Box my={[4, 8]}>
+          <Input name="note" ref={register} label={Message.NOTE} />
+        </Box>
       </Box>
 
       <button hidden type="submit" ref={submitRef} />

@@ -103,6 +103,7 @@ const theme = extendTheme({
   layerStyles: {
     layout: {
       padding: [4, 8, 16],
+      paddingTop: [2, 4, 8],
     },
     outline: {
       border: "1px solid",
@@ -150,15 +151,15 @@ const theme = extendTheme({
     glassLight: {
       backgroundColor: "gray.50",
       "@supports (backdrop-filter: blur(15px))": {
-        backdropFilter: "blur(15px)",
+        backdropFilter: "brightness(140%) blur(15px) ",
         backgroundColor: "gray.900A10",
       },
     },
     glassDark: {
       backgroundColor: "gray.900",
       "@supports (backdrop-filter: blur(15px))": {
-        backdropFilter: "blur(15px)",
-        backgroundColor: "gray.50A10",
+        backdropFilter: "blur(15px) brightness(60%)",
+        backgroundColor: "gray.50A20",
       },
     },
     dashed: {
@@ -205,6 +206,16 @@ const theme = extendTheme({
         },
         ".chakra-text": {
           marginBottom: 5,
+        },
+      },
+      "*": {
+        scrollbarColor:
+          colorMode === "dark" ? "#CBD5E0 #2D3748" : "#2D3748 #CBD5E0",
+        "::-webkit-scrollbar": {
+          background: colorMode === "dark" ? "#2D3748" : "#CBD5E0",
+        },
+        "::-webkit-scrollbar-thumb": {
+          background: colorMode === "dark" ? "#CBD5E0" : "#2D3748",
         },
       },
       ".editor-toolbar": {

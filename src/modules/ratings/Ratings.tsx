@@ -103,7 +103,11 @@ function Ratings({ initialRatingsData }: Props): ReactElement {
         <Heading my={[2, 5]} size="lg">
           {Message.RATINGS}
         </Heading>
-        <UrlParamSearchbar mb={5} placeholder={Message.MANUFACTURER_NAME} />
+        <UrlParamSearchbar
+          loading={loading}
+          mb={5}
+          placeholder={Message.MANUFACTURER_NAME}
+        />
         <ScaleFade in={!isEmpty(categories) || isSmallScreen} unmountOnExit>
           <Box mb={5}>
             {Message.CATEGORIES}

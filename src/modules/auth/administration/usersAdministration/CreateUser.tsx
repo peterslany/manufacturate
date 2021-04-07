@@ -24,13 +24,14 @@ function CreateUser({ onCreateCallback }: Props): ReactElement {
     trigger("passwordAgain");
   }, [trigger, watchPassword]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const isUsernameAvailable = useCallback(
     debounce(
       async (username: string) => {
         const res = await fetch(`/api/users/${username}`);
         return res.status === 404;
       },
-      300,
+      350,
       { leading: true }
     ),
     []

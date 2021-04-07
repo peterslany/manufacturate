@@ -1,5 +1,13 @@
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
-import { chakra, Fade, Flex, IconButton, Input } from "@chakra-ui/react";
+import {
+  Box,
+  chakra,
+  Fade,
+  Flex,
+  IconButton,
+  Input,
+  Progress,
+} from "@chakra-ui/react";
 import { isEmpty } from "lodash";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { Button } from "..";
@@ -7,6 +15,7 @@ import { useColorVariations, useLocale } from "../../hooks";
 
 export interface SearchbarProps {
   className?: string;
+  loading?: boolean;
   onSearch: (query: string | undefined) => void;
   placeholder?: string;
   searchImmediately?: true;
@@ -21,6 +30,7 @@ function Searchbar({
   value,
   onSearch,
   searchImmediately,
+  loading,
 }: SearchbarProps): ReactElement {
   const { Message } = useLocale();
 
@@ -70,10 +80,12 @@ function Searchbar({
         borderWidth="2px"
         align="center"
         w="fit-content"
+        direction={searchImmediately ? "row-reverse" : "row"}
+        position="relative"
       >
         <Input
           w={["240px", "420px"]}
-          pl="12px"
+          pl={searchImmediately ? 0 : "12px"}
           pr="4px"
           bg="none"
           border="none"
@@ -87,30 +99,50 @@ function Searchbar({
           value={inputText || ""}
           onChange={handleInputChange}
         />
-        <Fade in={!isEmpty(inputText)} unmountOnExit>
-          <IconButton
-            color={red.bg}
-            _hover={{ bg: "transparent", color: red.fg }}
-            size="xs"
-            bg="transparent"
-            aria-label={Message.CLEAR_QUERY}
-            onClick={handleClearInput}
+        <Box {...(searchImmediately && { order: -1, mx: 2 })}>
+          <Fade in={!isEmpty(inputText)} unmountOnExit>
+            <IconButton
+              color={red.fg}
+              _hover={{ bg: "transparent", color: red.bg }}
+              size="xs"
+              bg="transparent"
+              aria-label={Message.CLEAR_QUERY}
+              onClick={handleClearInput}
+            >
+              <CloseIcon fontSize="xs" />
+            </IconButton>
+          </Fade>
+        </Box>
+        {searchImmediately ? (
+          <SearchIcon w="40px" />
+        ) : (
+          <Button
+            type="submit"
+            borderRadius="16px"
+            borderLeftRadius="0"
+            onClick={handleSearchIconClick}
+            w="40px"
+            isDisabled={loading}
+            {...(variant === "dashed" && {
+              borderLeft: "2px dashed",
+              background: "transparent",
+            })}
           >
-            <CloseIcon fontSize="xs" />
-          </IconButton>
-        </Fade>
-        <Button
-          type="submit"
-          borderRadius="16px"
-          borderLeftRadius="0"
-          background="transparent"
-          onClick={handleSearchIconClick}
-          w="40px"
-          isDisabled={searchImmediately}
-          {...(variant === "dashed" && { borderLeft: "2px dashed" })}
-        >
-          <SearchIcon />
-        </Button>
+            <SearchIcon />
+          </Button>
+        )}
+        <Progress
+          position="absolute"
+          bottom="0"
+          borderBottomRadius="16px"
+          left="4px"
+          display={loading ? "block" : "none"}
+          h="4px"
+          w="calc(100% - 8px)"
+          bg="transparent"
+          colorScheme="gray"
+          isIndeterminate
+        />
       </Flex>
     </form>
   );

@@ -4,9 +4,7 @@ import { Link } from "..";
 import { Path, publicHeaderItems } from "../../constants";
 import { useLocale } from "../../hooks";
 
-interface Props {}
-
-function Footer({}: Props): ReactElement {
+function Footer(): ReactElement {
   const { Message, localizeMessage } = useLocale();
   const [bg, fg] = useColorModeValue(
     ["gray.700", "gray.50"],

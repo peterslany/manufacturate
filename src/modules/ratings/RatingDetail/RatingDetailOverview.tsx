@@ -44,7 +44,7 @@ function RatingDetailOverview({
 
   return (
     <Grid
-      p={[2, 4, 8]}
+      p={[4, 8]}
       templateAreas={[
         '"heading" "rating" "categories-description"',
         '"heading heading" "rating categories-description"',

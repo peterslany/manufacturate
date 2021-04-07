@@ -5,7 +5,6 @@ import {
   Heading,
   useColorModeValue,
   useDisclosure,
-  useToken,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
@@ -31,10 +30,6 @@ function Header(): ReactElement {
     onOpen: openDrawer,
     onClose: closeDrawer,
   } = useDisclosure();
-
-  const [light, dark] = useToken("colors", ["gray.50A50", "gray.900A50"]);
-
-  const bg = useColorModeValue(light, dark);
 
   const { route } = useRouter();
 
@@ -84,7 +79,6 @@ function Header(): ReactElement {
       width="full"
       px={[2, 3, 4, 5]}
       layerStyle={glass}
-      style={{ background: bg }}
       zIndex="10"
     >
       {isSmallScreen ? (
