@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { RequestMethod } from "../../constants";
 import useRequest, { UseRequestOptions, UseRequestResult } from "./useRequest";
 
@@ -20,9 +20,7 @@ const useGet = <T>(
 ): UseRequestResult<T> => {
   // automatically adds current query string to request URL
   const { asPath } = useRouter();
-
   const queryString = asPath.match(/\?.*/)?.[0] || "";
-
   const fullUrl = options?.includeQueryString
     ? `${url}${queryString}`
     : url || "";
@@ -33,8 +31,19 @@ const useGet = <T>(
     options
   );
 
+  // initial fetching of data is disallowed when initialValue is provided
+  const [disallowSend, setDisallowSend] = useState<boolean>(
+    Boolean(options?.initialValue)
+  );
+
   useEffect(() => {
-    if (url) send();
+    if (!disallowSend) {
+      if (url) {
+        send();
+      }
+    } else {
+      setDisallowSend(false);
+    }
   }, [send, url]);
 
   return { data, loading, error, send };

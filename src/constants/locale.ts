@@ -173,6 +173,10 @@ export const LocaleMessages = asLocaleMessages({
     en: "Passwords don't match.",
     sk: "Heslá sa nezhodujú",
   },
+  ERROR_FORM_RATING_HAS_TO_CONTAIN_CATEGORY: {
+    en: "Each rating has to contain at least one category.",
+    sk: "Každé hodnotenie musí obsahovať aspoň 1 kategóriu.",
+  },
   ERROR_FORM_REQUIRED_FIELD: {
     en: "This field is required.",
     sk: "Toto pole je povinné.",

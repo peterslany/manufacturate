@@ -1,4 +1,4 @@
-import { Box, Divider, Flex } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
 import React, { ReactElement, RefObject } from "react";
 import { Control, DeepMap, FieldError } from "react-hook-form";
 import {
@@ -34,11 +34,9 @@ function RatingUnitForm({
   ];
 
   return (
-    <Box p={["8", "16"]}>
-      <strong>
-        {Message.RATING}: {label}
-      </strong>
-      <Divider mb="4" />
+    <Box p={[6, 12]}>
+      <Heading size="lg">{label}</Heading>
+      <Divider mb="4" borderBottom="1px solid" opacity={0.3} />
       <Flex wrap="wrap" mb="2">
         {ratingTypes.map(({ subCategory, label: ratingLabel }) => (
           <Input

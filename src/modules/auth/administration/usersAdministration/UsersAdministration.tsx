@@ -8,9 +8,7 @@ import { useLocale, usePut } from "../../../../hooks";
 import { User } from "../../../../types";
 import CreateUser from "./CreateUser";
 
-interface Props {}
-
-function UsersAdministration({}: Props): ReactElement {
+function UsersAdministration(): ReactElement {
   const { Message } = useLocale();
 
   const {
@@ -50,7 +48,7 @@ function UsersAdministration({}: Props): ReactElement {
   const onCreateCallback = useCallback(
     (newUser: User) =>
       modifyItems && modifyItems((items) => [...items, newUser]),
-    []
+    [modifyItems]
   );
 
   return (

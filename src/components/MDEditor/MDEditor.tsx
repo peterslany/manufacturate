@@ -22,7 +22,7 @@ function MDEditor({ control, name, errors, label }: Props): ReactElement {
 
   const error = get(errors, name)?.message;
   return (
-    <>
+    <Box py={[2, 4]}>
       <FormLabel htmlFor={name}>{label}</FormLabel>
       <Box layerStyle={error ? "outline16Error" : "outline16"}>
         <Controller
@@ -58,7 +58,7 @@ function MDEditor({ control, name, errors, label }: Props): ReactElement {
         />
       </Box>
       <Text color="red">{error}</Text>
-    </>
+    </Box>
   );
 }
 

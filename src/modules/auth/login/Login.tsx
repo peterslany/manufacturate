@@ -52,7 +52,6 @@ function Login(): ReactElement {
           onChange={setUsername}
           type="text"
           label={Message.USERNAME}
-          layerStyle="outline"
           mb="2"
         />
         <Input
@@ -63,7 +62,6 @@ function Login(): ReactElement {
           onChange={setPassword}
           type="password"
           label={Message.PASSWORD}
-          layerStyle="outline"
           mb="2"
         />
         <Button

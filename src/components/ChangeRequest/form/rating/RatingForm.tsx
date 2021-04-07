@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { Control, DeepMap, FieldError } from "react-hook-form";
+import { Control, DeepMap, FieldError, get } from "react-hook-form";
 import { useLocale } from "../../../../hooks";
 import { RatingFull } from "../../../../types";
 import { getProductCategoryLabel } from "../../../../utils";
@@ -77,7 +77,25 @@ function RatingForm({
         <Heading p="4" pb="0">
           {Message.CATEGORIES}
         </Heading>
-        <RatingFormSubCategoryPicker {...{ subCategories, setSubCategories }} />
+        <RatingFormSubCategoryPicker
+          error={Boolean(get(errors, "content.subCategories"))}
+          {...{ subCategories, setSubCategories }}
+        />
+        {/* Shows error message when no subCategory is selected */}
+        <Box ml="4" mt="-8">
+          <Input
+            opacity="0"
+            h="0"
+            w="0"
+            label=""
+            name="content.subCategories"
+            value={subCategories.join("")}
+            ref={register({
+              required: Message.ERROR_FORM_RATING_HAS_TO_CONTAIN_CATEGORY,
+            })}
+            errors={errors}
+          />
+        </Box>
         {subCategories.map((categoryName, index: number) => (
           <Box
             key={categoryName}

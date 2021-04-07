@@ -8,7 +8,7 @@ export default function withAuth<ComponentProps>(
 ): React.FC<ComponentProps> {
   function WithAuth(props: ComponentProps): ReactElement {
     const [session] = useSession();
-    return (admin && session?.user.isAdmin) || session ? (
+    return (admin ? session?.user.isAdmin : session) ? (
       <Component {...props} />
     ) : (
       <UnauthorizedAccess />

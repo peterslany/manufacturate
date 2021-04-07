@@ -19,6 +19,7 @@ import ConfirmationDialog from "../../../ConfirmationDialog";
 import { ConfirmationDialogAction } from "../../../ConfirmationDialog/ConfirmationDialog";
 
 interface Props {
+  error: boolean;
   setSubCategories: React.Dispatch<React.SetStateAction<string[]>>;
   subCategories: string[];
 }
@@ -26,6 +27,7 @@ interface Props {
 function RatingFormSubCategoryPicker({
   subCategories,
   setSubCategories,
+  error,
 }: Props): ReactElement {
   const { Message, localizeMessage } = useLocale();
 
@@ -52,7 +54,7 @@ function RatingFormSubCategoryPicker({
 
   return (
     <Flex
-      layerStyle="outline"
+      layerStyle={`outline${error ? "Error" : ""}`}
       borderWidth="3px"
       wrap="wrap"
       p="4"

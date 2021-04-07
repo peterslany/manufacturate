@@ -23,9 +23,7 @@ import {
 import withAuth from "../withAuth";
 import Content from "./Content";
 
-interface Props {}
-
-function Dashboard({}: Props): ReactElement {
+function Dashboard(): ReactElement {
   const { Message } = useLocale();
   const [session] = useSession();
 
@@ -64,7 +62,7 @@ function Dashboard({}: Props): ReactElement {
     <Box layerStyle="layout">
       <ScaleFade
         unmountOnExit
-        in={Boolean(changeRequestCount && changeRequestCount !== 0)}
+        in={Boolean(isAdmin && changeRequestCount && changeRequestCount !== 0)}
       >
         <Alert mb="4" status="warning" fontSize="lg">
           <AlertIcon />
