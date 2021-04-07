@@ -2,6 +2,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import {
   Box,
   Modal,
+  ModalCloseButton,
   ModalContent,
   ModalOverlay,
   useColorModeValue,
@@ -28,7 +29,7 @@ function HeaderSearch(): ReactElement {
 
   const glass = useColorModeValue("glassLight", "glassDark");
 
-  const overlayBg = useColorModeValue("gray.50A99", "gray.50A20");
+  const overlayBg = useColorModeValue("gray.50A99", "gray.900A99");
 
   const [searchQuery, setSearchQuery] = useState<string>();
 
@@ -82,7 +83,9 @@ function HeaderSearch(): ReactElement {
         <SearchIcon />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
-        <ModalOverlay bg={overlayBg} />
+        <ModalOverlay bg={overlayBg}>
+          <ModalCloseButton />
+        </ModalOverlay>
 
         <ModalContent layerStyle={glass} w="fit-content" borderRadius="16px">
           <Searchbar

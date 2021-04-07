@@ -1,14 +1,8 @@
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  Link,
-  Skeleton,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, Skeleton, Text, useColorModeValue } from "@chakra-ui/react";
 import { ReactElement } from "react";
 import { BasicRating, BlogpostBase } from "../../../types";
+import Link from "../../Link";
 
 interface ItemProps {
   href: string;
@@ -30,7 +24,14 @@ function Item({ name, href, loading, onClick }: ItemProps): ReactElement {
       m="2"
       isLoaded={!loading}
     >
-      <Link href={href} onClick={onClick}>
+      <Link
+        href={href}
+        onClick={onClick}
+        _focus={{
+          "& > *": { layerStyle: "focus" },
+          boxShadow: "none",
+        }}
+      >
         <Flex
           align="center"
           justify="space-between"

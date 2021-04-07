@@ -6,9 +6,7 @@ import { useLocale } from "../../../hooks";
 import withAuth from "../withAuth";
 import UsersAdministration from "./usersAdministration/UsersAdministration";
 
-interface Props {}
-
-function Administration({}: Props): ReactElement {
+function Administration(): ReactElement {
   const { Message } = useLocale();
   return (
     <Box layerStyle="layout">
