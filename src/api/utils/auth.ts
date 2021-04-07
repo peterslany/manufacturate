@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { NextApiRequest } from "next";
 import jwt from "next-auth/jwt";
 import { Token, User } from "../../types";
