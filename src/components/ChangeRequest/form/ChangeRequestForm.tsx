@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { ChangeRequestFormMode, ContentType } from "../../../constants";
 import { useGet, useLocale, useRequest } from "../../../hooks";
 import { Blogpost, GeneralChangeRequest, RatingFull } from "../../../types";
-import { generateBlogpostId } from "../../../utils";
+import { generateBlogpostIdFromValues } from "../../../utils";
 import Input from "../../Input";
 import BlogpostForm from "./blogpost/BlogpostForm";
 import RatingForm from "./rating/RatingForm";
@@ -132,7 +132,7 @@ function ChangeRequestForm<T extends ContentType>({
     }
     if (contentType === ContentType.BLOGPOST) {
       const _id = isEmpty(values.content._id)
-        ? generateBlogpostId(values.content as Blogpost)
+        ? generateBlogpostIdFromValues(values.content as Blogpost)
         : values.content._id;
 
       requestBodyBase = {
@@ -140,7 +140,8 @@ function ChangeRequestForm<T extends ContentType>({
         content: {
           ...requestBodyBase.content,
           _id,
-          author: author || "",
+          author:
+            (isEmpty(session?.user.name) ? author : session?.user.name) || "",
         },
       };
     }

@@ -66,3 +66,6 @@ export const generateRatingMetadata = (
     ...(author ? [author] : []),
   ]),
 });
+
+export const isValidURLPathSegment = (value: string): boolean =>
+  Boolean(value.match(/^[a-z0-9-]+$/i));

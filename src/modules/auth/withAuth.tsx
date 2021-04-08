@@ -1,5 +1,7 @@
+import { Center, Progress } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
 import { ReactElement } from "react";
+import { useLocale } from "../../hooks";
 import UnauthorizedAccess from "./UnauthorizedAccess";
 
 export default function withAuth<ComponentProps>(
@@ -7,11 +9,30 @@ export default function withAuth<ComponentProps>(
   admin?: boolean
 ): React.FC<ComponentProps> {
   function WithAuth(props: ComponentProps): ReactElement {
-    const [session] = useSession();
-    return (admin ? session?.user.isAdmin : session) ? (
-      <Component {...props} />
+    const { Message } = useLocale();
+
+    const [session, loading] = useSession();
+
+    return loading ? (
+      <Center py="8" flexDirection="column">
+        {Message.AUTHORIZING_USER}
+        <Progress
+          isAnimated
+          hasStripe
+          w="full"
+          h="4"
+          colorScheme="yellow"
+          value={100}
+        />
+      </Center>
     ) : (
-      <UnauthorizedAccess />
+      <>
+        {(admin ? session?.user.isAdmin : session) ? (
+          <Component {...props} />
+        ) : (
+          <UnauthorizedAccess />
+        )}
+      </>
     );
   }
 

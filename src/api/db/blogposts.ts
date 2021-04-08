@@ -44,3 +44,16 @@ export const getBlogpost = async (_id?: string): Promise<Blogpost | null> => {
 
   return db.collection(Collection.BLOGPOSTS).findOne({ _id });
 };
+
+export const getAllBlogpostsUrls = async (): Promise<
+  { locale: Locale; urlPathSegment: string }[]
+> => {
+  const { db } = await database();
+
+  return db
+    .collection(Collection.BLOGPOSTS)
+    .find()
+    .project({ urlPathSegment: 1, locale: 1 })
+    .limit(0)
+    .toArray();
+};

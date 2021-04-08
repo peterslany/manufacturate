@@ -4,9 +4,12 @@ const useSmallScreen = (): boolean => {
   const [isSmall, setIsSmall] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsSmall(window.innerWidth < 832);
+
     const handleWindowResize = () => {
       setIsSmall(window.innerWidth < 832);
     };
+
     window.addEventListener("resize", handleWindowResize);
 
     return () => window.removeEventListener("resize", handleWindowResize);

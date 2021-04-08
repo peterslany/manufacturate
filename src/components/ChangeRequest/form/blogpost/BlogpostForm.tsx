@@ -7,6 +7,7 @@ import { Blogpost } from "../../../../types";
 import Input from "../../../Input";
 import MDEditor from "../../../MDEditor";
 import Select from "../../../Select";
+import { isValidURLPathSegment } from "../utils";
 
 interface Props {
   control: Control<Record<string, unknown>>;
@@ -52,7 +53,12 @@ function BlogpostForm({
           type="text"
           name="content.urlPathSegment"
           label={Message.BLOGPOST_URL_PATH_SEGMENT}
-          ref={register({ required: Message.ERROR_FORM_REQUIRED_FIELD })}
+          ref={register({
+            required: Message.ERROR_FORM_REQUIRED_FIELD,
+            validate: (value: string) =>
+              isValidURLPathSegment(value) ||
+              Message.ERROR_FORM_INVALID_URL_PATH_SEGMENT,
+          })}
           errors={errors}
           isReadOnly={mode !== ChangeRequestFormMode.CREATE_NEW}
         />

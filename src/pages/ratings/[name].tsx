@@ -4,6 +4,7 @@ import { ParsedUrlQuery } from "querystring";
 import React, { ReactElement } from "react";
 import { getAllRatingsIds, getRatingDetail } from "../../api/db";
 import { asLocale, localizeRatingData } from "../../api/utils";
+import { LoadingFallback } from "../../components";
 import RatingDetail from "../../modules/ratings/RatingDetail";
 import { RatingLocalized } from "../../types/ratings";
 import { parseString } from "../../utils";
@@ -15,7 +16,7 @@ interface Props {
 function RatingDetailPage({ data }: Props): ReactElement {
   const { isFallback } = useRouter();
   if (isFallback) {
-    return <div>404 ---OR--- loading</div>;
+    return <LoadingFallback />;
   }
   return <RatingDetail data={data} />;
 }

@@ -28,8 +28,7 @@ function HeaderSearch(): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const glass = useColorModeValue("glassLight", "glassDark");
-
-  const overlayBg = useColorModeValue("gray.50A99", "gray.900A99");
+  const overlayShadowColor = useColorModeValue("#000000", "#ffffff");
 
   const [searchQuery, setSearchQuery] = useState<string>();
 
@@ -83,11 +82,16 @@ function HeaderSearch(): ReactElement {
         <SearchIcon />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
-        <ModalOverlay bg={overlayBg}>
+        <ModalOverlay layerStyle={glass}>
           <ModalCloseButton />
         </ModalOverlay>
 
-        <ModalContent layerStyle={glass} w="fit-content" borderRadius="16px">
+        <ModalContent
+          boxShadow={`0 0 50px -20px ${overlayShadowColor}`}
+          layerStyle={glass}
+          w="fit-content"
+          borderRadius="16px"
+        >
           <Searchbar
             searchImmediately
             placeholder={Message.SEARCH}

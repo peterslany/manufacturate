@@ -4,7 +4,6 @@ import {
   AlertIcon,
   Box,
   Divider,
-  Flex,
   Heading,
   ScaleFade,
   Text,
@@ -12,7 +11,7 @@ import {
 import { useSession } from "next-auth/client";
 import React, { ReactElement, useEffect, useState } from "react";
 import { CollapsibleSection } from "../../../components";
-import { withLink } from "../../../components/Link";
+import Link from "../../../components/Link";
 import { ApiUrl, ContentType, Path } from "../../../constants";
 import { useGet, useLocale } from "../../../hooks";
 import {
@@ -41,22 +40,23 @@ function Dashboard(): ReactElement {
     }
   }, [data]);
 
-  const ViewNow = withLink(() => (
-    <Flex
+  const ViewNow = () => (
+    <Link
       textDecoration="underline"
       fontWeight="600"
       ml="2"
-      role="group"
       align="center"
+      role="group"
+      href={Path.AUTH_ADMINISTRATION}
     >
       {" "}
       {Message.VIEW}
       <ArrowForwardIcon
         transition="all 300ms ease-in-out"
-        _groupHover={{ translate: "5px" }}
+        _groupHover={{ transform: "translateX(5px)" }}
       />{" "}
-    </Flex>
-  ));
+    </Link>
+  );
 
   return (
     <Box layerStyle="layout">
@@ -67,7 +67,7 @@ function Dashboard(): ReactElement {
         <Alert mb="4" status="warning" fontSize="lg">
           <AlertIcon />
           {Message.ALERT_CHANGE_REQUESTS_WAITING}( {changeRequestCount} ).{" "}
-          <ViewNow href={Path.AUTH_ADMINISTRATION} linkText={Message.VIEW} />
+          <ViewNow />
         </Alert>
       </ScaleFade>
 

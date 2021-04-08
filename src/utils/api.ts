@@ -42,5 +42,10 @@ export const makeRequest = async <T extends unknown>(
   }
 };
 
-export const generateBlogpostId = (content: Blogpost): string =>
-  `${content.locale}~${content.urlPathSegment}`;
+export const generateBlogpostId = (
+  locale: Locale,
+  urlPathSegment: string
+): string => `${locale}~${urlPathSegment}`;
+
+export const generateBlogpostIdFromValues = (values: Blogpost): string =>
+  generateBlogpostId(values.locale, values.urlPathSegment);

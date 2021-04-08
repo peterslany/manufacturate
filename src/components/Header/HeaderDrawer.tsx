@@ -24,13 +24,14 @@ function HeaderDrawer({ items, isOpen, onClose }: Props): ReactElement {
   const { Message } = useLocale();
 
   const glass = useColorModeValue("glassLight", "glassDark");
-
-  const drawerOverlayBg = useColorModeValue("gray.50A99", "gray.900A99");
-
+  const overlayShadowColor = useColorModeValue("#00000050", "#ffffff80");
   return (
     <Drawer isOpen={isOpen} onClose={onClose} placement="left">
-      <DrawerOverlay bgColor={drawerOverlayBg}>
-        <DrawerContent layerStyle={glass} bgColor="none">
+      <DrawerOverlay layerStyle={glass}>
+        <DrawerContent
+          boxShadow={`0 0 50px -20px ${overlayShadowColor}`}
+          layerStyle={glass}
+        >
           <DrawerHeader
             onClick={onClose}
             borderBottomWidth="1px"
@@ -59,7 +60,7 @@ function HeaderDrawer({ items, isOpen, onClose }: Props): ReactElement {
               my="4"
             />
 
-            <Flex justify="space-between" align="center">
+            <Flex mb="4" justify="space-between" align="center">
               {Message.TOGGLE_COLOR_MODE} <ColorModeToggle />
             </Flex>
           </DrawerBody>

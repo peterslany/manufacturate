@@ -41,11 +41,13 @@ const theme = extendTheme({
       "50A20": "#f7fcfc20",
       "50A50": "#f7fcfc50",
       "50A99": "#f7fcfc99",
+      "50AEE": "#f7fcfcee",
       "900A05": "#17192305",
       "900A10": "#17192310",
       "900A20": "#17192320",
       "900A50": "#17192350",
       "900A99": "#17192399",
+      "900AEE": "#171923ee",
     },
     red: {
       50: "#ffe5e9",
@@ -149,17 +151,17 @@ const theme = extendTheme({
       boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
     },
     glassLight: {
-      backgroundColor: "gray.50",
+      backgroundColor: "gray.50AEE",
       "@supports (backdrop-filter: blur(15px))": {
         backdropFilter: "brightness(140%) blur(15px) ",
-        backgroundColor: "gray.900A10",
+        backgroundColor: "gray.50A20",
       },
     },
     glassDark: {
-      backgroundColor: "gray.900",
+      backgroundColor: "gray.900AEE",
       "@supports (backdrop-filter: blur(15px))": {
         backdropFilter: "blur(15px) brightness(60%)",
-        backgroundColor: "gray.50A20",
+        backgroundColor: "gray.900A20",
       },
     },
     dashed: {
@@ -203,6 +205,11 @@ const theme = extendTheme({
         h6: {
           fontSize: "lg",
           fontWeight: "600",
+        },
+        img: {
+          display: "block",
+          margin: "auto",
+          my: "4",
         },
         ".chakra-text": {
           marginBottom: 5,

@@ -43,6 +43,10 @@ export const LocaleMessages = asLocaleMessages({
     en: "Ascending",
     sk: "Vzostupne",
   },
+  AUTHORIZING_USER: {
+    en: "Authorizing user",
+    sk: "Autorizácia užívateľa",
+  },
   BASIC_INFORMATION: {
     en: "Basic information",
     sk: "Základné informácie",
@@ -185,6 +189,10 @@ export const LocaleMessages = asLocaleMessages({
     en: "This username is already used.",
     sk: "Toto užívateľské meno sa už používa.",
   },
+  ERROR_FORM_INVALID_URL_PATH_SEGMENT: {
+    en: 'Only letters, numbers and hyphens "-" are allowed. ',
+    sk: 'Sú povolené iba písmená, číslice a spojovník "-".',
+  },
   HOME: {
     en: "Home",
     sk: "Domov",
@@ -319,6 +327,10 @@ export const LocaleMessages = asLocaleMessages({
   RATINGS: {
     en: "Ratings",
     sk: "Hodnotenia",
+  },
+  READ_MORE: {
+    en: "Read more",
+    sk: "Čítať viac",
   },
   SAVE_CHANGES: {
     en: "Save changes",

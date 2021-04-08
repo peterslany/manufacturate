@@ -11,6 +11,7 @@ import { useLocale } from "../../../../hooks";
 import { RatingFull } from "../../../../types";
 import { getProductCategoryLabel } from "../../../../utils";
 import Input from "../../../Input";
+import { isValidURLPathSegment } from "../utils";
 import RatingFormSubCategoryPicker from "./RatingFormSubCategoryPicker";
 import RatingUnitForm from "./RatingUnitForm";
 
@@ -51,7 +52,12 @@ function RatingForm({
             type="text"
             name="content._id"
             label={Message.ID_URL_PATH_SEGMENT}
-            ref={register({ required: Message.ERROR_FORM_REQUIRED_FIELD })}
+            ref={register({
+              required: Message.ERROR_FORM_REQUIRED_FIELD,
+              validate: (value: string) =>
+                isValidURLPathSegment(value) ||
+                Message.ERROR_FORM_INVALID_URL_PATH_SEGMENT,
+            })}
             {...(initialValues && { isReadOnly: true })}
             errors={errors}
           />
