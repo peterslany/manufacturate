@@ -2,16 +2,21 @@ import { Box } from "@chakra-ui/react";
 import { compact, flatten, isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import React, { ReactElement, useState } from "react";
+import { Head } from "../../../components";
 import { allProductCategories, ProductCategory } from "../../../constants";
+import { useLocale } from "../../../hooks";
 import { RatingLocalized } from "../../../types";
 import RatingDetailOverview from "./RatingDetailOverview";
 import RatingDetailSubCategories from "./RatingDetailSubCategories";
+import generateMetaDescription from "./utils";
 
 interface Props {
   data: RatingLocalized;
 }
 
 function RatingDetail({ data }: Props): ReactElement {
+  const { locale } = useLocale();
+
   const { asPath } = useRouter();
 
   const subCategories = compact(
@@ -43,6 +48,10 @@ function RatingDetail({ data }: Props): ReactElement {
 
   return (
     <Box layerStyle="layout" sx={{ scrollBehavior: "smooth" }}>
+      <Head
+        title={data.name}
+        metaDescription={generateMetaDescription(data, locale)}
+      />
       <RatingDetailOverview
         {...{
           setExpandedSubCategories,

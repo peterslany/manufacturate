@@ -77,7 +77,10 @@ function RatingDetailOverview({
                   overflowWrap="break-word"
                   key={value}
                 >
-                  <CheckCircleIcon mr="1" />
+                  <CheckCircleIcon
+                    aria-label={Message.ARIA_LABEL_CATEGORY}
+                    mr="1"
+                  />
                   <Link
                     onClick={() =>
                       setExpandedSubCategories((prev) =>

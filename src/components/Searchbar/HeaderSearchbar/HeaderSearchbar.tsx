@@ -78,8 +78,13 @@ function HeaderSearch(): ReactElement {
 
   return (
     <>
-      <Button layerStyle="outline16" p={0} onClick={onOpen}>
-        <SearchIcon />
+      <Button
+        aria-label={Message.SEARCH}
+        layerStyle="outline16"
+        p={0}
+        onClick={onOpen}
+      >
+        <SearchIcon aria-label={Message.SEARCH} />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay layerStyle={glass}>

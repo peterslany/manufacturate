@@ -16,7 +16,7 @@ import {
   Path,
   publicHeaderItems,
 } from "../../constants";
-import { useSmallScreen } from "../../hooks";
+import { useLocale, useSmallScreen } from "../../hooks";
 import { HeaderItemSubMenuType } from "../../types";
 import LocaleChange from "../LocaleChange/LocaleChange";
 import HeaderSearch from "../Searchbar/HeaderSearchbar";
@@ -25,6 +25,8 @@ import HeaderItem from "./HeaderItem";
 import HeaderItemSubMenu from "./HeaderItemSubMenu";
 
 function Header(): ReactElement {
+  const { Message } = useLocale();
+
   const {
     isOpen: isDrawerOpen,
     onOpen: openDrawer,
@@ -88,8 +90,9 @@ function Header(): ReactElement {
             borderRadius="16px"
             p={0}
             onClick={openDrawer}
+            ariaLabel={Message.ARIA_LABEL_MENU}
           >
-            <HamburgerIcon />
+            <HamburgerIcon aria-label={Message.ARIA_LABEL_MENU} />
           </Button>
           <Heading size="md">FAIR ABOUT CARE</Heading>
         </>

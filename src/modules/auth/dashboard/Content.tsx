@@ -16,11 +16,11 @@ import { contentTypeApiUrl } from "../../../components/ChangeRequest/form/utils"
 import ConfirmationDialog from "../../../components/ConfirmationDialog";
 import { ConfirmationDialogAction } from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import ItemsList from "../../../components/ItemsList";
-import { withLink } from "../../../components/Link";
 import { ApiUrl, ContentType, Path } from "../../../constants";
 import { useColorVariations, useDelete, useLocale } from "../../../hooks";
 import { BasicRating, BlogpostBase } from "../../../types";
 import { formatDateShort } from "../../../utils";
+import { withLink } from "../../../wrappers";
 
 interface Props {
   setChangeRequestsCount: (

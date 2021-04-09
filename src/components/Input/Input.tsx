@@ -49,7 +49,12 @@ function Input(
         isInvalid={Boolean(error)}
         layerStyle="outline16"
         step="any"
-        {...{ onChange: handleInputChange, name, ...props }}
+        {...{
+          ...props,
+          onChange: handleInputChange,
+          name,
+          "aria-label": label,
+        }}
       />
 
       <Text color="red">{error}</Text>

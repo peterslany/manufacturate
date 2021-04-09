@@ -1,6 +1,6 @@
 import { Box, Center, Flex } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
-import { Pagination, UrlParamSearchbar } from "../../components";
+import { Head, Pagination, UrlParamSearchbar } from "../../components";
 import { ApiUrl, PAGE_SIZE } from "../../constants";
 import { useGet, useLocale, useUrlParam } from "../../hooks";
 import { BlogpostsListData } from "../../types";
@@ -22,6 +22,7 @@ function Blog({ initialBlogposts }: Props): ReactElement {
   });
   return (
     <Box layerStyle="layout">
+      <Head title={Message.BLOG} metaDescription={Message.META_BLOG} />
       <Center>
         <UrlParamSearchbar placeholder={Message.SEARCH} />
       </Center>

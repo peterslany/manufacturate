@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
 import React, { ReactElement, useEffect, useState } from "react";
-import { CollapsibleSection } from "../../../components";
+import { CollapsibleSection, Head } from "../../../components";
 import Link from "../../../components/Link";
 import { ApiUrl, ContentType, Path } from "../../../constants";
 import { useGet, useLocale } from "../../../hooks";
@@ -19,7 +19,7 @@ import {
   BlogpostBase,
   ChangeRequestsListData,
 } from "../../../types";
-import withAuth from "../withAuth";
+import { withAuth } from "../../../wrappers";
 import Content from "./Content";
 
 function Dashboard(): ReactElement {
@@ -60,6 +60,7 @@ function Dashboard(): ReactElement {
 
   return (
     <Box layerStyle="layout">
+      <Head title={Message.DASHBOARD} />
       <ScaleFade
         unmountOnExit
         in={Boolean(isAdmin && changeRequestCount && changeRequestCount !== 0)}

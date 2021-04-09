@@ -3,16 +3,14 @@ import { isEmpty } from "lodash";
 import { useSession } from "next-auth/client";
 import React, { ReactElement, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input } from "../../../components";
+import { Button, Head, Input } from "../../../components";
 import ChangeRequestsList from "../../../components/ChangeRequest/ChangeRequestsList";
 import { ApiUrl } from "../../../constants";
 import { useGet, useLocale, usePut } from "../../../hooks";
 import { User } from "../../../types";
-import withAuth from "../withAuth";
+import { withAuth } from "../../../wrappers";
 
-interface Props {}
-
-function MyAccount({}: Props): ReactElement {
+function MyAccount(): ReactElement {
   const { Message } = useLocale();
 
   const [session] = useSession();
@@ -59,6 +57,7 @@ function MyAccount({}: Props): ReactElement {
       justify="space-between"
       layerStyle="layout"
     >
+      <Head title={Message.MY_ACCOUNT} />
       <ChangeRequestsList header={Message.MY_CHANGE_REQUESTS} />
 
       <Box layerStyle="dashed" w="full" maxW="420px" m="4">

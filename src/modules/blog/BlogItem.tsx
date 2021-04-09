@@ -25,14 +25,14 @@ function BlogItem({ data, loading = true }: BlogItemProps): ReactElement {
   return (
     <Link
       m="4"
-      _focus={{ boxShadow: "none" }}
+      _focus={{ "& > *": { layerStyle: "outlineFocused" }, boxShadow: "none" }}
       href={loading ? Path.BLOG : `${Path.BLOG}/${data.urlPathSegment}`}
       _hover={{ textDecoration: "none" }}
       cursor={loading ? "wait" : "pointer"}
     >
       <Flex
+        role="group"
         layerStyle="outline"
-        _groupFocus={{ layerStyle: "outlineFocused" }}
         w={["320px", "320px", "832px"]}
         h={["500px", "500px", "300px"]}
         direction={["column", "column", "row"]}
@@ -104,6 +104,7 @@ function BlogItem({ data, loading = true }: BlogItemProps): ReactElement {
             {Message.READ_MORE.toUpperCase()}
             <ArrowForwardIcon
               ml="2"
+              aria-label={Message.ARIA_LABEL_ARROW}
               _groupHover={{ transform: "translate(7px)" }}
               transition="transform 500ms ease-in-out"
             />

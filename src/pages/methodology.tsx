@@ -1,9 +1,8 @@
 import React, { ReactElement } from "react";
+import Methodology from "../modules/methodology";
 
-interface Props {}
-
-function Methodology({}: Props): ReactElement {
-  return <div>Ako hodnotime</div>;
+function MethodologyPage(): ReactElement {
+  return <Methodology />;
 }
 
-export default Methodology;
+export default MethodologyPage;

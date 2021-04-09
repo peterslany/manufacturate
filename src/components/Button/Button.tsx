@@ -8,6 +8,7 @@ import React, { ReactElement, ReactNode } from "react";
 import { addToColor } from "../../utils";
 
 interface ButtonProps extends ChakraButtonProps {
+  ariaLabel?: string;
   backgroundColor?: string;
   children: ReactNode;
   onClick?: () => void;
@@ -21,6 +22,7 @@ function Button({
   className,
   isDisabled,
   type,
+  ariaLabel,
 }: ButtonProps): ReactElement {
   const { colorMode } = useColorMode();
 
@@ -56,7 +58,7 @@ function Button({
       onClick={onClick && handleClick}
       background={variant === "outline" ? "inherit" : background}
       _hover={{ background: hoverBackground }}
-      {...{ className, variant, type }}
+      {...{ className, variant, type, "aria-label": ariaLabel }}
     >
       {children}
     </ChakraButton>

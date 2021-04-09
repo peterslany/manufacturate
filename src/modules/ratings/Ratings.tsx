@@ -14,6 +14,7 @@ import { isEmpty } from "lodash";
 import React, { ReactElement } from "react";
 import {
   Button,
+  Head,
   Pagination,
   ProductCategories,
   UrlParamSearchbar,
@@ -76,7 +77,6 @@ function Ratings({ initialRatingsData }: Props): ReactElement {
     <RatingsListItem
       href={`/ratings/${_id}`}
       key={_id}
-      linkText={name}
       name={name}
       rating={rating}
       loading={loading}
@@ -85,6 +85,7 @@ function Ratings({ initialRatingsData }: Props): ReactElement {
 
   return (
     <Flex direction={["column", "column", "row"]}>
+      <Head title={Message.RATINGS} metaDescription={Message.META_RATINGS} />
       {/* left panel */}
       {!isSmallScreen && (
         <Box

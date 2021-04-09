@@ -11,6 +11,16 @@ export const LocaleMessages = asLocaleMessages({
     en: "About",
     sk: "O projekte",
   },
+  UNAUTHORIZED_ACCESS: {
+    en: "Unauthorized access",
+    sk: "Neautorizovaný prístup",
+  },
+  UNAUTHORIZED_ACCESS_TEXT: {
+    en:
+      "You are trying to access non-public page without authorization, ^go home^ or ^log in^.",
+    sk:
+      "Snažíš sa o prístup na neverejnú stránku, pre ktorý nemáš autorizáciu, možeš ^ísť domov^ alebo ^sa prihlásiť^.",
+  },
   ACCOUNT_SETTINGS: {
     en: "Account settings",
     sk: "Nastavenia účtu",
@@ -38,6 +48,22 @@ export const LocaleMessages = asLocaleMessages({
   APPROVE_CHANGE_REQUEST: {
     en: "Approve change request",
     sk: "Schváliť požiadavku na zmenu",
+  },
+  ARIA_LABEL_CHEVRON: {
+    en: "Chevron",
+    sk: "Krokva",
+  },
+  ARIA_LABEL_MENU: {
+    en: "Menu",
+    sk: "Menu",
+  },
+  ARIA_LABEL_CATEGORY: {
+    en: "Category",
+    sk: "Kategória",
+  },
+  ARIA_LABEL_ARROW: {
+    en: "Arrow",
+    sk: "Šípka",
   },
   ASCENDING: {
     en: "Ascending",
@@ -111,6 +137,31 @@ export const LocaleMessages = asLocaleMessages({
     en: "Dashboard",
     sk: "Ovládací panel",
   },
+  META_RATINGS: {
+    en: "Search and sorting of personal care product manufacturers rating.",
+    sk: "Vyhľadávanie a zoraďovanie hodnotení výrobcov kozmetiky.",
+  },
+  META_BLOG: {
+    en: "Latest articles from Fair About Care blog.",
+    sk: "Najnovšie články z blogu Fair About Care.",
+  },
+  META_HOME: {
+    en:
+      "Fair rating of personal care products manufacturers available to everyone for free.",
+    sk: "Férové hodnotenia výrobcov kozmetiky dostupné pre všetkých.",
+  },
+  META_ABOUT: {
+    en: "// TODO ",
+    sk: "// TODO ",
+  },
+  META_METHODOLOGY: {
+    en: "// TODO ",
+    sk: "// TODO ",
+  },
+  META_PRIVACY_POLICY: {
+    en: "// TODO ",
+    sk: "// TODO ",
+  },
   DASHBOARD_DESCRIPTION: {
     en: "You can create and edit ratings and blogpost here",
     sk: "Tu môžeš vytvárať a upravovať hodnotenia a blogy",
@@ -156,6 +207,10 @@ export const LocaleMessages = asLocaleMessages({
   DIALOG_PROMOTE_TO_ADMINISTRATOR: {
     en: "Are you sure you want to make user ^ an administrator?",
     sk: "Si si istý, že chceš užívateľa ^ povýšiť na správcu?",
+  },
+  CONTACT_US: {
+    en: "Contact us",
+    sk: "Kontakt",
   },
   ERROR_DEFAULT_MESSAGE: {
     en: "Oops, something went wrong.",
@@ -219,7 +274,7 @@ export const LocaleMessages = asLocaleMessages({
     sk: "Požiadavka na zmenu bola vytvorená.",
   },
   INFO_CHANGE_REQUEST_DELETED: {
-    en: "Change request was deleted.",
+    en: "Change request was menudeleted.",
     sk: "Požiadavka na zmenu bola odstránená.",
   },
   INFO_CHANGE_REQUEST_SAVED: {
@@ -254,7 +309,7 @@ export const LocaleMessages = asLocaleMessages({
     en:
       "Logging in failed, you entered wrong combination of username and password.",
     sk:
-      "Prihlásenie sa nepodarilo, zadali ste nesprávnu kombináciu mena a hesla.",
+      "Prihlásenie sa nepodarilo, zadal/a si nesprávnu kombináciu mena a hesla.",
   },
   LOGIN_TEAM_MEMBER: {
     en: "Team member log-in",

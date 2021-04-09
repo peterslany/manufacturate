@@ -27,12 +27,15 @@ function Footer(): ReactElement {
           <Link w="fit-content" href={Path.METHODOLOGY}>
             {Message.METHODOLOGY}
           </Link>
-          <Link w="fit-content" mt="8" href={Path.AUTH_LOGIN}>
-            {Message.LOGIN_TEAM_MEMBER}
+          <Link mt="4" w="fit-content" href={Path.CONTACT}>
+            {Message.CONTACT_US}
           </Link>
         </Box>
 
         <Box p="8" display="inline-grid">
+          <Link w="fit-content" my="4" href={Path.AUTH_LOGIN}>
+            {Message.LOGIN_TEAM_MEMBER}
+          </Link>
           <Link w="fit-content" mb="8" href={Path.PRIVACY_POLICY}>
             {Message.PRIVACY_POLICY}
           </Link>

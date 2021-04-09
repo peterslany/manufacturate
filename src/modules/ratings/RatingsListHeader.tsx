@@ -89,6 +89,9 @@ function RatingsListHeader({
           }}
           textDecoration={sortBy === value ? "underline" : undefined}
           cursor="pointer"
+          role="button"
+          tabIndex={0}
+          _focus={{ layerStyle: "focus", outline: "none" }}
         >
           {localizeMessage(label)}
         </Text>

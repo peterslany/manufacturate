@@ -13,7 +13,7 @@ interface LinkProps {
 function Link({ href, children, onClick, className }: LinkProps): ReactElement {
   return (
     <NextLink href={href} passHref>
-      <ChakraLink role="group" className={className} onClick={onClick}>
+      <ChakraLink className={className} onClick={onClick}>
         {children}
       </ChakraLink>
     </NextLink>

@@ -74,6 +74,7 @@ function Searchbar({
       }}
     >
       <Flex
+        role="search"
         layerStyle={`outline16${isFocused ? "Focused" : ""}`}
         className={className}
         borderStyle={variant || "solid"}
@@ -93,6 +94,7 @@ function Searchbar({
           ref={searchbarRef}
           onBlur={() => setIsFocused(false)}
           onFocus={() => setIsFocused(true)}
+          aria-label={Message.SEARCH}
           role="textbox"
           placeholder={placeholder}
           _placeholder={{ color: "inherit", opacity: 0.6 }}
@@ -114,9 +116,11 @@ function Searchbar({
           </Fade>
         </Box>
         {searchImmediately ? (
-          <SearchIcon w="40px" />
+          <SearchIcon aria-label={Message.SEARCH} w="40px" />
         ) : (
           <Button
+            name={Message.SEARCH}
+            ariaLabel={Message.SEARCH}
             type="submit"
             borderRadius="16px"
             borderLeftRadius="0"
@@ -128,7 +132,7 @@ function Searchbar({
               background: "transparent",
             })}
           >
-            <SearchIcon />
+            <SearchIcon aria-label={Message.SEARCH} />
           </Button>
         )}
         <Progress

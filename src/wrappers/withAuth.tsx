@@ -1,8 +1,8 @@
 import { Center, Progress } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
 import { ReactElement } from "react";
-import { useLocale } from "../../hooks";
-import UnauthorizedAccess from "./UnauthorizedAccess";
+import { UnauthorizedAccess } from "../components";
+import { useLocale } from "../hooks";
 
 export default function withAuth<ComponentProps>(
   Component: React.FC<ComponentProps>,

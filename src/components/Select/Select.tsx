@@ -37,6 +37,7 @@ function Select<T>({
             onChange(JSON.parse(event.target.value)),
           value: JSON.stringify(value),
         }}
+        aria-label={label}
         layerStyle="outline16"
         _focus={{ layerStyle: "outline16Focused" }}
         _hover={{ boxShadow: "0 0 0 1px" }}

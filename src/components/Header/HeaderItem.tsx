@@ -28,7 +28,7 @@ function HeaderItem({
   isOpen,
 }: Props): ReactElement {
   const { colorMode } = useColorMode();
-  const { localizeMessage } = useLocale();
+  const { localizeMessage, Message } = useLocale();
 
   const color = (() => {
     switch (colorMode) {
@@ -54,7 +54,6 @@ function HeaderItem({
       background={color}
       borderRadius={24}
       _hover={{ background: hoverColor }}
-      role="group"
       display="flex"
       justifyContent="space-between"
       alignItems="center"
@@ -72,6 +71,7 @@ function HeaderItem({
         <ChevronDownIcon
           transition="transform 300ms ease-in-out"
           transform={isOpen ? "rotate(180deg)" : "rotate(0deg)"}
+          aria-label={Message.ARIA_LABEL_CHEVRON}
           _groupHover={{
             transform: "rotate(180deg)",
             transition: "transform 300ms ease-in-out",

@@ -95,7 +95,7 @@ function HeaderItemSubMenu({
       onOpen={() => setIsOpen(true)}
     >
       <PopoverTrigger>
-        <Box role="button">
+        <Box>
           <HeaderItem
             path={path}
             label={label}

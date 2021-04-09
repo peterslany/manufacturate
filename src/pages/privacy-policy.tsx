@@ -1,9 +1,8 @@
 import React, { ReactElement } from "react";
+import PrivacyPolicy from "../modules/privacyPolicy";
 
-interface Props {}
-
-function PrivacyPolicyPage({}: Props): ReactElement {
-  return <div />;
+function PrivacyPolicyPage(): ReactElement {
+  return <PrivacyPolicy />;
 }
 
 export default PrivacyPolicyPage;

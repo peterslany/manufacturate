@@ -53,12 +53,16 @@ function ProductCategories({ categories, setCategories }: Props): ReactElement {
                 ml={1}
                 w="fit-content"
                 cursor="pointer"
+                _focus={{ layerStyle: "focus" }}
+                tabIndex={0}
+                role="button"
               >
                 <Checkbox
                   isChecked={Boolean(categories?.includes(value))}
                   colorScheme={checkboxColorScheme}
                   borderColor={checkboxBorder}
                   mr={1}
+                  aria-label={localizeMessage(categoryLabel)}
                 />
                 {localizeMessage(categoryLabel)}
               </Flex>

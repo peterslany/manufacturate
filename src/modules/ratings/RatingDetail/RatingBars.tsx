@@ -61,7 +61,6 @@ function RatingBars({ rating, className, isSmall }: RatingBarsProps) {
                 ? sizeConfig.height.total
                 : sizeConfig.height.subCategories
             }
-            role="progressbar"
             borderRadius="16px"
             value={rating[subCategory] * 10}
           />

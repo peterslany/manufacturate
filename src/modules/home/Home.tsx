@@ -1,13 +1,11 @@
 import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import Image from "next/image";
 import { ReactElement } from "react";
-import { UrlParamSearchbar } from "../../components";
+import { Head, UrlParamSearchbar } from "../../components";
 import { Path } from "../../constants";
 import { useLocale } from "../../hooks";
 
-interface Props {}
-
-function Home({}: Props): ReactElement {
+function Home(): ReactElement {
   const { Message } = useLocale();
 
   const glassStyle = useColorModeValue("glassLight", "glassDark");
@@ -19,6 +17,7 @@ function Home({}: Props): ReactElement {
       justify="space-evenly"
       direction="column"
     >
+      <Head title={Message.HOME} metaDescription={Message.META_HOME} />
       <Box
         zIndex={-1}
         maxW={["80%", "60%", "50%"]}
@@ -42,7 +41,10 @@ function Home({}: Props): ReactElement {
       >
         {Message.HOMEPAGE_MAIN_TEXT}
       </Text>
-      Vyhladaj vyrobcu
+      <Text as="label" htmlFor={Message.MANUFACTURER_NAME}>
+        Vyhladaj vyrobcu
+      </Text>
+
       <UrlParamSearchbar
         borderWidth={2}
         layerStyle={glassStyle}

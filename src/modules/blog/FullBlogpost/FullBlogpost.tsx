@@ -1,6 +1,6 @@
 import { Box, Center, Divider, Flex, Heading, Text } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
-import { MDRenderer } from "../../../components";
+import { Head, MDRenderer } from "../../../components";
 import { useLocale } from "../../../hooks";
 import { Blogpost } from "../../../types";
 import { formatDateLong } from "../../../utils";
@@ -13,6 +13,7 @@ function FullBlogpost({ data }: Props): ReactElement {
   const { locale } = useLocale();
   return (
     <Center>
+      <Head title={data.name} metaDescription={data.subTitle} />
       <Box
         m={[2, 4]}
         w="full"

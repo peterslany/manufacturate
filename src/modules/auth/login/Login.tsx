@@ -1,8 +1,8 @@
-import { Alert, AlertIcon, Center, Heading } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, Center, Heading } from "@chakra-ui/react";
 import { isEmpty, isString } from "lodash";
 import { signIn, useSession } from "next-auth/client";
 import React, { ReactElement, useState } from "react";
-import { Button, Input, LogoutButton } from "../../../components";
+import { Head, Input, LogoutButton } from "../../../components";
 import { useLocale, useUrlParam } from "../../../hooks";
 
 function Login(): ReactElement {
@@ -27,6 +27,10 @@ function Login(): ReactElement {
 
   return session ? (
     <Center flexDirection={["column", "column", "row"]} p={["4", "8", "16"]}>
+      <Head
+        title={`${Message.CURENTLY_LOGGED_IN_AS}: ${session.user.username} `}
+        metaDescription={Message.LOGIN_TEAM_MEMBER}
+      />
       {Message.CURENTLY_LOGGED_IN_AS}
       <strong style={{ marginLeft: 4, marginRight: 24 }}>
         {session.user.username}
@@ -35,6 +39,7 @@ function Login(): ReactElement {
     </Center>
   ) : (
     <Center flexDirection="column" p={["4", "8", "16"]}>
+      <Head title={Message.LOGIN_TEAM_MEMBER} />
       <Heading pb="8">{Message.LOGIN_TEAM_MEMBER}</Heading>
       <form
         style={{

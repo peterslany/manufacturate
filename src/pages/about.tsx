@@ -1,9 +1,8 @@
 import React, { ReactElement } from "react";
+import About from "../modules/about";
 
-interface Props {}
-
-function About({}: Props): ReactElement {
-  return <div>O nas</div>;
+function AboutPage(): ReactElement {
+  return <About />;
 }
 
-export default About;
+export default AboutPage;
