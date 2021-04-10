@@ -83,43 +83,53 @@ function Header(): ReactElement {
       layerStyle={glass}
       zIndex="10"
     >
-      {isSmallScreen ? (
-        <>
-          <Button
-            layerStyle="outline"
-            borderRadius="16px"
-            p={0}
-            onClick={openDrawer}
-            ariaLabel={Message.ARIA_LABEL_MENU}
-          >
-            <HamburgerIcon aria-label={Message.ARIA_LABEL_MENU} />
-          </Button>
-          <Heading size="md">FAIR ABOUT CARE</Heading>
-        </>
-      ) : (
-        <>
-          <Link
-            href={Path.ROOT}
-            _hover={{ textDecor: "none", color: "green.600" }}
-          >
-            <Heading textAlign="end" lineHeight={0.8} fontSize="1.6rem">
-              FAIR
-              <br /> ABOUT
-              <br /> .CARE
-            </Heading>
-          </Link>
+      <>
+        <Button
+          display={["block", null, "none"]}
+          layerStyle="outline"
+          borderRadius="16px"
+          p={0}
+          onClick={openDrawer}
+          ariaLabel={Message.ARIA_LABEL_MENU}
+        >
+          <HamburgerIcon aria-label={Message.ARIA_LABEL_MENU} />
+        </Button>
+        <Heading size="md" display={["block", null, "none"]}>
+          FAIR ABOUT CARE
+        </Heading>
+      </>
+
+      <>
+        <Link
+          display={["none", null, "flex"]}
+          href={Path.ROOT}
+          _hover={{ textDecor: "none", color: "green.600" }}
+        >
+          <Heading textAlign="end" lineHeight={0.8} fontSize="1.6rem">
+            FAIR
+            <br /> ABOUT
+            <br /> .CARE
+          </Heading>
+        </Link>
+        <Flex w="full" display={["none", null, "flex"]}>
           {items}
-        </>
-      )}
-      {session ? <LogoutButton /> : <HeaderSearch />}
-      {!isSmallScreen && (
-        <Flex align="center" justify="space-between" ml="2">
-          <LocaleChange isHiddenLabel />
-          <Box ml="2">
-            <ColorModeToggle />
-          </Box>
         </Flex>
-      )}
+      </>
+
+      {session ? <LogoutButton /> : <HeaderSearch />}
+
+      <Flex
+        display={["none", null, "flex"]}
+        align="center"
+        justify="space-between"
+        ml="2"
+      >
+        <LocaleChange isHiddenLabel />
+        <Box mx="2">
+          <ColorModeToggle />
+        </Box>
+      </Flex>
+
       <HeaderDrawer
         {...{ items, isOpen: isDrawerOpen, onClose: closeDrawer }}
       />

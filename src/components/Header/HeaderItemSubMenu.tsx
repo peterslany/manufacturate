@@ -40,7 +40,7 @@ function HeaderItemSubMenu({
   const { localizeMessage } = useLocale();
 
   const content = (
-    <Flex justify="space-between" direction={isSmallScreen ? "column" : "row"}>
+    <Flex justify="space-between" direction={["column", null, "row"]}>
       {subMenu.body.items.map(({ label: bodyItemLabel, items }) => (
         <Box
           {...(isSmallScreen
@@ -101,7 +101,6 @@ function HeaderItemSubMenu({
             label={label}
             selected={selected}
             isOpen={isOpen}
-            isSmallScreen={isSmallScreen}
             onItemClick={() => null}
             withChevron
           />
@@ -123,7 +122,6 @@ function HeaderItemSubMenu({
         label={label}
         selected={selected}
         isOpen={isOpen}
-        isSmallScreen={isSmallScreen}
         onItemClick={() => setIsOpen((prev) => !prev)}
         withChevron
         dontRedirect

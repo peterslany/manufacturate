@@ -1,4 +1,4 @@
-import { FormLabel, Select as ChakraSelect } from "@chakra-ui/react";
+import { Box, FormLabel, Select as ChakraSelect } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
 import { Option } from "../../types";
 
@@ -18,13 +18,12 @@ function Select<T>({
   onChange,
   name,
   label,
-  className,
   value,
   isDisabled,
   isHiddenLabel,
 }: Props<T>): ReactElement {
   return (
-    <div className={className}>
+    <Box minW="fit-content">
       {label && (
         <FormLabel hidden={isHiddenLabel} htmlFor={name}>
           {label}
@@ -49,7 +48,7 @@ function Select<T>({
           </option>
         ))}
       </ChakraSelect>
-    </div>
+    </Box>
   );
 }
 

@@ -9,7 +9,6 @@ import { LocaleMessage } from "../../types";
 interface Props {
   dontRedirect?: boolean;
   isOpen?: boolean;
-  isSmallScreen: boolean;
   label: LocaleMessage;
   onItemClick?: () => void;
   path: string;
@@ -21,7 +20,6 @@ function HeaderItem({
   path,
   label,
   selected,
-  isSmallScreen,
   onItemClick,
   withChevron,
   dontRedirect,
@@ -60,11 +58,9 @@ function HeaderItem({
       onClick={onItemClick}
       borderWidth={1}
       borderColor="initial"
-      {...{
-        textStyle: selected ? "600" : "",
-        w: isSmallScreen ? "full" : "initial",
-        mb: isSmallScreen ? 2 : 0,
-      }}
+      w={["full", null, "initial"]}
+      mb={[2, null, 0]}
+      textStyle={selected ? "600" : undefined}
     >
       {localizeMessage(label)}
       {withChevron && (

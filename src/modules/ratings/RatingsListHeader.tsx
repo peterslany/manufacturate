@@ -1,5 +1,5 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
 import { Select } from "../../components";
 import {
@@ -9,7 +9,7 @@ import {
   ratingSubcategories,
   SortOrder,
 } from "../../constants";
-import { useLocale, useSmallScreen } from "../../hooks";
+import { useLocale } from "../../hooks";
 import {
   LocaleMessage,
   RatingsSortableFields,
@@ -30,8 +30,6 @@ function RatingsListHeader({
   setSortOrder,
 }: Props): ReactElement {
   const { localizeMessage, Message } = useLocale();
-
-  const isSmallScreen = useSmallScreen();
 
   const listHeaderColors = useColorModeValue(
     ["gray.700", "gray.50"],
@@ -132,10 +130,14 @@ function RatingsListHeader({
       value: SortOrder.DESCENDING,
     },
   ];
-  return isSmallScreen ? (
-    /* TODO: refactor for correct labels for accessability, refactor to one Select component */
+  return (
     <>
-      <Flex justify="space-between" mb="4" wrap="wrap">
+      <Flex
+        display={["flex", null, "none"]}
+        justify="space-between"
+        mb="4"
+        wrap="wrap"
+      >
         <Select<string>
           name="sortBy"
           options={sortByOptions}
@@ -149,50 +151,50 @@ function RatingsListHeader({
           label={Message.SORT_ORDER}
         />
       </Flex>
-    </>
-  ) : (
-    <Box
-      bg={listHeaderColors[0]}
-      color={listHeaderColors[1]}
-      mt="-1px"
-      py="4"
-      px="8"
-      display="flex"
-      flexWrap="nowrap"
-      position="sticky"
-      top={HEADER_HEIGHT}
-      zIndex="1"
-    >
-      <RatingsListHeadItem
-        {...{
-          label: LocaleMessages.RATING,
-          value: RatingCategory.TOTAL,
-        }}
-        w="14%"
-        maxW="115px"
-      />
-      <RatingsListHeadItem
-        {...{
-          label: LocaleMessages.MANUFACTURER_NAME,
-          value: "manufacturer_name",
-        }}
-        w="30%"
-        pl="2"
-      />
-      <Flex w="56%" justify="space-between">
-        {ratingSubcategories.map(({ label, subCategory: subcategory }) => (
-          <RatingsListHeadItem
-            key={subcategory}
-            {...{
-              label,
-              value: subcategory,
-            }}
-            w="25%"
-            justify="center"
-          />
-        ))}
+
+      <Flex
+        bg={listHeaderColors[0]}
+        color={listHeaderColors[1]}
+        mt="-1px"
+        py="4"
+        px="8"
+        display={["none", null, "flex"]}
+        wrap="nowrap"
+        position="sticky"
+        top={HEADER_HEIGHT}
+        zIndex="1"
+      >
+        <RatingsListHeadItem
+          {...{
+            label: LocaleMessages.RATING,
+            value: RatingCategory.TOTAL,
+          }}
+          w="14%"
+          maxW="115px"
+        />
+        <RatingsListHeadItem
+          {...{
+            label: LocaleMessages.MANUFACTURER_NAME,
+            value: "manufacturer_name",
+          }}
+          w="30%"
+          pl="2"
+        />
+        <Flex w="56%" justify="space-between">
+          {ratingSubcategories.map(({ label, subCategory: subcategory }) => (
+            <RatingsListHeadItem
+              key={subcategory}
+              {...{
+                label,
+                value: subcategory,
+              }}
+              w="25%"
+              justify="center"
+            />
+          ))}
+        </Flex>
       </Flex>
-    </Box>
+    </>
   );
 }
 

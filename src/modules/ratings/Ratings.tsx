@@ -87,19 +87,20 @@ function Ratings({ initialRatingsData }: Props): ReactElement {
     <Flex direction={["column", "column", "row"]}>
       <Head title={Message.RATINGS} metaDescription={Message.META_RATINGS} />
       {/* left panel */}
-      {!isSmallScreen && (
-        <Box
-          p={2}
-          pl={4}
-          bg={contentBg}
-          pb={24}
-          h="min-content"
-          width="280px"
-          borderBottomRightRadius="420px"
-        >
-          <ProductCategories {...{ categories, setCategories }} />
-        </Box>
-      )}
+
+      <Box
+        display={["none", null, "block"]}
+        p={2}
+        pl={4}
+        bg={contentBg}
+        pb={24}
+        h="min-content"
+        width="280px"
+        borderBottomRightRadius="420px"
+      >
+        <ProductCategories {...{ categories, setCategories }} />
+      </Box>
+
       <Box w="full" p={[4, 8, 0]} pl={[4, 8, 16]}>
         <Heading my={[2, 5]} size="lg">
           {Message.RATINGS}
@@ -153,12 +154,7 @@ function Ratings({ initialRatingsData }: Props): ReactElement {
             </Box>
           </Box>
         </ScaleFade>
-        <Box
-          {...(!isSmallScreen && {
-            bg: contentBg,
-            minH: "full",
-          })}
-        >
+        <Box bg={[null, null, contentBg]}>
           <RatingsListHeader
             {...{
               sortBy,
