@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { RequestMethod } from "../../constants";
@@ -33,7 +34,8 @@ const useGet = <T>(
 
   // initial fetching of data is disallowed when initialValue is provided
   const [disallowSend, setDisallowSend] = useState<boolean>(
-    Boolean(options?.initialValue)
+    Boolean(options?.initialValue) &&
+      (!options?.includeQueryString || isEmpty(queryString))
   );
 
   useEffect(() => {

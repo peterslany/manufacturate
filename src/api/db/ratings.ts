@@ -25,7 +25,9 @@ export const getRatingsList = async (
   const query = {
     ...(name && { name: { $regex: `(?i)(?:$|^| )${name}` } }),
     ...(categories && {
-      subCategories: { $all: categories },
+      $or: categories.map((category) => ({
+        subCategories: { $elemMatch: { $eq: category } },
+      })),
     }),
   };
 

@@ -42,30 +42,21 @@ function ProductCategories({ categories, setCategories }: Props): ReactElement {
           <Box key={mainCategory} mb={2}>
             <Heading size="md">{localizeMessage(label)}</Heading>
             {subCategories.map(({ label: categoryLabel, value }) => (
-              <Flex
-                key={value}
-                onClick={(event: React.MouseEvent) => {
-                  event.preventDefault();
-                  handleChange(value);
-                }}
-                align="center"
-                mb={1}
-                ml={1}
-                w="fit-content"
-                cursor="pointer"
-                _focus={{ layerStyle: "focus" }}
-                tabIndex={0}
-                role="button"
-              >
+              <Box key={value}>
                 <Checkbox
+                  onChange={(event: React.ChangeEvent) => {
+                    event.preventDefault();
+                    handleChange(value);
+                  }}
                   isChecked={Boolean(categories?.includes(value))}
                   colorScheme={checkboxColorScheme}
                   borderColor={checkboxBorder}
-                  mr={1}
+                  mb={0.5}
                   aria-label={localizeMessage(categoryLabel)}
-                />
-                {localizeMessage(categoryLabel)}
-              </Flex>
+                >
+                  {localizeMessage(categoryLabel)}
+                </Checkbox>
+              </Box>
             ))}
           </Box>
         )
