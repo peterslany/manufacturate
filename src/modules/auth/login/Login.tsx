@@ -15,7 +15,8 @@ function Login(): ReactElement {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
 
-  const handleLoginSubmit = () =>
+  const handleLoginSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     signIn("credentials", {
       username,
       password,
@@ -24,6 +25,7 @@ function Login(): ReactElement {
           ? callbackUrl
           : "/auth/dashboard",
     });
+  };
 
   return session ? (
     <Center flexDirection={["column", "column", "row"]} p={["4", "8", "16"]}>
@@ -39,7 +41,10 @@ function Login(): ReactElement {
     </Center>
   ) : (
     <Center flexDirection="column" p={["4", "8", "16"]}>
-      <Head title={Message.LOGIN_TEAM_MEMBER} />
+      <Head
+        title={Message.LOGIN_TEAM_MEMBER}
+        metaDescription={Message.LOGIN_TEAM_MEMBER}
+      />
       <Heading pb="8">{Message.LOGIN_TEAM_MEMBER}</Heading>
       <form
         style={{
@@ -47,7 +52,7 @@ function Login(): ReactElement {
           flexDirection: "column",
           alignItems: "center",
         }}
-        onSubmit={() => handleLoginSubmit()}
+        onSubmit={handleLoginSubmit}
       >
         <Input
           name="username"
@@ -74,7 +79,6 @@ function Login(): ReactElement {
           isDisabled={isEmpty(username) || isEmpty(password)}
           layerStyle="outline"
           type="submit"
-          onClick={() => handleLoginSubmit()}
         >
           {Message.LOG_IN}
         </Button>
