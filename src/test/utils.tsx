@@ -58,6 +58,7 @@ const mockRouter: NextRouter = {
   beforePopState: jest.fn(),
   isLocaleDomain: false,
   isReady: true,
+  isPreview: false,
   events: {
     on: jest.fn(),
     off: jest.fn(),
