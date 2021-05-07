@@ -155,4 +155,4 @@ function ItemsList<T>({
   );
 }
 
-export default ItemsList; // <T extends unknown> () => forwardRef<unknown, Props>(() => ItemsList<T>());
+export default ItemsList;

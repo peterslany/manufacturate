@@ -122,7 +122,7 @@ function Header(): ReactElement {
         display={["none", null, "flex"]}
         align="center"
         justify="space-between"
-        ml="2"
+        mx="2"
       >
         <LocaleChange isHiddenLabel />
         <Box mx="2">

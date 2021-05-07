@@ -7,19 +7,15 @@ export enum Locale {
 }
 
 export const LocaleMessages = asLocaleMessages({
+  404: {
+    en:
+      "Uh-oh, the page you are trying to access does not exist... 😔 But don't worry, you can always ^return home.",
+    sk:
+      "Ajaj, stránka, ktorú sa snažíš navšívíť neexistuje... 😔 No nezúfaj, vždy sa môžeš ^vrátiť domov.",
+  },
   ABOUT: {
     en: "About",
     sk: "O projekte",
-  },
-  UNAUTHORIZED_ACCESS: {
-    en: "Unauthorized access",
-    sk: "Neautorizovaný prístup",
-  },
-  UNAUTHORIZED_ACCESS_TEXT: {
-    en:
-      "You are trying to access non-public page without authorization, ^go home^ or ^log in^.",
-    sk:
-      "Snažíš sa o prístup na neverejnú stránku, pre ktorý nemáš autorizáciu, možeš ^ísť domov^ alebo ^sa prihlásiť^.",
   },
   ACCOUNT_SETTINGS: {
     en: "Account settings",
@@ -49,6 +45,14 @@ export const LocaleMessages = asLocaleMessages({
     en: "Approve change request",
     sk: "Schváliť požiadavku na zmenu",
   },
+  ARIA_LABEL_ARROW: {
+    en: "Arrow",
+    sk: "Šípka",
+  },
+  ARIA_LABEL_CATEGORY: {
+    en: "Category",
+    sk: "Kategória",
+  },
   ARIA_LABEL_CHEVRON: {
     en: "Chevron",
     sk: "Krokva",
@@ -56,14 +60,6 @@ export const LocaleMessages = asLocaleMessages({
   ARIA_LABEL_MENU: {
     en: "Menu",
     sk: "Menu",
-  },
-  ARIA_LABEL_CATEGORY: {
-    en: "Category",
-    sk: "Kategória",
-  },
-  ARIA_LABEL_ARROW: {
-    en: "Arrow",
-    sk: "Šípka",
   },
   ASCENDING: {
     en: "Ascending",
@@ -109,6 +105,10 @@ export const LocaleMessages = asLocaleMessages({
     en: "Change request",
     sk: "Požiadavka na zmenu",
   },
+  CHOOSE: {
+    en: "Choose",
+    sk: "Vybrať",
+  },
   CHOOSE_SUBCATEGORIES: {
     en: "Choose subcategories",
     sk: "Vybrať podkategórie",
@@ -120,6 +120,10 @@ export const LocaleMessages = asLocaleMessages({
   CONFIRM: {
     en: "Confirm",
     sk: "Potvrdiť",
+  },
+  CONTACT_US: {
+    en: "Contact us",
+    sk: "Kontakt",
   },
   CONTENT: {
     en: "Content",
@@ -136,31 +140,6 @@ export const LocaleMessages = asLocaleMessages({
   DASHBOARD: {
     en: "Dashboard",
     sk: "Ovládací panel",
-  },
-  META_RATINGS: {
-    en: "Search and sorting of personal care product manufacturers rating.",
-    sk: "Vyhľadávanie a zoraďovanie hodnotení výrobcov kozmetiky.",
-  },
-  META_BLOG: {
-    en: "Latest articles from Fair About Care blog.",
-    sk: "Najnovšie články z blogu Fair About Care.",
-  },
-  META_HOME: {
-    en:
-      "Fair rating of personal care products manufacturers available to everyone for free.",
-    sk: "Férové hodnotenia výrobcov kozmetiky dostupné pre všetkých.",
-  },
-  META_ABOUT: {
-    en: "// TODO ",
-    sk: "// TODO ",
-  },
-  META_METHODOLOGY: {
-    en: "// TODO ",
-    sk: "// TODO ",
-  },
-  META_PRIVACY_POLICY: {
-    en: "// TODO ",
-    sk: "// TODO ",
   },
   DASHBOARD_DESCRIPTION: {
     en: "You can create and edit ratings and blogpost here",
@@ -208,13 +187,13 @@ export const LocaleMessages = asLocaleMessages({
     en: "Are you sure you want to make user ^ an administrator?",
     sk: "Si si istý, že chceš užívateľa ^ povýšiť na správcu?",
   },
-  CONTACT_US: {
-    en: "Contact us",
-    sk: "Kontakt",
-  },
   ERROR_DEFAULT_MESSAGE: {
     en: "Oops, something went wrong.",
     sk: "Oops, niečo sa pokazilo.",
+  },
+  ERROR_FORM_INVALID_URL_PATH_SEGMENT: {
+    en: 'Only letters, numbers and hyphens "-" are allowed. ',
+    sk: 'Sú povolené iba písmená, číslice a spojovník "-".',
   },
   ERROR_FORM_MAX_VALUE_10: {
     en: "Maximum value allowed is 10.",
@@ -244,18 +223,13 @@ export const LocaleMessages = asLocaleMessages({
     en: "This username is already used.",
     sk: "Toto užívateľské meno sa už používa.",
   },
-  ERROR_FORM_INVALID_URL_PATH_SEGMENT: {
-    en: 'Only letters, numbers and hyphens "-" are allowed. ',
-    sk: 'Sú povolené iba písmená, číslice a spojovník "-".',
-  },
   HOME: {
     en: "Home",
     sk: "Domov",
   },
   HOMEPAGE_MAIN_TEXT: {
-    en: "Fair about care is project ....",
-    sk:
-      "Fair about care je neziskový projekt, ktorý poskytuje objektívne hodnotenia výrobcov kozmetiky pre všetkých.",
+    en: "Evidence-based ratings of personal care product manufacturers.",
+    sk: "Objektívne hodnotenia výrobcov kozmetiky na jednom mieste.",
   },
   ID_URL_PATH_SEGMENT: {
     en: "ID (URL path segment)",
@@ -318,6 +292,33 @@ export const LocaleMessages = asLocaleMessages({
   MANUFACTURER_NAME: {
     en: "Manufacturer's name",
     sk: "Názov výrobcu",
+  },
+  META_ABOUT: {
+    en:
+      "Fair about care is a non-commercial project providing evidence-based ratings of personal care product manufacturers to everyone.",
+    sk:
+      "Fair about care je neziskový projekt, ktorý poskytuje objektívne hodnotenia výrobcov kozmetiky pre všetkých.",
+  },
+  META_BLOG: {
+    en: "Latest articles from Fair About Care blog.",
+    sk: "Najnovšie články z blogu Fair About Care.",
+  },
+  META_HOME: {
+    en:
+      "Fair rating of personal care products manufacturers available to everyone for free.",
+    sk: "Férové hodnotenia výrobcov kozmetiky dostupné pre všetkých.",
+  },
+  META_METHODOLOGY: {
+    en: "// TODO ",
+    sk: "// TODO ",
+  },
+  META_PRIVACY_POLICY: {
+    en: "// TODO ",
+    sk: "// TODO ",
+  },
+  META_RATINGS: {
+    en: "Search and sorting of personal care product manufacturers rating.",
+    sk: "Vyhľadávanie a zoraďovanie hodnotení výrobcov kozmetiky.",
   },
   METHODOLOGY: {
     en: "Methodology",
@@ -411,6 +412,10 @@ export const LocaleMessages = asLocaleMessages({
     en: "Search by username",
     sk: "Hľadať podľa užívateľského mena",
   },
+  SEARCH_MANUFACTURER: {
+    en: "Search the manufacturer",
+    sk: "Vyhľadaj výrobcu",
+  },
   SORT_BY: {
     en: "Sort by",
     sk: "Zoradiť podľa",
@@ -434,6 +439,16 @@ export const LocaleMessages = asLocaleMessages({
   TOTAL: {
     en: "Total",
     sk: "Celkovo",
+  },
+  UNAUTHORIZED_ACCESS: {
+    en: "Unauthorized access",
+    sk: "Neautorizovaný prístup",
+  },
+  UNAUTHORIZED_ACCESS_TEXT: {
+    en:
+      "You are trying to access non-public page without authorization, ^go home^ or ^log in^.",
+    sk:
+      "Snažíš sa o prístup na neverejnú stránku, pre ktorý nemáš autorizáciu, možeš ^ísť domov^ alebo ^sa prihlásiť^.",
   },
   USERNAME: {
     en: "Username",

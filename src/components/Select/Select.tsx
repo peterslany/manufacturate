@@ -1,9 +1,11 @@
 import { Box, FormLabel, Select as ChakraSelect } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
+import { useLocale } from "../../hooks";
 import { Option } from "../../types";
 
 interface Props<T> {
   className?: string;
+  hasUndefinedValue?: boolean;
   isDisabled?: boolean;
   isHiddenLabel?: boolean;
   label?: string;
@@ -21,7 +23,10 @@ function Select<T>({
   value,
   isDisabled,
   isHiddenLabel,
+  hasUndefinedValue,
 }: Props<T>): ReactElement {
+  const { Message } = useLocale();
+
   return (
     <Box minW="fit-content">
       {label && (
@@ -33,7 +38,7 @@ function Select<T>({
         {...{
           name,
           onChange: (event: React.ChangeEvent<HTMLSelectElement>) =>
-            onChange(JSON.parse(event.target.value)),
+            event.target.value && onChange(JSON.parse(event.target.value)),
           value: JSON.stringify(value),
         }}
         aria-label={label}
@@ -42,7 +47,12 @@ function Select<T>({
         _hover={{ boxShadow: "0 0 0 1px" }}
         isDisabled={isDisabled}
       >
-        {options.map(({ value: optionValue, label: optionLabel }) => (
+        {[
+          ...(hasUndefinedValue
+            ? [{ label: `${Message.CHOOSE}...`, value: null }]
+            : []),
+          ...options,
+        ].map(({ value: optionValue, label: optionLabel }) => (
           <option key={optionLabel} {...{ value: JSON.stringify(optionValue) }}>
             {optionLabel}
           </option>

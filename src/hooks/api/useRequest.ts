@@ -5,7 +5,6 @@ import { CommonObject } from "../../types";
 import { ResponseError } from "../../types/api";
 import { makeRequest } from "../../utils";
 
-// TODO: move outside this file
 export interface UseRequestOptions<T> {
   disableCache?: boolean;
   disableDefaultErrorMessage?: boolean;
@@ -16,7 +15,7 @@ export interface UseRequestOptions<T> {
 }
 export type UseRequestResult<T> = {
   data: T | undefined;
-  error?: ResponseError;
+  error: ResponseError | undefined;
   loading: boolean;
   send: (body?: CommonObject) => void;
 };

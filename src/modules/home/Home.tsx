@@ -1,3 +1,4 @@
+import { ArrowDownIcon } from "@chakra-ui/icons";
 import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import Image from "next/image";
 import { ReactElement } from "react";
@@ -36,23 +37,31 @@ function Home(): ReactElement {
       <Text
         w={["90%", "80%", "70%"]}
         textStyle="serif"
-        fontSize={["2xl", "4xl", "6xl"]}
+        fontSize={["3xl", "4xl", "6xl"]}
         align="center"
       >
         {Message.HOMEPAGE_MAIN_TEXT}
       </Text>
-      <Text as="label" htmlFor={Message.MANUFACTURER_NAME}>
-        Vyhladaj vyrobcu
-      </Text>
+      <Flex direction="column" align="center">
+        <Text
+          fontSize={["xl", "2xl"]}
+          as="label"
+          htmlFor={Message.MANUFACTURER_NAME}
+          textAlign="center"
+          mb={[2, 4]}
+        >
+          <ArrowDownIcon /> {Message.SEARCH_MANUFACTURER} <ArrowDownIcon />
+        </Text>
 
-      <UrlParamSearchbar
-        borderWidth={2}
-        layerStyle={glassStyle}
-        variant="dashed"
-        redirectPath={Path.RATINGS}
-        placeholder={Message.MANUFACTURER_NAME}
-        disableEmptyQuery
-      />
+        <UrlParamSearchbar
+          borderWidth={2}
+          layerStyle={glassStyle}
+          variant="dashed"
+          redirectPath={Path.RATINGS}
+          placeholder={Message.MANUFACTURER_NAME}
+          disableEmptyQuery
+        />
+      </Flex>
     </Flex>
   );
 }

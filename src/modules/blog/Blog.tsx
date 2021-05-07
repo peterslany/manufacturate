@@ -26,7 +26,13 @@ function Blog({ initialBlogposts }: Props): ReactElement {
       <Center>
         <UrlParamSearchbar placeholder={Message.SEARCH} />
       </Center>
-      <Flex align="center" justify="center" spacing="8" wrap="wrap">
+      <Flex
+        align="center"
+        justify="center"
+        spacing="8"
+        wrap={["wrap", null, "nowrap"]}
+        direction={[null, null, "column"]}
+      >
         {data?.items.map((item) => (
           <BlogItem data={item} key={item._id} loading={loading} />
         ))}
