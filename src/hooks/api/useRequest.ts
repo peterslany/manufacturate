@@ -5,7 +5,6 @@ import { CommonObject } from "../../types";
 import { ResponseError } from "../../types/api";
 import { makeRequest } from "../../utils";
 
-// TODO: move outside this file
 export interface UseRequestOptions<T> {
   disableCache?: boolean;
   disableDefaultErrorMessage?: boolean;
