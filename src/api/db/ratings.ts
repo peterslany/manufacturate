@@ -64,11 +64,11 @@ export const getRatingsList = async (
 };
 
 export const getRatingDetail = async (
-  name?: string
+  _id?: string
 ): Promise<RatingFull | null> => {
   const { db } = await database();
 
-  return db.collection(Collection.RATINGS).findOne({ _id: name });
+  return db.collection(Collection.RATINGS).findOne({ _id });
 };
 
 export const getAllRatingsIds = async (): Promise<{ _id: string }[]> => {

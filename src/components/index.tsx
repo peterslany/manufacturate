@@ -1,3 +1,4 @@
+export { default as BasicPage } from "./BasicPage";
 export { default as Button } from "./Button";
 export { default as CollapsibleSection } from "./CollapsibleSection";
 export { default as ColorModeToggle } from "./ColorModeToggle";

@@ -123,7 +123,7 @@ function Ratings({ initialRatingsData }: Props): ReactElement {
               {isSmallScreen && (
                 <>
                   <Button layerStyle="outline" onClick={onCategoryModalOpen}>
-                    Vybrať
+                    {Message.CHOOSE}
                   </Button>
                   <RatingsCategoryModal
                     {...{

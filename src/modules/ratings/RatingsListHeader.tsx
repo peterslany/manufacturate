@@ -104,7 +104,6 @@ function RatingsListHeader({
     );
   }
 
-  // TODO: move to constants?
   const sortByOptions = [
     {
       label: Message.RATING,
@@ -143,12 +142,14 @@ function RatingsListHeader({
           options={sortByOptions}
           onChange={setSortBy}
           label={Message.SORT_BY}
+          hasUndefinedValue
         />
         <Select<SortOrder>
           name="sortOrder"
           options={sortOrderOptions}
           onChange={setSortOrder}
           label={Message.SORT_ORDER}
+          hasUndefinedValue
         />
       </Flex>
 

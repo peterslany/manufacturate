@@ -94,7 +94,7 @@ function HeaderSearch(): ReactElement {
         <ModalContent
           boxShadow={`0 0 50px -20px ${overlayShadowColor}`}
           layerStyle={glass}
-          w="fit-content"
+          w="min-content"
           borderRadius="16px"
         >
           <Searchbar

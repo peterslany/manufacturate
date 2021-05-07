@@ -17,21 +17,21 @@ import { parseString } from "../../../utils";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<
-    RatingLocalized | RatingFull | ResponseError | { name: string }
+    RatingLocalized | RatingFull | ResponseError | { _id: string }
   >
 ): Promise<void> {
   const {
-    query: { name, localize },
+    query: { id, localize },
     method,
     body,
   } = req;
-  const parsedName = parseString(name);
+  const _id = parseString(id);
 
   const locale = asLocale(req.headers["accept-language"]);
 
   const user = await checkToken(req);
 
-  const rating = await getRatingDetail(parseString(name));
+  const rating = await getRatingDetail(parseString(id));
 
   switch (method) {
     case RequestMethod.GET:
@@ -41,6 +41,7 @@ export default async function handler(
         const result = localize ? localizeRatingData(rating, locale) : rating;
         res.status(200).json(result);
       }
+      console.log("GET");
       break;
 
     // deletes item from ratings collection and creates new change request from it
@@ -51,11 +52,11 @@ export default async function handler(
       }
       if (user?.isAdmin) {
         try {
-          if (!parsedName) {
-            throw new Error(`${name} is not valid name of manufacturer.`);
+          if (!_id) {
+            throw new Error(`${id} is not valid id of manufacturer.`);
           }
           await reverseToChangeRequest<RatingFull>(
-            parsedName,
+            _id,
             ContentType.RATING,
             user.username
           );
@@ -79,17 +80,17 @@ export default async function handler(
        */
       if (user?.isAdmin) {
         try {
-          if (!parsedName) {
-            throw new Error(`${name} is not valid name of manufacturer.`);
+          if (!_id) {
+            throw new Error(`${id} is not valid id of the manufacturer.`);
           }
 
           await approveChangeRequest<RatingFull>(
             body.changeRequestId,
-            parsedName,
+            _id,
             ContentType.RATING
           );
-          res.setHeader("Location", `/ratings/${name}`);
-          res.status(201).json({ name: parsedName });
+          res.setHeader("Location", `/ratings/${id}`);
+          res.status(201).json({ _id });
           return;
         } catch {
           sendLocalizedError(res, 422, locale);

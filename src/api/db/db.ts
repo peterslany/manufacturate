@@ -1,5 +1,5 @@
 import { Db, MongoClient } from "mongodb";
-import { Collection } from "../constants";
+import { Collection, ratingsSortableFields } from "../constants";
 import { hashPassword } from "../utils";
 import blogpostsSchema from "./schema/blogposts.json";
 import changeRequestsSchema from "./schema/change_requests";
@@ -11,6 +11,10 @@ const dbName: string | undefined = process.env.MONGODB_DB_NAME;
 
 let cachedClient: null | MongoClient = null;
 let cachedDb: null | Db = null;
+
+let indexesCreated = false;
+
+let adminInserted = false;
 
 if (!uri) {
   throw new Error(
@@ -27,20 +31,29 @@ if (!dbName) {
 let initialized = false;
 
 const insertAdminUser = async (db: Db) => {
-  if (!(await db.collection(Collection.USERS).findOne({ _id: "admin" }))) {
+  if (
+    !(
+      adminInserted ||
+      (await db.collection(Collection.USERS).findOne({ _id: "admin" }))
+    )
+  ) {
+    adminInserted = true;
     const hashedPassword = hashPassword("admin");
-    await db.collection(Collection.USERS).insertOne({
-      _id: "admin",
-      isAdmin: true,
-      passwordHash: hashedPassword,
-      name: "Admininistrator",
-    });
+    try {
+      await db.collection(Collection.USERS).insertOne({
+        _id: "admin",
+        isAdmin: true,
+        passwordHash: hashedPassword,
+        name: "Admininistrator",
+      });
+    } catch {
+      adminInserted = false;
+    }
   }
 };
 
-// todo change to check if collection exists
 async function initializeDb(db: Db) {
-  // creates collections with validation schema
+  // creates collections with validation schema when the app is initialized
   try {
     await db.createCollection(Collection.BLOGPOSTS, {
       validator: {
@@ -68,22 +81,17 @@ async function initializeDb(db: Db) {
     initialized = true;
   }
 }
-
-// TODO: create indices on RatingsSortFields here
-// const indexesCreated = false;
-
-// async function createIndexes(db: Db) {
-//   const indices = ratingsSortableFields;
-//   //   await Promise.all([
-//   //     db
-//   //       .collection("tokens")
-//   //       .createIndex({ expireAt: -1 }, { expireAfterSeconds: 0 }),
-//   //     db.collection("posts").createIndex({ createdAt: -1 }),
-//   //     db.collection("users").createIndex({ email: 1 }, { unique: true }),
-//   //   ]);
-//   console.log("\nINDEXING\n");
-//   indexesCreated = true;
-// }
+async function createIndexes(db: Db) {
+  const ratingsIndexes = ratingsSortableFields;
+  await Promise.all([
+    db.collection(Collection.BLOGPOSTS).createIndex({ date: 1 }),
+    db.collection(Collection.BLOGPOSTS).createIndex({ name: 1 }),
+    ratingsIndexes.map((key: string) =>
+      db.collection(Collection.RATINGS).createIndex({ [key]: 1 })
+    ),
+  ]);
+  indexesCreated = true;
+}
 
 export default async function database(): Promise<{
   client: MongoClient;
@@ -107,7 +115,9 @@ export default async function database(): Promise<{
   cachedClient = client;
   cachedDb = db;
 
-  // if (!indexesCreated) {await createIndexes(db);}
+  if (!indexesCreated) {
+    await createIndexes(db);
+  }
   await insertAdminUser(db);
 
   return { client, db };

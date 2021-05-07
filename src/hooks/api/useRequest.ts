@@ -16,7 +16,7 @@ export interface UseRequestOptions<T> {
 }
 export type UseRequestResult<T> = {
   data: T | undefined;
-  error?: ResponseError;
+  error: ResponseError | undefined;
   loading: boolean;
   send: (body?: CommonObject) => void;
 };

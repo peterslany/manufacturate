@@ -1,3 +1,4 @@
+import { request } from "http";
 import { ObjectId } from "mongodb";
 import { ContentType, PAGE_SIZE, SortOrder } from "../../constants";
 import {
@@ -133,11 +134,15 @@ export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
 
     session.endSession();
   } catch (error) {
-    console.log(error);
     await session.abortTransaction();
     session.endSession();
     throw error;
   }
+
+  setTimeout(
+    () => request([process.env.NEXTAUTH_URL, type, id].join("/")),
+    500
+  );
 };
 
 export const reverseToChangeRequest = async <T extends Blogpost | RatingFull>(
@@ -182,8 +187,11 @@ export const reverseToChangeRequest = async <T extends Blogpost | RatingFull>(
     session.endSession();
     throw error;
   }
-  // !! TODO: send GET request to URL of new content to force static
+
   // regeneration with updated data
-  // LATER: when on-demand regeneration through API is available in Next.js, use that
-  // setTimeout(() => request([proccess.ENV.domain,type,id].join("/")), 500);
+  // TODO LATER: when on-demand regeneration through API is available in Next.js, use that
+  setTimeout(
+    () => request([process.env.NEXTAUTH_URL, type, id].join("/")),
+    500
+  );
 };

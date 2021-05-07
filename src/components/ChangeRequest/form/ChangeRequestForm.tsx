@@ -86,7 +86,7 @@ function ChangeRequestForm<T extends ContentType>({
   // for setting initial values
   useEffect(() => {
     if (mode !== ChangeRequestFormMode.CREATE_NEW && content) {
-      // renders children after modal is shown, so itransitionn is not lagging
+      // renders children after modal is shown, so transition is not lagging
       setTimeout(() => setRenderChildren(true), 200);
       // sets initial values after all children and corresponding values are mounted into DOM
       setTimeout(
