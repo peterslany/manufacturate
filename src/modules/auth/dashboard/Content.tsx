@@ -10,12 +10,10 @@ import {
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
 import React, { ReactElement, useCallback, useRef, useState } from "react";
-import { Button } from "../../../components";
+import { Button, ConfirmationDialog, ItemsList } from "../../../components";
 import useChangeRequestFormModal from "../../../components/ChangeRequest/form/useChangeRequestFormModal";
 import { contentTypeApiUrl } from "../../../components/ChangeRequest/form/utils";
-import ConfirmationDialog from "../../../components/ConfirmationDialog";
 import { ConfirmationDialogAction } from "../../../components/ConfirmationDialog/ConfirmationDialog";
-import ItemsList from "../../../components/ItemsList";
 import { ApiUrl, ContentType, Path } from "../../../constants";
 import { useColorVariations, useDelete, useLocale } from "../../../hooks";
 import { BasicRating, BlogpostBase } from "../../../types";

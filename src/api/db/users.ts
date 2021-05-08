@@ -9,7 +9,6 @@ export const getUser = async (username: string): Promise<UserDB | null> => {
   return db.collection(Collection.USERS).findOne({ _id: username });
 };
 
-// TODO: test creating user with already used username
 export const createUser = async (
   username: string,
   passwordHash: string

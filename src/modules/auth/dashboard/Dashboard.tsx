@@ -10,8 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
 import React, { ReactElement, useEffect, useState } from "react";
-import { CollapsibleSection, Head } from "../../../components";
-import Link from "../../../components/Link";
+import { CollapsibleSection, Head, Link } from "../../../components";
 import { ApiUrl, ContentType, Path } from "../../../constants";
 import { useGet, useLocale } from "../../../hooks";
 import {

@@ -74,7 +74,7 @@ function ItemsList<T>({
 
   const modifyItems = useCallback(
     (modification: (current: T[]) => T[]) => setItems(modification),
-    []
+    [setItems]
   );
 
   useImperativeHandle(

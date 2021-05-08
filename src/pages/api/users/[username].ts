@@ -53,6 +53,7 @@ export default async function handler(
        * }
        */
       try {
+        const { name, isAdmin } = body;
         const hasAccess = [
           user?.username === parsedUsername && user?.isAdmin,
           user?.username === parsedUsername && !("isAdmin" in body),
@@ -61,7 +62,8 @@ export default async function handler(
 
         const newUserData: UserDB = {
           _id: parsedUsername,
-          ...body,
+          ...(name && { name }),
+          ...(isAdmin && { isAdmin }),
           ...(body.newPassword && {
             passwordHash: hashPassword(body.newPassword),
           }),

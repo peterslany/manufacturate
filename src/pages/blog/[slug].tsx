@@ -37,7 +37,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: { data },
-    revalidate: 60 * 60 * 24, // once in a day
+    revalidate: 60 * 15, // 15 minutes
   };
 };
 
@@ -51,7 +51,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 

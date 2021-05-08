@@ -44,7 +44,7 @@ function MyAccount(): ReactElement {
   }, [setValue, user]);
 
   const handleChangeSubmit = handleSubmit(({ name, password }) =>
-    send({ name, ...(password && { password }) })
+    send({ name, ...(password && { newPassword: password }) })
   );
 
   const allowSubmit =

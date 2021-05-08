@@ -1,6 +1,6 @@
-import { request } from "http";
 import { ObjectId } from "mongodb";
-import { ContentType, PAGE_SIZE, SortOrder } from "../../constants";
+import fetch from "node-fetch";
+import { ContentType, Locale, PAGE_SIZE, SortOrder } from "../../constants";
 import {
   Blogpost,
   ChangeRequestsListData,
@@ -10,6 +10,17 @@ import {
 import { parseInteger } from "../../utils";
 import { Collection } from "../constants";
 import database from "./db";
+
+const fireGet = (type: ContentType, id: string) => {
+  if (type === ContentType.BLOGPOST) {
+    const [locale, slug] = id.split("~");
+    fetch([process.env.NEXTAUTH_URL, locale, "blog", slug].join("/"));
+  } else {
+    Object.values(Locale).forEach((locale: Locale) =>
+      fetch([process.env.NEXTAUTH_URL, locale, "ratings", id].join("/"))
+    );
+  }
+};
 
 export const deleteChangeRequest = async (id: string): Promise<void> => {
   const { db } = await database();
@@ -139,10 +150,7 @@ export const approveChangeRequest = async <T extends Blogpost | RatingFull>(
     throw error;
   }
 
-  setTimeout(
-    () => request([process.env.NEXTAUTH_URL, type, id].join("/")),
-    500
-  );
+  setTimeout(() => fireGet(type, id), 500);
 };
 
 export const reverseToChangeRequest = async <T extends Blogpost | RatingFull>(
@@ -190,8 +198,5 @@ export const reverseToChangeRequest = async <T extends Blogpost | RatingFull>(
 
   // regeneration with updated data
   // TODO LATER: when on-demand regeneration through API is available in Next.js, use that
-  setTimeout(
-    () => request([process.env.NEXTAUTH_URL, type, id].join("/")),
-    500
-  );
+  setTimeout(() => fireGet(type, id), 500);
 };
