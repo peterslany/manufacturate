@@ -1,1 +1,1 @@
-export * from "./LocaleChange";
+export { default } from "./LocaleChange";

@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
-import { Select } from "..";
 import { Locale } from "../../constants";
 import { useLocale } from "../../hooks";
+import Select from "../Select";
 
 interface Props {
   isHiddenLabel?: boolean;

@@ -41,7 +41,6 @@ export default async function handler(
         const result = localize ? localizeRatingData(rating, locale) : rating;
         res.status(200).json(result);
       }
-      console.log("GET");
       break;
 
     // deletes item from ratings collection and creates new change request from it

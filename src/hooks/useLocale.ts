@@ -7,7 +7,7 @@ import {
   LocalizedMessageValue,
 } from "../types";
 
-export const useLocale = (): {
+const useLocale = (): {
   Message: LocalizedMessages;
   locale: Locale;
   localizeMessage: (message: LocaleMessage) => LocalizedMessageValue;

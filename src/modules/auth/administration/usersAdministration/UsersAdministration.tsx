@@ -1,8 +1,6 @@
 import { Box, Center, Flex, Heading, useDisclosure } from "@chakra-ui/react";
-import React, { ReactElement, useCallback, useRef, useState } from "react";
-import { Button } from "../../../../components";
-import ConfirmationDialog from "../../../../components/ConfirmationDialog";
-import ItemsList from "../../../../components/ItemsList";
+import React, { ReactElement, useRef, useState } from "react";
+import { Button, ConfirmationDialog, ItemsList } from "../../../../components";
 import { ApiUrl } from "../../../../constants";
 import { useLocale, usePut } from "../../../../hooks";
 import { User } from "../../../../types";
@@ -45,11 +43,11 @@ function UsersAdministration(): ReactElement {
     }
   };
 
-  const onCreateCallback = useCallback(
-    (newUser: User) =>
-      modifyItems && modifyItems((items) => [...items, newUser]),
-    [modifyItems]
-  );
+  const onCreateCallback = (newUser: User) => {
+    if (modifyItems) {
+      modifyItems((items) => [...items, newUser]);
+    }
+  };
 
   return (
     <Flex mx="4" mb="8" mt="4" wrap="wrap" justifyContent="space-between">

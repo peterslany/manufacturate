@@ -1,7 +1,7 @@
 import { useToast } from "@chakra-ui/react";
 import { useCallback } from "react";
 
-export const useAlert = (
+const useAlert = (
   variant: "error" | "success"
 ): ((message: string) => void) => {
   const toast = useToast();

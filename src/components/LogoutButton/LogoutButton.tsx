@@ -6,7 +6,10 @@ import { useLocale } from "../../hooks";
 export default function LogoutButton(): ReactElement {
   const { Message } = useLocale();
   return (
-    <Button layerStyle="outline" onClick={() => signOut({ callbackUrl: "/" })}>
+    <Button
+      layerStyle="outline16"
+      onClick={() => signOut({ callbackUrl: "/" })}
+    >
       {Message.LOG_OUT}
     </Button>
   );

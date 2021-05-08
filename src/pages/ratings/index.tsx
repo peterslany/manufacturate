@@ -17,7 +17,7 @@ export const getStaticProps: GetStaticProps = async () => {
   // generate static page with initial data, so ratings data are already present on first render
   return {
     props: { initialRatingsData: ratings },
-    revalidate: 60 * 60 * 2, // 2 hours,
+    revalidate: 60 * 10, // 10 minutes
   };
 };
 

@@ -1,9 +1,10 @@
 import { useCallback, useState } from "react";
-import { useAlert, useLocale } from "..";
 import { RequestMethod } from "../../constants";
 import { CommonObject } from "../../types";
 import { ResponseError } from "../../types/api";
 import { makeRequest } from "../../utils";
+import useAlert from "../useAlert";
+import useLocale from "../useLocale";
 
 export interface UseRequestOptions<T> {
   disableCache?: boolean;
@@ -61,6 +62,7 @@ const useRequest = <T>(
     if (options?.onSuccessCallback) {
       options.onSuccessCallback();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options?.onSuccessCallback, options?.successMessage, successAlert]);
 
   const send = useCallback(
